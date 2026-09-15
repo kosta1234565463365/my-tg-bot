@@ -10,7 +10,7 @@ from telebot.apihelper import ApiTelegramException
 # ЧАСТЬ 1: НАСТРОЙКА БОТА И ПЕРЕМЕННЫХ
 # ==========================================
 # Бот автоматически возьмет токен из настроек Render (переменная TOKEN)
-TOKEN = os.environ.get("8955717735:AAEB6fi66bZXd6ff4ab31NeQqUWL5T5VSrI")
+TOKEN = "8955717735:AAEB6fi66bZXd6ff4ab31NeQqUWL5T5VSrI"
 bot = telebot.TeleBot(TOKEN)
 
 # Хранилище сессий пользователей (для Единого Окна)
