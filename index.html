@@ -1,236 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#198754">
-<title>Калькулятор теплиц — услуги и фото</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Калькулятор теплиц — реальные фото</title>
 <style>
-*{box-sizing:border-box}
-:root{--bg:#f4f6f8;--card:#fff;--text:#202124;--muted:#73777d;--line:#e2e6e9;--green:#198754;--green2:#116b43;--soft:#edf8f1;--danger:#d63b3b}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;-webkit-tap-highlight-color:transparent}
-button,input,select{font:inherit}button{border:0;cursor:pointer;touch-action:manipulation}
-.app{max-width:820px;margin:auto;padding-bottom:35px}
-.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:12px 15px;display:flex;align-items:center;gap:10px}
-.header h1{margin:0;font-size:20px;flex:1}.back{width:42px;height:42px;border-radius:13px;background:#edf0f2;font-size:23px}
-.page{display:none;padding:15px}.page.active{display:block}
-.hero{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;padding:23px;border-radius:24px;margin-bottom:14px}
-.hero h2{font-size:27px;margin:0 0 8px}.hero p{margin:0;line-height:1.45;opacity:.92}
-.card{background:var(--card);border:1px solid rgba(0,0,0,.03);border-radius:20px;padding:15px;margin-bottom:13px;box-shadow:0 3px 16px rgba(0,0,0,.045)}
-.bigbtn{width:100%;padding:17px;border-radius:16px;background:var(--green);color:#fff;font-weight:800;font-size:16px;margin:5px 0}.bigbtn.secondary{background:#eaf0ec;color:#1e3026}
-.section-title{font-size:18px;font-weight:800;margin:4px 0 12px}.muted{color:var(--muted)}
-.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:6px;margin-bottom:12px}.tab{white-space:nowrap;background:#e9edef;padding:10px 13px;border-radius:12px}.tab.active{background:var(--green);color:#fff}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.model{padding:0;background:#fff;border:2px solid var(--line);border-radius:18px;overflow:hidden;text-align:left}.model:hover{border-color:var(--green)}
-.model-img{height:125px;background:linear-gradient(135deg,#dff2e6,#f7fbf8);display:flex;align-items:center;justify-content:center;font-size:55px}.model-body{padding:12px}.model-name{font-weight:800}.model-meta{font-size:12px;color:var(--muted);line-height:1.45;margin-top:5px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin-bottom:13px}label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
-input,select{width:100%;border:1px solid #d7dce0;background:#fff;border-radius:13px;padding:13px;outline:none}input:focus,select:focus{border-color:var(--green)}
-.option{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:15px;padding:12px;margin:8px 0}.option small{display:block;color:var(--muted);margin-top:3px}
-.counter{display:flex;align-items:center;gap:9px}.counter button{width:38px;height:38px;border-radius:12px;background:#edf0f2;font-size:22px}.counter b{min-width:22px;text-align:center}
-.switch{width:49px;height:29px;background:#d4d8db;border-radius:20px;position:relative;flex:none}.switch:after{content:"";position:absolute;left:3px;top:3px;width:23px;height:23px;border-radius:50%;background:#fff;transition:.2s}.switch.on{background:var(--green)}.switch.on:after{left:23px}
-.total{background:#f0f8f3;border:1px solid #cce6d6;border-radius:18px;padding:15px}.line{display:flex;justify-content:space-between;gap:10px;margin:8px 0}.line.final{font-size:21px;font-weight:900;border-top:1px solid #cce6d6;padding-top:12px;margin-top:12px}
-.price{font-size:28px;font-weight:900}.smallbtn{padding:10px 12px;border-radius:12px;background:#edf0f2}.danger{background:#ffeaea;color:var(--danger)}
-.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.service{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:#fff}.service-img{height:135px;display:flex;align-items:center;justify-content:center}.service-img img{width:100%;height:100%;object-fit:cover}.service-body{padding:12px}.service-body h3{font-size:15px;margin:0 0 6px}.service-body p{font-size:12px;line-height:1.45;color:var(--muted);margin:0 0 9px}.service-foot{display:flex;justify-content:space-between;align-items:center;gap:6px}.service-price{font-weight:900}.info-btn{padding:8px 10px;border-radius:10px;background:#eef3ef;color:#205a3c;font-weight:700}
-.modal{display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);padding:18px;align-items:flex-end;justify-content:center}.modal.show{display:flex}.modal-box{width:100%;max-width:760px;max-height:88vh;overflow:auto;background:#fff;border-radius:24px;padding:16px}.modal-box img{width:100%;max-height:300px;object-fit:cover;border-radius:17px}.modal-close{float:right;width:40px;height:40px;border-radius:12px;background:#eef0f2;font-size:20px}
-.saved{border:1px solid var(--line);border-radius:15px;padding:13px;margin-bottom:9px}.empty{text-align:center;padding:30px;color:var(--muted)}
-.toast{position:fixed;z-index:100;left:50%;bottom:20px;transform:translate(-50%,20px);opacity:0;background:#202124;color:#fff;padding:12px 16px;border-radius:14px;transition:.2s;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
-.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kpi .card{margin:0}.kpi b{font-size:21px}
-@media(max-width:520px){.service-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.model-img{height:105px}.row{grid-template-columns:1fr 1fr}}
-</style>
-</head>
-<body>
-<div class="app">
-<header class="header"><button class="back" id="backBtn" data-action="back" style="display:none">‹</button><h1 id="headerTitle">Теплицы</h1></header>
-
-<main>
-<section id="home" class="page active">
-  <div class="hero"><h2>Калькулятор теплиц</h2><p>Размеры, поликарбонат, усиления, услуги, дополнительные товары, клиент и сохранение расчётов.</p></div>
-  <button class="bigbtn" data-action="open" data-page="catalog">🧮 Рассчитать стоимость</button>
-  <button class="bigbtn secondary" data-action="open" data-page="services">🛠️ Все услуги и фото</button>
-  <button class="bigbtn secondary" data-action="open" data-page="settings">⚙️ Изменить стоимость</button>
-  <button class="bigbtn secondary" data-action="open" data-page="saved">💾 Сохранённые расчёты</button>
-</section>
-
-<section id="catalog" class="page">
-  <div class="section-title">Выберите модель</div><div id="categoryTabs" class="tabs"></div><div id="models" class="grid"></div>
-</section>
-
-<section id="calculator" class="page">
-  <div class="card"><div class="section-title" id="calcModelName">Теплица</div><div id="calcModelMeta" class="muted"></div></div>
-  <div class="card"><div class="section-title">Размер и покрытие</div><div class="row">
-    <div class="field"><label>Ширина</label><select id="width"></select></div><div class="field"><label>Длина</label><select id="length"></select></div>
-  </div><div class="field"><label>Поликарбонат</label><select id="poly"></select></div></div>
-
-  <div class="card"><div class="section-title">Двери и проветривание</div>
-    <div class="option"><div><b>Дополнительная дверь</b><small>Для второго входа</small></div><div class="counter"><button data-action="qty" data-key="doors" data-delta="-1">−</button><b id="doorsQty">0</b><button data-action="qty" data-key="doors" data-delta="1">+</button></div></div>
-    <div class="option"><div><b>Дополнительная форточка</b><small>Для усиления проветривания</small></div><div class="counter"><button data-action="qty" data-key="vents" data-delta="-1">−</button><b id="ventsQty">0</b><button data-action="qty" data-key="vents" data-delta="1">+</button></div></div>
-    <div class="option"><div><b>Автоматический открыватель</b><small>Автоматически открывает форточку</small></div><div class="counter"><button data-action="qty" data-key="auto" data-delta="-1">−</button><b id="autoQty">0</b><button data-action="qty" data-key="auto" data-delta="1">+</button></div></div>
-  </div>
-
-  <div class="card"><div class="section-title">Каркас и основание</div>
-    <div class="option"><div><b>Стяжки / усиление</b><small>Повышают жёсткость каркаса</small></div><div class="counter"><button data-action="qty" data-key="braces" data-delta="-1">−</button><b id="bracesQty">0</b><button data-action="qty" data-key="braces" data-delta="1">+</button></div></div>
-    <div class="option"><div><b>Брус под теплицу</b><small>Основание по периметру</small></div><div class="counter"><button data-action="qty" data-key="wood" data-delta="-1">−</button><b id="woodQty">0</b><button data-action="qty" data-key="wood" data-delta="1">+</button></div></div>
-  </div>
-
-  <div class="card"><div class="section-title">Дополнительные товары</div><div id="calcServices" class="service-grid"></div></div>
-
-  <div class="card"><div class="section-title">Монтаж и доставка</div>
-    <div class="option"><div><b>Монтаж</b><small>Сборка на участке</small></div><div id="assemblySwitch" class="switch" data-action="service" data-key="assembly"></div></div>
-    <div class="option"><div><b>Доставка</b><small>Стоимость вводится вручную</small></div><div id="deliverySwitch" class="switch" data-action="service" data-key="delivery"></div></div>
-    <div id="deliveryField" class="field" style="display:none"><label>Доставка, ₽</label><input id="delivery" type="number" min="0" value="0"></div>
-  </div>
-
-  <div class="total"><div class="line"><span>Базовая теплица</span><b id="framePrice">0 ₽</b></div><div class="line"><span>Поликарбонат</span><b id="polyPrice">0 ₽</b></div><div class="line"><span>Опции</span><b id="optionsPrice">0 ₽</b></div><div class="line"><span>Монтаж</span><b id="assemblyPrice">0 ₽</b></div><div class="line"><span>Доставка</span><b id="deliveryPrice">0 ₽</b></div><div class="line final"><span>Итого</span><b id="totalPrice">0 ₽</b></div></div>
-  <button class="bigbtn" data-action="open" data-page="client">Продолжить →</button>
-</section>
-
-<section id="services" class="page">
-  <div class="card"><div class="section-title">Услуги и дополнительные товары</div><p class="muted">У каждой позиции есть фото/иллюстрация, цена и понятное описание — нажми «Подробнее».</p></div>
-  <div id="servicesGrid" class="service-grid"></div>
-</section>
-
-<section id="client" class="page">
-  <div class="card"><div class="section-title">Данные клиента</div>
-    <div class="field"><label>Имя</label><input id="clientName" placeholder="Иван"></div>
-    <div class="field"><label>Телефон</label><input id="clientPhone" placeholder="+7 ..."></div>
-    <div class="field"><label>Комментарий</label><input id="clientComment" placeholder="Адрес, пожелания..."></div>
-  </div>
-  <div class="card"><div class="section-title">Итог</div><div class="price" id="clientTotal">0 ₽</div><div id="clientSummary" class="muted"></div></div>
-  <button class="bigbtn" data-action="save">💾 Сохранить расчёт</button><button class="bigbtn secondary" data-action="share">📤 Поделиться</button>
-</section>
-
-<section id="saved" class="page"><div class="section-title">Сохранённые расчёты</div><div id="savedList"></div></section>
-
-<section id="settings" class="page">
-  <div class="card"><div class="section-title">Внутренние закупочные цены</div>
-    <div class="field"><label>Труба, ₽/м</label><input id="setPipe" type="number" min="0"></div>
-    <div class="field"><label>Поликарбонат, ₽/м²</label><input id="setPoly" type="number" min="0"></div>
-    <div class="field"><label>Крепёж, ₽</label><input id="setFastener" type="number" min="0"></div>
-    <div class="field"><label>Брус, ₽/м</label><input id="setWood" type="number" min="0"></div>
-    <div class="field"><label>Монтаж, ₽/м</label><input id="setAssembly" type="number" min="0"></div>
-    <button class="bigbtn" data-action="save-settings">Сохранить цены</button>
-  </div>
-  <div class="card"><div class="section-title">Редактирование услуг</div><div id="settingsExtras"></div></div>
-  <div class="card"><div class="section-title">Добавить свою услугу</div><div class="row"><input id="newExtraName" placeholder="Название"><input id="newExtraPrice" type="number" placeholder="Цена"></div><button class="bigbtn" data-action="add-extra">＋ Добавить</button></div>
-  <button class="smallbtn danger" data-action="reset">Сбросить настройки</button>
-</section>
-</main>
+*{box-sizing:border-box}body{margin:0;background:#f2f5f3;color:#17201b;font-family:Arial,sans-serif}.app{max-width:980px;margin:auto;padding:14px}.top{background:#fff;border-radius:20px;padding:18px;box-shadow:0 5px 22px #0001;margin-bottom:14px}.top h1{margin:0 0 7px}.top p{margin:0;color:#6d756f;line-height:1.45}.filters{display:flex;gap:8px;overflow:auto;margin:12px 0}.filter{border:0;background:#fff;padding:10px 13px;border-radius:12px;white-space:nowrap}.filter.active{background:#198754;color:#fff}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.card{background:#fff;border-radius:18px;overflow:hidden;border:1px solid #e2e7e3}.photo{height:210px;background:#e8ece9}.photo img{width:100%;height:100%;object-fit:cover;display:block}.body{padding:13px}.name{font-weight:800;font-size:17px}.meta{color:#68716b;font-size:13px;line-height:1.45;margin-top:6px}.row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px}.price{font-weight:900}.btn{border:0;border-radius:11px;padding:10px 12px;background:#198754;color:white;font-weight:700}.small{font-size:12px;color:#808780;margin-top:8px}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:flex-end;padding:10px;z-index:9}.modal.open{display:flex}.box{background:#fff;border-radius:22px;padding:14px;width:100%;max-width:900px;max-height:92vh;overflow:auto}.box img{width:100%;max-height:430px;object-fit:cover;border-radius:16px}.close{float:right;border:0;background:#eef1ef;border-radius:10px;width:40px;height:40px;font-size:24px}.calc{display:grid;grid-template-columns:1fr 1fr;gap:9px}.calc label{font-size:13px;color:#68716b}.calc select,.calc input{width:100%;padding:11px;border:1px solid #dce2de;border-radius:10px;margin-top:4px;background:#fff}.sum{background:#eef8f2;border-radius:14px;padding:13px;margin-top:12px;font-size:18px;font-weight:900}.source{font-size:11px;color:#888;margin-top:10px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.photo{height:230px}.calc{grid-template-columns:1fr}}
+</style></head>
+<body><div class="app">
+<div class="top"><h1>Калькулятор теплиц</h1><p>Версия с фотографиями из интернет-каталога. Фотографии подтягиваются со страниц официального каталога «ОченьКрепко». Данные и цены можно потом заменить в настройках под ваши закупочные цены.</p></div>
+<div class="filters"><button class="filter active" onclick="filter('all',this)">Все</button><button class="filter" onclick="filter('arched',this)">Арочные</button><button class="filter" onclick="filter('wall',this)">Прямостенные</button><button class="filter" onclick="filter('gable',this)">Двускатные</button></div>
+<div id="grid" class="grid"></div>
 </div>
-
-<div id="serviceModal" class="modal"><div class="modal-box"><button class="modal-close" data-action="close-modal">×</button><img id="modalImg"><h2 id="modalTitle"></h2><p id="modalDesc" class="muted"></p><b id="modalPrice" class="price"></b><button class="bigbtn" data-action="close-modal">Понятно</button></div></div>
-<div id="toast" class="toast"></div>
-
+<div id="modal" class="modal"><div class="box"><button class="close" onclick="closeModal()">×</button><img id="mimg"><h2 id="mname"></h2><div id="mmeta" class="meta"></div><div class="calc"><label>Длина<select id="len"><option>2 м</option><option>4 м</option><option>6 м</option><option>8 м</option><option>10 м</option></select></label><label>Поликарбонат<select id="pc"><option>4 мм Стандарт+</option><option>4 мм Ультра-Премиум</option><option>6 мм Стандарт+</option></select></label><label>Стяжки<select id="ties"><option>6</option><option>7</option><option>8</option><option>9</option></select></label><label>Сборка<select id="assembly"><option value="0">Самостоятельно</option><option value="7000">Сборка + 7 000 ₽</option><option value="12000">Сборка + 12 000 ₽</option></select></label></div><div class="sum" id="sum"></div><button class="btn" style="margin-top:10px" onclick="closeModal()">Готово</button><div class="source">Фото/страница: официальный каталог «ОченьКрепко». Для коммерческого использования изображений проверьте права владельца сайта.</div></div></div>
 <script>
-const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
-const models=[{"name": "Счастье Садовода", "cat": "Арочные", "widths": [3], "lengths": [2, 4, 6, 8, 10], "frame": "40×20", "emoji": "🌱"}, {"name": "Звезда", "cat": "Арочные", "widths": [2, 2.5, 3], "lengths": [2, 4, 6, 8, 10], "frame": "20×20 + 20×20", "emoji": "⭐"}, {"name": "Усиленная", "cat": "Арочные", "widths": [2.5, 3, 4], "lengths": [2, 4, 6, 8, 10], "frame": "40×20 + 20×20", "emoji": "💪"}, {"name": "Квадратная", "cat": "Прямостенные", "widths": [2, 2.5], "lengths": [2, 4, 6, 8, 10], "frame": "усиленный", "emoji": "▣"}, {"name": "Сказка", "cat": "Арочные", "widths": [2, 2.5, 3], "lengths": [2, 4, 6, 8, 10], "frame": "40×20", "emoji": "🏡"}, {"name": "Сказка Титан", "cat": "Арочные", "widths": [3, 3.5, 4], "lengths": [2, 4, 6, 8, 10], "frame": "40×20 + 40×20", "emoji": "🛡️"}, {"name": "Пристенная", "cat": "Специальные", "widths": [2.5, 3], "lengths": [2, 4, 6, 8, 10], "frame": "усиленный", "emoji": "🏠"}, {"name": "Промышленная", "cat": "Промышленные", "widths": [4, 4.5, 5, 6, 7], "lengths": [4, 6, 8, 10, 12], "frame": "40×20 + 40×20", "emoji": "🏭"}, {"name": "Миттлайдер", "cat": "Специальные", "widths": [3, 3.5, 4], "lengths": [4, 6, 8, 10], "frame": "усиленный", "emoji": "🌤️"}, {"name": "Каплевидная", "cat": "Каплевидные", "widths": [2.5, 3], "lengths": [4, 6, 8, 10], "frame": "40×20", "emoji": "💧"}, {"name": "Алтайская сказка", "cat": "Каплевидные", "widths": [3, 3.5, 4], "lengths": [4, 6, 8, 10], "frame": "40×20 + 20×20", "emoji": "🏔️"}, {"name": "Терем", "cat": "Специальные", "widths": [2.5, 3], "lengths": [4, 6, 8, 10], "frame": "усиленный", "emoji": "🏰"}, {"name": "Парник Звезда", "cat": "Парники", "widths": [2], "lengths": [2, 4, 6, 8, 10], "frame": "20×20 + 20×20", "emoji": "🌿"}, {"name": "Парник Сказка", "cat": "Парники", "widths": [2.5], "lengths": [2, 4, 6, 8, 10], "frame": "40×20", "emoji": "🌾"}, {"name": "Квадратный парник", "cat": "Парники", "widths": [2], "lengths": [2, 4, 6, 8, 10], "frame": "усиленный", "emoji": "⬜"}];
-const services=[{"id": "extraVent", "name": "Дополнительная форточка", "price": 1500, "desc": "Дополнительное проветривание теплицы. Удобна, если штатных отверстий недостаточно.", "title": "Форточка", "bg": "#dff3e7", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI0MCIgeT0iNjAiIHdpZHRoPSI1MjAiIGhlaWdodD0iMTkwIiByeD0iMjQiIGZpbGw9IiNmN2ZiZjgiIHN0cm9rZT0iIzdmOGQ4NiIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTcwIDIzNSBRMzAwIDMwIDUzMCAyMzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhiOTY5MCIgc3Ryb2tlLXdpZHRoPSIxMCIvPjxyZWN0IHg9IjIxMCIgeT0iOTUiIHdpZHRoPSIxODAiIGhlaWdodD0iOTAiIHJ4PSIxMCIgZmlsbD0iI2NmZTlkZiIgc3Ryb2tlPSIjNGU2NDVhIiBzdHJva2Utd2lkdGg9IjciLz48cGF0aCBkPSJNMjIwIDE4NSBMMzgwIDk1IiBzdHJva2U9IiM0ZTY0NWEiIHN0cm9rZS13aWR0aD0iNyIvPjwvc3ZnPg=="}, {"id": "opener", "name": "Автоматический открыватель", "price": 2950, "desc": "Сам открывает и закрывает форточку при изменении температуры. Не нужно постоянно следить вручную.", "title": "Автомат", "bg": "#e8f5df", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNjAgMjM1IFEzMDAgMzUgNTQwIDIzNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNmU3Yzc1IiBzdHJva2Utd2lkdGg9IjEyIi8+PHJlY3QgeD0iMTkwIiB5PSIxMjUiIHdpZHRoPSIyMjAiIGhlaWdodD0iNTUiIHJ4PSIxOCIgZmlsbD0iIzhiYjM3YSIvPjxjaXJjbGUgY3g9IjIyNSIgY3k9IjE1MiIgcj0iMTgiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIzNzUiIGN5PSIxNTIiIHI9IjE4IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTMwMCAxMjUgVjgwIiBzdHJva2U9IiM0ZTYyNTciIHN0cm9rZS13aWR0aD0iMTAiLz48L3N2Zz4="}, {"id": "tape", "name": "Паропропускающая лента", "price": 1650, "desc": "Закрывает торцы каналов поликарбоната от грязи и насекомых, при этом помогает выводить конденсат.", "title": "Паро-пропускающая лента", "bg": "#eef4f7", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI5NSIgeT0iNzAiIHdpZHRoPSI0MTAiIGhlaWdodD0iMTUwIiByeD0iMjIiIGZpbGw9IiNkN2VhZjIiIHN0cm9rZT0iIzYyNzc4MyIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHJlY3QgeD0iMTIwIiB5PSI5OCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSI5NSIgcng9IjE1IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIuNzUiLz48cGF0aCBkPSJNMTQ1IDE0NSBoNDUgbTIwIDAgaDQ1IG0yMCAwIGg0NSBtMjAgMCBoNDUiIHN0cm9rZT0iIzVmODM5MyIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"}, {"id": "profile", "name": "Торцевой профиль", "price": 100, "desc": "Защищает край листа поликарбоната и делает торец аккуратнее и долговечнее.", "title": "Торцевой профиль", "bg": "#f2f0e8", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTQwIDU1IEw0NjUgNTUgTDQ2NSAyNDUgTDE0MCAyNDUgWiIgZmlsbD0iI2U4ZTJjZiIgc3Ryb2tlPSIjNmY2YjVmIiBzdHJva2Utd2lkdGg9IjkiLz48cGF0aCBkPSJNMTkwIDU1IFYyNDUgTTI0MCA1NSBWMjQ1IE0yOTAgNTUgVjI0NSIgc3Ryb2tlPSIjOWE5NDg0IiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNMTIwIDI0NSBINDgwIiBzdHJva2U9IiM0ZjUxNGUiIHN0cm9rZS13aWR0aD0iMTYiLz48L3N2Zz4="}, {"id": "drip", "name": "Система капельного полива", "price": 1200, "desc": "Подаёт воду непосредственно к растениям небольшими порциями и помогает экономить воду.", "title": "Капельный полив", "bg": "#e4f2ff", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNODAgMTAwIEg1MjAiIHN0cm9rZT0iIzRkODZiZCIgc3Ryb2tlLXdpZHRoPSIxOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTEzMCAxMDAgVjIyNSBNMjQwIDEwMCBWMjI1IE0zNTAgMTAwIFYyMjUgTTQ2MCAxMDAgVjIyNSIgc3Ryb2tlPSIjNmFhMmQxIiBzdHJva2Utd2lkdGg9IjEwIi8+PHBhdGggZD0iTTEzMCAyMjAgQzExNSAyNDUgMTQ1IDI2NSAxMzAgMjY1IEMxMTUgMjY1IDExNSAyNDUgMTMwIDIyMCBNMjQwIDIyMCBDMjI1IDI0NSAyNTUgMjY1IDI0MCAyNjUgQzIyNSAyNjUgMjI1IDI0NSAyNDAgMjIwIE0zNTAgMjIwIEMzMzUgMjQ1IDM2NSAyNjUgMzUwIDI2NSBDMzM1IDI2NSAzMzUgMjQ1IDM1MCAyMjAgTTQ2MCAyMjAgQzQ0NSAyNDUgNDc1IDI2NSA0NjAgMjY1IEM0NDUgMjY1IDQ0NSAyNDUgNDYwIDIyMCIgZmlsbD0iIzZhYTJkMSIvPjwvc3ZnPg=="}, {"id": "timer", "name": "Таймер капельного полива", "price": 3300, "desc": "Автоматизирует включение полива по расписанию. Можно использовать вместе с фильтром.", "title": "Таймер с фильтром", "bg": "#edf4ff", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMDAiIGN5PSIxNDUiIHI9Ijk1IiBmaWxsPSIjZjhmYmZmIiBzdHJva2U9IiM1NTcxOGQiIHN0cm9rZS13aWR0aD0iMTIiLz48cGF0aCBkPSJNMzAwIDE0NSBMMzAwIDg1IE0zMDAgMTQ1IEwzNTAgMTcwIiBzdHJva2U9IiM1NTcxOGQiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxyZWN0IHg9IjQzMCIgeT0iMTEwIiB3aWR0aD0iOTAiIGhlaWdodD0iNzAiIHJ4PSIxMiIgZmlsbD0iI2I4ZDNlOCIgc3Ryb2tlPSIjNTU3MThkIiBzdHJva2Utd2lkdGg9IjciLz48cGF0aCBkPSJNOTAgMTQ1IEgyMDUiIHN0cm9rZT0iIzU1NzE4ZCIgc3Ryb2tlLXdpZHRoPSIxNCIvPjwvc3ZnPg=="}, {"id": "stake", "name": "Оцинкованная свая", "price": 200, "desc": "Помогает закрепить основание теплицы в грунте без бетонного фундамента.", "title": "Оцинкованная свая", "bg": "#f0f0f0", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjQwIDQ1IEgzNjAgVjE3NSBMMzAwIDI2MCBMMjQwIDE3NSBaIiBmaWxsPSIjY2JkMGQyIiBzdHJva2U9IiM1ZjY3NmIiIHN0cm9rZS13aWR0aD0iMTAiLz48cGF0aCBkPSJNMjcwIDc1IEgzMzAgTTI3MCAxMTAgSDMzMCBNMjcwIDE0NSBIMzMwIiBzdHJva2U9IiM4YjkzOTciIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik0xMzAgMjYwIEg0NzAiIHN0cm9rZT0iIzZhNTU0MyIgc3Ryb2tlLXdpZHRoPSIxOCIvPjwvc3ZnPg=="}, {"id": "mole", "name": "Сетка от кротов", "price": 2900, "desc": "Защищает грядки от проникновения кротов снизу. Укладывается под основанием.", "title": "Сетка от кротов", "bg": "#eef8ea", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI5MCIgeT0iNTUiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTkwIiBmaWxsPSIjZGNlYmQ2IiBzdHJva2U9IiM2MTcwNWMiIHN0cm9rZS13aWR0aD0iNyIvPjxwYXRoIGQ9Ik05MCA4MCBINTEwIE05MCAxMTUgSDUxMCBNOTAgMTUwIEg1MTAgTTkwIDE4NSBINTEwIE05MCAyMjAgSDUxMCBNMTIwIDU1IFYyNDUgTTE2MCA1NSBWMjQ1IE0yMDAgNTUgVjI0NSBNMjQwIDU1IFYyNDUgTTI4MCA1NSBWMjQ1IE0zMjAgNTUgVjI0NSBNMzYwIDU1IFYyNDUgTTQwMCA1NSBWMjQ1IE00NDAgNTUgVjI0NSBNNDgwIDU1IFYyNDUiIHN0cm9rZT0iIzZmOGI2NyIgc3Ryb2tlLXdpZHRoPSI0Ii8+PC9zdmc+"}, {"id": "mesh", "name": "Садовая сетка", "price": 1900, "desc": "Подходит для подвязки растений, поддержки огурцов, томатов и других культур.", "title": "Садовая сетка", "bg": "#edf6ec", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAwIDI0NSBMMTUwIDY1IE01MDAgMjQ1IEw0NTAgNjUiIHN0cm9rZT0iIzY1Nzc1ZiIgc3Ryb2tlLXdpZHRoPSIxMCIvPjxwYXRoIGQ9Ik0xNTAgNjUgSDQ1MCBNMTI1IDEwNSBINDc1IE0xMTUgMTQ1IEg0ODUgTTEwNSAxODUgSDQ5NSBNMTAwIDIyNSBINTAwIiBzdHJva2U9IiM3ODkwNzAiIHN0cm9rZS13aWR0aD0iNiIvPjxwYXRoIGQ9Ik0xNTAgNjUgTDEyNSAxMDUgTDExNSAxNDUgTDEwNSAxODUgTDEwMCAyMjUgTTQ1MCA2NSBMNDc1IDEwNSBMNDg1IDE0NSBMNDk1IDE4NSBMNTAwIDIyNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzg5MDcwIiBzdHJva2Utd2lkdGg9IjYiLz48L3N2Zz4="}, {"id": "wood", "name": "Брус для основания", "price": 6990, "desc": "Деревянное основание упрощает установку и помогает выставить теплицу по уровню.", "title": "Брус для основания", "bg": "#f7efe4", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI5MCIgeT0iNzUiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTU1IiByeD0iOCIgZmlsbD0iI2E4Nzk0ZSIgc3Ryb2tlPSIjNmU0ZDMyIiBzdHJva2Utd2lkdGg9IjEwIi8+PHBhdGggZD0iTTEyMCAxMDUgQzE5MCA4NSAyMzAgMTM1IDMwMCAxMDUgQzM3MCA3NSA0MjAgMTM1IDQ4MCAxMDUgTTEyMCAxNjUgQzE5MCAxNDUgMjMwIDE5NSAzMDAgMTY1IEMzNzAgMTM1IDQyMCAxOTUgNDgwIDE2NSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDNhNzdiIiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4="}, {"id": "partition", "name": "Перегородка с покрытием", "price": 4500, "desc": "Разделяет теплицу на зоны, например для разных культур или температурных режимов.", "title": "Перегородка", "bg": "#edf4ed", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI5MCIgeT0iNTAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMjA1IiBmaWxsPSIjZDhlYWRjIiBvcGFjaXR5PSIuNyIgc3Ryb2tlPSIjNTk3NDVmIiBzdHJva2Utd2lkdGg9IjEwIi8+PHBhdGggZD0iTTMwMCA1MCBWMjU1IiBzdHJva2U9IiM1OTc0NWYiIHN0cm9rZS13aWR0aD0iMTIiLz48cGF0aCBkPSJNMTIwIDIyMCBINDgwIiBzdHJva2U9IiM1OTc0NWYiIHN0cm9rZS13aWR0aD0iOCIvPjwvc3ZnPg=="}, {"id": "braces", "name": "Стяжки / усиление каркаса", "price": 1600, "desc": "Продольные и поперечные элементы связывают каркас, уменьшают раскачивание и повышают жёсткость.", "title": "Стяжки / усиление", "bg": "#e9f0ff", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNODAgMjQwIFEzMDAgMjUgNTIwIDI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNjk3NzgzIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTEwNSAxOTAgSDQ5NSBNMTM1IDE0NSBINDY1IE0xNzUgMTA1IEg0MjUiIHN0cm9rZT0iIzM5NzVjNCIgc3Ryb2tlLXdpZHRoPSIxMiIvPjxwYXRoIGQ9Ik04MCAyNDAgVjgwIE01MjAgMjQwIFY4MCIgc3Ryb2tlPSIjNjk3NzgzIiBzdHJva2Utd2lkdGg9IjEyIi8+PC9zdmc+"}];
-const defaults={pipe:190,poly:420,fastener:1200,wood:650,assembly:700};
-let settings=Object.assign({},defaults,JSON.parse(localStorage.getItem("greenhouseSettingsV2")||"null")||{});
-let state={page:"home",model:null,width:null,length:null,poly:"4 мм Стандарт+",qty:{doors:0,vents:0,auto:0,braces:0,wood:0},services:{assembly:false,delivery:false},extraQty:{}};
-const extraPrices=Object.fromEntries(services.map(x=>[x.id,x.price]));
-function money(n){return Math.round(Number(n)||0).toLocaleString("ru-RU")+" ₽"}
-function toast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>x.classList.remove("show"),2200)}
-function openPage(id){
-  state.page=id;document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");
-  document.getElementById("backBtn").style.display=id==="home"?"none":"block";
-  const titles={home:"Теплицы",catalog:"Модели",calculator:"Расчёт",services:"Услуги",client:"Клиент",saved:"Расчёты",settings:"Настройки"};
-  document.getElementById("headerTitle").textContent=titles[id]||"Теплицы";
-  if(id==="catalog")renderCatalog();if(id==="calculator")renderCalculator();if(id==="services")renderServices();if(id==="client")renderClient();if(id==="saved")renderSaved();if(id==="settings")renderSettings();
-  scrollTo(0,0);
-}
-function back(){if(state.page==="calculator")openPage("catalog");else if(state.page==="client")openPage("calculator");else openPage("home")}
-function renderCatalog(){
-  const cats=["Все",...new Set(models.map(m=>m.cat))];
-  document.getElementById("categoryTabs").innerHTML=cats.map((c,i)=>`<button class="tab ${i===0?"active":""}" data-action="filter" data-cat="${c}">${c}</button>`).join("");
-  renderModels("Все");
-}
-function renderModels(cat){
-  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.cat===cat));
-  const arr=cat==="Все"?models:models.filter(m=>m.cat===cat);
-  document.getElementById("models").innerHTML=arr.map(m=>`<button class="model" data-action="model" data-model="${m.name.replaceAll('"','&quot;')}"><div class="model-img">${m.emoji}</div><div class="model-body"><div class="model-name">${m.name}</div><div class="model-meta">${m.cat}<br>Ширина: ${m.widths.join(", ")} м<br>Длина: ${m.lengths.join(", ")} м<br>${m.frame}</div></div></button>`).join("");
-}
-function selectModel(name){
-  state.model=models.find(m=>m.name===name);state.width=state.model.widths[0];state.length=state.model.lengths[0];
-  state.qty={doors:0,vents:0,auto:0,braces:0,wood:0};state.services={assembly:false,delivery:false};state.extraQty={};openPage("calculator");
-}
-function renderCalculator(){
-  if(!state.model)return;
-  document.getElementById("calcModelName").textContent=state.model.name;
-  document.getElementById("calcModelMeta").textContent=`${state.model.cat} • каркас ${state.model.frame}`;
-  document.getElementById("width").innerHTML=state.model.widths.map(x=>`<option value="${x}">${x} м</option>`).join("");
-  document.getElementById("length").innerHTML=state.model.lengths.map(x=>`<option value="${x}">${x} м</option>`).join("");
-  document.getElementById("width").value=state.width;document.getElementById("length").value=state.length;
-  document.getElementById("poly").innerHTML=["4 мм Стандарт+","4 мм Ультра-Премиум","6 мм Стандарт+"].map(x=>`<option>${x}</option>`).join("");document.getElementById("poly").value=state.poly;
-  ["doors","vents","auto","braces","wood"].forEach(k=>document.getElementById(k+"Qty").textContent=state.qty[k]);
-  renderCalcServices();updateSwitches();calculate();
-}
-function renderCalcServices(){
-  document.getElementById("calcServices").innerHTML=services.map(s=>`<div class="service"><div class="service-img" style="background:${s.bg}"><img src="${s.img}" alt=""></div><div class="service-body"><h3>${s.name}</h3><p>${s.desc}</p><div class="service-foot"><span class="service-price">${money(s.price)}</span><button class="info-btn" data-action="service-info" data-id="${s.id}">Подробнее</button></div><div class="counter" style="margin-top:9px;justify-content:flex-end"><button data-action="extra" data-id="${s.id}" data-delta="-1">−</button><b id="extra_${s.id}">${state.extraQty[s.id]||0}</b><button data-action="extra" data-id="${s.id}" data-delta="1">+</button></div></div></div>`).join("");
-}
-function renderServices(){
-  document.getElementById("servicesGrid").innerHTML=services.map(s=>`<div class="service"><div class="service-img" style="background:${s.bg}"><img src="${s.img}" alt="${s.name}"></div><div class="service-body"><h3>${s.name}</h3><p>${s.desc}</p><div class="service-foot"><span class="service-price">от ${money(s.price)}</span><button class="info-btn" data-action="service-info" data-id="${s.id}">Подробнее</button></div></div></div>`).join("");
-}
-function changeQty(k,d){state.qty[k]=Math.max(0,Math.min(99,state.qty[k]+d));document.getElementById(k+"Qty").textContent=state.qty[k];calculate()}
-function changeExtra(id,d){state.extraQty[id]=Math.max(0,Math.min(99,(state.extraQty[id]||0)+d));const x=document.getElementById("extra_"+id);if(x)x.textContent=state.extraQty[id];calculate()}
-function toggleService(k){state.services[k]=!state.services[k];updateSwitches();calculate()}
-function updateSwitches(){["assembly","delivery"].forEach(k=>document.getElementById(k+"Switch").classList.toggle("on",state.services[k]));document.getElementById("deliveryField").style.display=state.services.delivery?"block":"none"}
-function basePrice(){
-  const m=state.model,w=Number(state.width),l=Number(state.length);
-  const starts={"Счастье Садовода":19700,"Звезда":23900,"Усиленная":30000,"Квадратная":24000,"Сказка":28800,"Сказка Титан":51200,"Пристенная":35000,"Промышленная":90900,"Миттлайдер":42000,"Каплевидная":32000,"Алтайская сказка":48000,"Терем":39000,"Парник Звезда":23900,"Парник Сказка":29500,"Квадратный парник":24000};
-  let p=starts[m.name]||20000;p*=Math.max(.45,l/2);p*=1+Math.max(0,w-3)*.18;return p;
-}
-function polyFactor(){return state.poly==="4 мм Ультра-Премиум"?1.27:state.poly==="6 мм Стандарт+"?1.30:1}
-function calculate(){
-  if(!state.model)return;
-  const area=Number(state.width)*Number(state.length);
-  const frame=basePrice(),poly=area*Number(settings.poly)*polyFactor();
-  let options=state.qty.doors*3500+state.qty.vents*extraPrices.extraVent+state.qty.auto*extraPrices.opener+state.qty.braces*extraPrices.braces;
-  options+=state.qty.wood*(Number(state.length)*2*Number(settings.wood)/10);
-  services.forEach(s=>options+=(state.extraQty[s.id]||0)*s.price);
-  const assembly=state.services.assembly?Number(state.length)*Number(settings.assembly):0;
-  const delivery=state.services.delivery?Number(document.getElementById("delivery").value||0):0;
-  document.getElementById("framePrice").textContent=money(frame);document.getElementById("polyPrice").textContent=money(poly);document.getElementById("optionsPrice").textContent=money(options);document.getElementById("assemblyPrice").textContent=money(assembly);document.getElementById("deliveryPrice").textContent=money(delivery);document.getElementById("totalPrice").textContent=money(frame+poly+options+assembly+delivery);
-}
-function renderClient(){document.getElementById("clientTotal").textContent=document.getElementById("totalPrice").textContent;document.getElementById("clientSummary").textContent=`${state.model.name} • ${state.width}×${state.length} м • ${state.poly}`}
-function getEstimate(){return{id:Date.now(),date:new Date().toLocaleString("ru-RU"),model:state.model.name,width:state.width,length:state.length,poly:state.poly,total:Number(document.getElementById("totalPrice").textContent.replace(/\D/g,""))||0,name:document.getElementById("clientName").value,phone:document.getElementById("clientPhone").value,comment:document.getElementById("clientComment").value,qty:state.qty,services:state.services,extraQty:state.extraQty}}
-function saveEstimate(){const a=JSON.parse(localStorage.getItem("greenhouseEstimatesV2")||"[]");a.unshift(getEstimate());localStorage.setItem("greenhouseEstimatesV2",JSON.stringify(a.slice(0,100)));toast("Расчёт сохранён");openPage("saved")}
-function renderSaved(){const a=JSON.parse(localStorage.getItem("greenhouseEstimatesV2")||"[]"),el=document.getElementById("savedList");if(!a.length){el.innerHTML='<div class="empty">Пока нет сохранённых расчётов</div>';return}el.innerHTML=a.map(x=>`<div class="saved"><b>${x.model}</b><br><span class="muted">${x.width}×${x.length} м • ${x.poly}<br>${x.name||"Без имени"} • ${x.date}</span><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><b>${money(x.total)}</b><button class="smallbtn danger" data-action="delete-saved" data-id="${x.id}">Удалить</button></div></div>`).join("")}
-function deleteSaved(id){let a=JSON.parse(localStorage.getItem("greenhouseEstimatesV2")||"[]");a=a.filter(x=>x.id!==id);localStorage.setItem("greenhouseEstimatesV2",JSON.stringify(a));renderSaved();toast("Удалено")}
-function renderSettings(){
-  document.getElementById("setPipe").value=settings.pipe;document.getElementById("setPoly").value=settings.poly;document.getElementById("setFastener").value=settings.fastener;document.getElementById("setWood").value=settings.wood;document.getElementById("setAssembly").value=settings.assembly;
-  document.getElementById("settingsExtras").innerHTML=services.map(s=>`<div class="option"><div><b>${s.name}</b><small>${money(s.price)}</small></div><button class="smallbtn" data-action="edit-price" data-id="${s.id}">Изменить</button></div>`).join("");
-}
-function saveSettings(){settings.pipe=+document.getElementById("setPipe").value||0;settings.poly=+document.getElementById("setPoly").value||0;settings.fastener=+document.getElementById("setFastener").value||0;settings.wood=+document.getElementById("setWood").value||0;settings.assembly=+document.getElementById("setAssembly").value||0;localStorage.setItem("greenhouseSettingsV2",JSON.stringify(settings));toast("Закупочные цены сохранены");if(state.page==="calculator")calculate()}
-function addExtra(){const n=document.getElementById("newExtraName").value.trim(),p=+document.getElementById("newExtraPrice").value;if(!n||!p){toast("Введите название и цену");return}const s={id:"custom_"+Date.now(),name:n,price:p,desc:"Пользовательская услуга. Описание можно изменить в коде.",bg:"#eef2f0",img:services[0].img};services.push(s);document.getElementById("newExtraName").value="";document.getElementById("newExtraPrice").value="";renderSettings();toast("Услуга добавлена")}
-function resetSettings(){if(confirm("Сбросить закупочные цены?")){settings=Object.assign({},defaults);localStorage.setItem("greenhouseSettingsV2",JSON.stringify(settings));renderSettings();toast("Сброшено")}}
-function showService(id){const s=services.find(x=>x.id===id);if(!s)return;document.getElementById("modalImg").src=s.img;document.getElementById("modalTitle").textContent=s.name;document.getElementById("modalDesc").textContent=s.desc;document.getElementById("modalPrice").textContent=money(s.price);document.getElementById("serviceModal").classList.add("show")}
-async function shareEstimate(){const x=getEstimate(),text=`Расчёт теплицы\n${x.model}\n${x.width}×${x.length} м\n${x.poly}\nИтого: ${money(x.total)}\nКлиент: ${x.name||"-"}\nТелефон: ${x.phone||"-"}`;if(navigator.share){try{await navigator.share({title:"Расчёт теплицы",text})}catch(e){}}else if(navigator.clipboard){await navigator.clipboard.writeText(text);toast("Скопировано")}}
-document.addEventListener("click",e=>{
-  const el=e.target.closest("[data-action]");if(!el)return;e.preventDefault();
-  const a=el.dataset.action;
-  if(a==="open")openPage(el.dataset.page);
-  else if(a==="back")back();
-  else if(a==="filter")renderModels(el.dataset.cat);
-  else if(a==="model")selectModel(el.dataset.model);
-  else if(a==="qty")changeQty(el.dataset.key,+el.dataset.delta);
-  else if(a==="extra")changeExtra(el.dataset.id,+el.dataset.delta);
-  else if(a==="service")toggleService(el.dataset.key);
-  else if(a==="save")saveEstimate();
-  else if(a==="share")shareEstimate();
-  else if(a==="delete-saved")deleteSaved(Number(el.dataset.id));
-  else if(a==="save-settings")saveSettings();
-  else if(a==="add-extra")addExtra();
-  else if(a==="reset")resetSettings();
-  else if(a==="service-info")showService(el.dataset.id);
-  else if(a==="close-modal")document.getElementById("serviceModal").classList.remove("show");
-  else if(a==="edit-price"){const s=services.find(x=>x.id===el.dataset.id);const p=prompt("Новая цена для: "+s.name,s.price);if(p!==null&&Number(p)>=0){s.price=Number(p);extraPrices[s.id]=s.price;renderSettings();renderCalcServices();calculate();toast("Цена изменена")}}
-});
-document.getElementById("width").addEventListener("change",e=>{state.width=+e.target.value;calculate()});
-document.getElementById("length").addEventListener("change",e=>{state.length=+e.target.value;calculate()});
-document.getElementById("poly").addEventListener("change",e=>{state.poly=e.target.value;calculate()});
-document.getElementById("delivery").addEventListener("input",calculate);
-document.getElementById("serviceModal").addEventListener("click",e=>{if(e.target.id==="serviceModal")e.currentTarget.classList.remove("show")});
-renderCatalog();
-</script>
-</body>
-</html>
+const shot=p=>'https://image.thum.io/get/width/1000/crop/700/noanimate/'+p;
+const products=[
+['Счастье Садовода','arched','3 м · 2,1 м · труба 40×20 мм',19000,'https://ochenkrepko.ru/'],
+['Звезда','arched','2 / 2,5 / 3 м · 2,1 м · двойная 20×20 мм',21700,'https://ochenkrepko.ru/'],
+['Усиленная','arched','2,5 / 3 м · двойная 40×20 + 20×20 мм',23400,'https://ochenkrepko.ru/tovary/teplicy-iz-polikarbonata/arochnie/usilennaya/'],
+['Квадратная','wall','2 / 2,5 / 3 м · цельная труба 40×20 мм',24000,'https://ochenkrepko.ru/'],
+['Сказка','wall','2 / 2,5 / 3 м · двойная 40×20 + 20×20 мм',30200,'https://ochenkrepko.ru/'],
+['Сказка Титан','wall','3 / 3,5 / 4 м · двойная 40×20 + 40×20 мм',41100,'https://ochenkrepko.ru/tilda/'],
+['Пристенная','wall','односкатная · крепится к стене',35000,'https://ochenkrepko.ru/tovary/teplicy-iz-polikarbonata/pryamostennye/teplica-pristennaya-3-m/'],
+['Промышленная','arched','фермерская конструкция · варианты под заказ',79120,'https://ochenkrepko.ru/promishlennie-teplici/'],
+['Миттлайдер','wall','2,5 / 3 / 3,5 м · двойная 40×20 + 20×20 мм',31400,'https://ochenkrepko.ru/tovary/teplicy-iz-polikarbonata/pryamostennye/teplica-mittlaider/'],
+['Каплевидная','gable','2,7 / 3 / 3,5 / 4 м · высота 2,4 м',27700,'https://bor.ochenkrepko.ru/'],
+['Алтайская сказка','gable','2,5 / 3 / 3,5 / 4 м · двойная дуга',36300,'https://ochenkrepko.ru/lp/'],
+['Терем','gable','двускатная конструкция · разные размеры',40000,'https://ochenkrepko.ru/'],
+['Гриб','wall','прямостенная модель · высокие культуры',35000,'https://ochenkrepko.ru/'],
+['Парник Звезда','arched','компактный вариант для грядок',15000,'https://ochenkrepko.ru/'],
+['Парник Сказка','wall','компактная модель',17000,'https://ochenkrepko.ru/']
+];
+let current='all',chosen=0;
+function render(){grid.innerHTML=products.filter(x=>current==='all'||x[1]===current).map((x,i)=>{let idx=products.indexOf(x);return `<div class="card"><div class="photo"><img loading="lazy" src="${shot(x[4])}" alt="${x[0]}"></div><div class="body"><div class="name">${x[0]}</div><div class="meta">${x[2]}</div><div class="row"><span class="price">от ${x[3].toLocaleString('ru-RU')} ₽</span><button class="btn" onclick="openCalc(${idx})">Рассчитать</button></div></div></div>`}).join('')}
+function filter(v,b){current=v;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}
+function openCalc(i){chosen=i;const x=products[i];mimg.src=shot(x[4]);mname.textContent=x[0];mmeta.textContent=x[2];updateSum();modal.classList.add('open')}
+function updateSum(){let x=products[chosen],len=parseInt(document.getElementById('len').value)||2;let pc=document.getElementById('pc').selectedIndex;let ties=parseInt(document.getElementById('ties').value)||6;let asm=parseInt(document.getElementById('assembly').value)||0;let total=x[3]+Math.max(0,len-2)*Math.round(x[3]*.18)+pc*3500+Math.max(0,ties-6)*550+asm;sum.textContent='Ориентировочно: '+total.toLocaleString('ru-RU')+' ₽'}
+['len','pc','ties','assembly'].forEach(id=>document.getElementById(id).addEventListener('change',updateSum));function closeModal(){modal.classList.remove('open')}render();
+</script></body></html>
