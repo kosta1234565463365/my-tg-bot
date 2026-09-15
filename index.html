@@ -1,188 +1,1178 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Магазин одежды</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>Мой калькулятор теплиц</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .header {
-            padding: 20px;
-            text-align: center;
-        }
+body {
+    margin: 0;
+    background: #f3f4f6;
+    font-family: Arial, sans-serif;
+    color: #171717;
+}
 
-        .header h1 {
-            margin: 0 0 5px;
-            font-size: 26px;
-        }
+.app {
+    max-width: 900px;
+    margin: auto;
+    padding: 16px;
+}
 
-        .header p {
-            margin: 0;
-            opacity: 0.6;
-        }
+header {
+    text-align: center;
+    padding: 20px 10px;
+}
 
-        .products {
-            padding: 10px 15px 100px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
+header h1 {
+    margin: 0;
+    font-size: 27px;
+}
 
-        .product {
-            background: var(--tg-theme-secondary-bg-color, #f2f2f2);
-            border-radius: 16px;
-            padding: 10px;
-            overflow: hidden;
-        }
+header p {
+    color: #777;
+}
 
-        .product-image {
-            width: 100%;
-            aspect-ratio: 1;
-            background: #ddd;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-        }
+/* ГЛАВНОЕ МЕНЮ */
 
-        .product h3 {
-            margin: 10px 0 5px;
-            font-size: 16px;
-        }
+.menu {
+    display: grid;
+    gap: 15px;
+}
 
-        .price {
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+.menu-button {
+    width: 100%;
+    padding: 24px;
+    border: 0;
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    background: white;
+    box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    text-align: left;
+}
 
-        button {
-            width: 100%;
-            border: 0;
-            border-radius: 10px;
-            padding: 11px;
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #fff);
-            font-size: 14px;
-            font-weight: bold;
-        }
+.menu-button span {
+    display: block;
+    font-size: 14px;
+    color: #777;
+    margin-top: 7px;
+    font-weight: normal;
+}
 
-        .cart {
-            position: fixed;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
-        }
+/* ЭКРАНЫ */
 
-        .cart button {
-            font-size: 16px;
-            padding: 15px;
-        }
-    </style>
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+.back {
+    border: 0;
+    background: #e5e7eb;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+/* КАРТОЧКИ */
+
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.06);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+/* ФОРМЫ */
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 13px;
+    margin-bottom: 6px;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+/* ФОТО */
+
+.product-image {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #eee;
+    margin-bottom: 12px;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 210px;
+    border-radius: 14px;
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    margin-bottom: 12px;
+}
+
+/* ТОВАРЫ */
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.product {
+    border: 2px solid #eee;
+    border-radius: 14px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.product.selected {
+    border-color: #111;
+}
+
+.product img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.product-name {
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.product-price {
+    color: #555;
+    margin-top: 4px;
+}
+
+/* ИТОГ */
+
+.total {
+    background: #111;
+    color: white;
+    padding: 20px;
+    border-radius: 18px;
+    margin-top: 15px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.total-main {
+    font-size: 29px;
+    font-weight: bold;
+}
+
+.profit {
+    color: #42d879;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+/* КНОПКИ */
+
+button.primary {
+    width: 100%;
+    padding: 14px;
+    border: 0;
+    border-radius: 11px;
+    background: #111;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button.delete {
+    background: #ffe5e5;
+    color: #c00;
+    border: 0;
+    border-radius: 9px;
+    padding: 9px 12px;
+    cursor: pointer;
+}
+
+.material-row {
+    display: grid;
+    grid-template-columns: 1fr 130px auto;
+    gap: 8px;
+    margin-bottom: 9px;
+    align-items: center;
+}
+
+@media(max-width:650px) {
+
+    .products {
+        grid-template-columns: 1fr;
+    }
+
+    .material-row {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
 
-<div class="header">
-    <h1>👕 Мой магазин</h1>
-    <p>Одежда для тебя</p>
-</div>
+<div class="app">
 
-<div class="products">
+<header>
+    <h1>🌱 Мой калькулятор</h1>
+    <p>Внутренний расчёт стоимости теплиц</p>
+</header>
 
-    <div class="product">
-        <div class="product-image">👕</div>
-        <h3>Футболка Basic</h3>
-        <div class="price">1 990 ₽</div>
-        <button onclick="addToCart('Футболка Basic', 1990)">
-            Добавить
+
+<!-- =========================
+     ГЛАВНЫЙ ЭКРАН
+========================= -->
+
+<div id="home" class="screen active">
+
+    <div class="menu">
+
+        <button class="menu-button" onclick="openScreen('calculator')">
+            🧮 Рассчитать стоимость
+            <span>
+                Полный расчёт теплицы и дополнительных товаров
+            </span>
         </button>
-    </div>
 
-    <div class="product">
-        <div class="product-image">🧥</div>
-        <h3>Худи Oversize</h3>
-        <div class="price">3 990 ₽</div>
-        <button onclick="addToCart('Худи Oversize', 3990)">
-            Добавить
+        <button class="menu-button" onclick="openScreen('settings')">
+            ⚙️ Изменить стоимость
+            <span>
+                Закупочные цены, крепёж, труба, поликарбонат и доп. товары
+            </span>
         </button>
-    </div>
 
-    <div class="product">
-        <div class="product-image">👖</div>
-        <h3>Джинсы Classic</h3>
-        <div class="price">4 490 ₽</div>
-        <button onclick="addToCart('Джинсы Classic', 4490)">
-            Добавить
-        </button>
-    </div>
-
-    <div class="product">
-        <div class="product-image">🧢</div>
-        <h3>Кепка Basic</h3>
-        <div class="price">1 490 ₽</div>
-        <button onclick="addToCart('Кепка Basic', 1490)">
-            Добавить
-        </button>
     </div>
 
 </div>
 
-<div class="cart">
-    <button onclick="openCart()">
-        🛒 Корзина: <span id="cartCount">0</span>
+
+<!-- =========================
+     КАЛЬКУЛЯТОР
+========================= -->
+
+<div id="calculator" class="screen">
+
+    <button class="back" onclick="openScreen('home')">
+        ← Назад
     </button>
+
+    <div class="card">
+
+        <h2>🧮 Расчёт теплицы</h2>
+
+        <label>Вид теплицы</label>
+
+        <select id="greenhouse" onchange="updateCalculator()">
+        </select>
+
+    </div>
+
+
+    <div class="card">
+
+        <div id="greenhousePhoto"></div>
+
+        <h2 id="greenhouseName"></h2>
+
+        <p id="greenhouseInfo"></p>
+
+        <label>Длина</label>
+
+        <select id="greenhouseLength" onchange="updateCalculator()">
+        </select>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>➕ Дополнительные товары</h2>
+
+        <div id="extraProducts"></div>
+
+    </div>
+
+
+    <div class="total">
+
+        <div class="total-row">
+            <span>Теплица</span>
+            <strong id="greenhousePrice">0 ₽</strong>
+        </div>
+
+        <div class="total-row">
+            <span>Доп. товары</span>
+            <strong id="extrasPrice">0 ₽</strong>
+        </div>
+
+        <hr>
+
+        <div class="total-row total-main">
+            <span>Цена продажи</span>
+            <span id="salePrice">0 ₽</span>
+        </div>
+
+        <div class="total-row">
+            <span>Себестоимость</span>
+            <strong id="costPrice">0 ₽</strong>
+        </div>
+
+        <div class="total-row">
+            <span>Прибыль</span>
+            <strong class="profit" id="profit">0 ₽</strong>
+        </div>
+
+    </div>
+
 </div>
+
+
+<!-- =========================
+     НАСТРОЙКИ
+========================= -->
+
+<div id="settings" class="screen">
+
+    <button class="back" onclick="openScreen('home')">
+        ← Назад
+    </button>
+
+
+    <div class="card">
+
+        <h2>💰 Закупочные цены</h2>
+
+        <label>
+            Труба — цена за метр
+        </label>
+
+        <input
+            type="number"
+            id="pipePrice"
+            onchange="saveSettings()"
+        >
+
+
+        <label>
+            Поликарбонат — цена за м²
+        </label>
+
+        <input
+            type="number"
+            id="polyPrice"
+            onchange="saveSettings()"
+        >
+
+
+        <label>
+            Крепёж — цена
+        </label>
+
+        <input
+            type="number"
+            id="fastenerPrice"
+            onchange="saveSettings()"
+        >
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>➕ Дополнительные товары</h2>
+
+        <p>
+            Здесь можно добавлять и удалять свои дополнительные товары.
+        </p>
+
+        <div id="settingsExtras"></div>
+
+        <button class="primary" onclick="addExtraProduct()">
+            + Добавить дополнительный товар
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <button class="primary" onclick="saveSettings()">
+            💾 Сохранить изменения
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
 
 <script>
-    const tg = window.Telegram.WebApp;
 
-    tg.ready();
-    tg.expand();
+/* =========================================
+   ТЕПЛИЦЫ
+========================================= */
 
-    let cart = [];
+const greenhouses = {
 
-    function addToCart(name, price) {
-        cart.push({
-            name: name,
-            price: price
-        });
+    "Счастье Садовода": {
+        info: "Ширина 3 м • Высота 2,1 м • труба 40×20",
+        image: "",
+        prices: {
+            2: 19700,
+            4: 27300,
+            6: 36200,
+            8: 44900,
+            10: 53900
+        }
+    },
 
-        document.getElementById("cartCount").textContent = cart.length;
+    "Звезда": {
+        info: "Ширина 2 / 2,5 / 3 м • Высота 2,1 м",
+        image: "",
+        prices: {
+            2: 25100,
+            4: 34900,
+            6: 45900,
+            8: 57000,
+            10: 68100
+        }
+    },
 
-        tg.HapticFeedback.impactOccurred("light");
+    "Усиленная": {
+        info: "Ширина 2,5 / 3 м • двойная арка",
+        image: "",
+        prices: {
+            2: 31100,
+            4: 44600,
+            6: 59400,
+            8: 74500,
+            10: 89400
+        }
+    },
+
+    "Квадратная": {
+        info: "Ширина 2 / 2,5 м • Высота 1,95 м",
+        image: "",
+        prices: {
+            2: 24000,
+            4: 33400,
+            6: 44400,
+            8: 55400,
+            10: 66700
+        }
+    },
+
+    "Сказка": {
+        info: "Ширина 2 / 2,5 / 3 м • Высота 2,1 м",
+        image: "",
+        prices: {
+            2: 37600,
+            4: 52900,
+            6: 70100,
+            8: 88700,
+            10: 106000
+        }
+    },
+
+    "Сказка Титан": {
+        info: "Ширина 3 / 3,5 / 4 м • Высота 2,4 м",
+        image: "",
+        prices: {
+            2: 51200,
+            4: 72100,
+            6: 94500,
+            8: 117200,
+            10: 139900
+        }
+    },
+
+    "Пристенная": {
+        info: "Ширина 2,5 / 3 м • Высота 2,45 м",
+        image: "",
+        prices: {
+            2: 46800,
+            4: 62800,
+            6: 80600,
+            8: 98300,
+            10: 116100
+        }
+    },
+
+    "Миттлайдер": {
+        info: "Ширина 2,5 / 3 / 3,5 м • Высота 2,55 м",
+        image: "",
+        prices: {
+            2: 66800,
+            4: 94700,
+            6: 124400,
+            8: 154000,
+            10: 183700
+        }
+    },
+
+    "Каплевидная": {
+        info: "Ширина 2,5 / 3 / 3,5 / 4 м • Высота 2,4 м",
+        image: "",
+        prices: {
+            2: 28900,
+            4: 37200,
+            6: 46800,
+            8: 56300,
+            10: 65700
+        }
+    },
+
+    "Алтайская сказка": {
+        info: "Ширина 2,5 / 3 / 3,5 / 4 м • Высота 2,75 м",
+        image: "",
+        prices: {
+            2: 45100,
+            4: 62700,
+            6: 81400,
+            8: 100700,
+            10: 119600
+        }
+    },
+
+    "Промышленная": {
+        info: "Ширина от 4 до 7 м • Высота от 2,7 до 3,2 м",
+        image: "",
+        prices: {
+            0: 41300
+        }
     }
 
-    function openCart() {
-        if (cart.length === 0) {
-            tg.showAlert("Корзина пока пустая 🛒");
-            return;
+};
+
+
+/* =========================================
+   НАСТРОЙКИ ПО УМОЛЧАНИЮ
+========================================= */
+
+let settings = {
+
+    pipePrice: 0,
+
+    polyPrice: 0,
+
+    fastenerPrice: 0,
+
+    extras: [
+
+        {
+            name: "Форточка",
+            price: 1500,
+            image: ""
+        },
+
+        {
+            name: "Автомат проветривания",
+            price: 2950,
+            image: ""
+        },
+
+        {
+            name: "Паропропускающая лента",
+            price: 1650,
+            image: ""
+        },
+
+        {
+            name: "Брус",
+            price: 6990,
+            image: ""
         }
 
-        let total = 0;
+    ]
 
-        cart.forEach(item => {
-            total += item.price;
+};
+
+
+/* =========================================
+   ЗАГРУЗКА
+========================================= */
+
+loadSettings();
+
+renderGreenhouses();
+
+renderSettingsExtras();
+
+updateCalculator();
+
+
+/* =========================================
+   ЭКРАНЫ
+========================================= */
+
+function openScreen(screen) {
+
+    document.querySelectorAll(".screen")
+        .forEach(el => el.classList.remove("active"));
+
+    document
+        .getElementById(screen)
+        .classList.add("active");
+
+}
+
+
+/* =========================================
+   СПИСОК ТЕПЛИЦ
+========================================= */
+
+function renderGreenhouses() {
+
+    const select =
+        document.getElementById("greenhouse");
+
+    select.innerHTML = "";
+
+    Object.keys(greenhouses).forEach(name => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = name;
+
+        option.textContent = name;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================
+   КАЛЬКУЛЯТОР
+========================================= */
+
+function updateCalculator() {
+
+    const name =
+        document.getElementById("greenhouse").value;
+
+    const product =
+        greenhouses[name];
+
+    const lengthSelect =
+        document.getElementById("greenhouseLength");
+
+    lengthSelect.innerHTML = "";
+
+    Object.keys(product.prices).forEach(length => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = length;
+
+        option.textContent =
+            length == 0
+            ? "Стандартная"
+            : length + " м";
+
+        lengthSelect.appendChild(option);
+
+    });
+
+
+    const length =
+        lengthSelect.value;
+
+    const price =
+        product.prices[length];
+
+
+    document.getElementById("greenhouseName")
+        .textContent = name;
+
+    document.getElementById("greenhouseInfo")
+        .textContent = product.info;
+
+
+    /* ФОТО */
+
+    const photo =
+        document.getElementById("greenhousePhoto");
+
+    if (product.image) {
+
+        photo.innerHTML = `
+            <img
+                class="product-image"
+                src="${product.image}"
+                alt="${name}"
+            >
+        `;
+
+    } else {
+
+        photo.innerHTML = `
+            <div class="image-placeholder">
+                📷 Фото ${name}
+            </div>
+        `;
+
+    }
+
+
+    document.getElementById("greenhousePrice")
+        .textContent = money(price);
+
+
+    renderExtraProducts();
+
+    calculateTotal();
+
+}
+
+
+/* =========================================
+   ДОП. ТОВАРЫ В КАЛЬКУЛЯТОРЕ
+========================================= */
+
+function renderExtraProducts() {
+
+    const container =
+        document.getElementById("extraProducts");
+
+    container.innerHTML = "";
+
+    settings.extras.forEach((extra, index) => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "product";
+
+        div.innerHTML = `
+
+            ${
+                extra.image
+
+                ? `<img src="${extra.image}">`
+
+                : `<div class="image-placeholder">
+                    📦
+                   </div>`
+            }
+
+            <div class="product-name">
+                ${escapeHtml(extra.name)}
+            </div>
+
+            <div class="product-price">
+                ${money(extra.price)}
+            </div>
+
+            <label>
+                Количество
+            </label>
+
+            <input
+                type="number"
+                min="0"
+                value="0"
+                data-extra="${index}"
+                oninput="calculateTotal()"
+            >
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================
+   РАСЧЁТ
+========================================= */
+
+function calculateTotal() {
+
+    const name =
+        document.getElementById("greenhouse").value;
+
+    const length =
+        document.getElementById("greenhouseLength").value;
+
+    const greenhouse =
+        greenhouses[name];
+
+    const sale =
+        greenhouse.prices[length] || 0;
+
+
+    let extras =
+        0;
+
+
+    document
+        .querySelectorAll("[data-extra]")
+        .forEach(input => {
+
+            const index =
+                Number(input.dataset.extra);
+
+            const quantity =
+                Number(input.value) || 0;
+
+            extras +=
+                settings.extras[index].price *
+                quantity;
+
         });
 
-        tg.showAlert(
-            "🛒 В корзине: " + cart.length +
-            "\n\n💰 Сумма: " + total.toLocaleString("ru-RU") + " ₽"
-        );
+
+    const totalSale =
+        sale + extras;
+
+
+    /*
+       ЗДЕСЬ СЕБЕСТОИМОСТЬ.
+
+       Пока закупочные цены трубы,
+       поликарбоната и крепежа введены
+       вручную в разделе настроек.
+
+       Для полного автоматического расчёта
+       расход материала можно добавить
+       отдельными таблицами.
+    */
+
+    const cost =
+        calculateCost(length);
+
+
+    const profit =
+        totalSale - cost;
+
+
+    document.getElementById("extrasPrice")
+        .textContent = money(extras);
+
+    document.getElementById("salePrice")
+        .textContent = money(totalSale);
+
+    document.getElementById("costPrice")
+        .textContent = money(cost);
+
+    document.getElementById("profit")
+        .textContent = money(profit);
+
+}
+
+
+/* =========================================
+   СЕБЕСТОИМОСТЬ
+========================================= */
+
+function calculateCost(length) {
+
+    /*
+       Базовая логика:
+
+       длина × цена трубы
+       +
+       поликарбонат
+       +
+       крепёж.
+
+       Пока расход не задан,
+       считаем только введённые
+       пользователем расходы.
+
+       Дальше можно добавить точный
+       расход по каждой модели.
+    */
+
+    const pipe =
+        Number(settings.pipePrice) || 0;
+
+    const poly =
+        Number(settings.polyPrice) || 0;
+
+    const fastener =
+        Number(settings.fastenerPrice) || 0;
+
+
+    let pipeMeters =
+        Number(length) * 10;
+
+
+    let polyMeters =
+        Number(length) * 6;
+
+
+    return (
+        pipe * pipeMeters +
+        poly * polyMeters +
+        fastener
+    );
+
+}
+
+
+/* =========================================
+   НАСТРОЙКИ
+========================================= */
+
+function renderSettingsExtras() {
+
+    const container =
+        document.getElementById("settingsExtras");
+
+    container.innerHTML = "";
+
+
+    settings.extras.forEach((extra, index) => {
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "material-row";
+
+
+        row.innerHTML = `
+
+            <input
+                type="text"
+                value="${escapeHtml(extra.name)}"
+                onchange="changeExtraName(${index}, this.value)"
+            >
+
+            <input
+                type="number"
+                value="${extra.price}"
+                onchange="changeExtraPrice(${index}, this.value)"
+            >
+
+            <button
+                class="delete"
+                onclick="deleteExtra(${index})"
+            >
+                ❌
+            </button>
+
+        `;
+
+        container.appendChild(row);
+
+    });
+
+}
+
+
+function addExtraProduct() {
+
+    settings.extras.push({
+
+        name: "Новый товар",
+
+        price: 0,
+
+        image: ""
+
+    });
+
+
+    renderSettingsExtras();
+
+    renderExtraProducts();
+
+    saveSettings();
+
+}
+
+
+function deleteExtra(index) {
+
+    if (
+        !confirm(
+            "Удалить этот дополнительный товар?"
+        )
+    ) {
+
+        return;
+
     }
+
+
+    settings.extras.splice(index, 1);
+
+    renderSettingsExtras();
+
+    renderExtraProducts();
+
+    saveSettings();
+
+}
+
+
+function changeExtraName(index, value) {
+
+    settings.extras[index].name =
+        value;
+
+    saveSettings();
+
+    renderExtraProducts();
+
+}
+
+
+function changeExtraPrice(index, value) {
+
+    settings.extras[index].price =
+        Number(value) || 0;
+
+    saveSettings();
+
+    renderExtraProducts();
+
+    calculateTotal();
+
+}
+
+
+/* =========================================
+   СОХРАНЕНИЕ
+========================================= */
+
+function saveSettings() {
+
+    settings.pipePrice =
+        Number(
+            document.getElementById("pipePrice").value
+        ) || 0;
+
+
+    settings.polyPrice =
+        Number(
+            document.getElementById("polyPrice").value
+        ) || 0;
+
+
+    settings.fastenerPrice =
+        Number(
+            document.getElementById("fastenerPrice").value
+        ) || 0;
+
+
+    localStorage.setItem(
+        "greenhouse_settings",
+        JSON.stringify(settings)
+    );
+
+}
+
+
+function loadSettings() {
+
+    const saved =
+        localStorage.getItem(
+            "greenhouse_settings"
+        );
+
+
+    if (saved) {
+
+        try {
+
+            settings =
+                JSON.parse(saved);
+
+        } catch(e) {
+
+            console.log(e);
+
+        }
+
+    }
+
+
+    document.getElementById("pipePrice").value =
+        settings.pipePrice || 0;
+
+    document.getElementById("polyPrice").value =
+        settings.polyPrice || 0;
+
+    document.getElementById("fastenerPrice").value =
+        settings.fastenerPrice || 0;
+
+}
+
+
+/* =========================================
+   ВСПОМОГАТЕЛЬНЫЕ
+========================================= */
+
+function money(value) {
+
+    return Number(value || 0)
+        .toLocaleString("ru-RU") + " ₽";
+
+}
+
+
+function escapeHtml(text) {
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
 </script>
 
 </body>
