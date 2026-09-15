@@ -10,8 +10,8 @@ from telebot.apihelper import ApiTelegramException
 # ЧАСТЬ 1: НАСТРОЙКА БОТА И ПЕРЕМЕННЫХ
 # ==========================================
 # ВНИМАНИЕ! Аккуратно сотри текст внутри кавычек ниже и вставь свой токен:
-TOKEN = "СЮДА_ВСТАВЬ_ТОКЕН_ИЗ_BOTFATHER"
-bot = telebot.TeleBot(8955717735:AAEB6fi66bZXd6ff4ab31NeQqUWL5T5VSrI)
+TOKEN = "8955717735:AAEB6fi66bZXd6ff4ab31NeQqUWL5T5VSrI"
+bot = telebot.TeleBot()
 
 # Хранилище сессий пользователей (для Единого Окна)
 user_sessions = {}
