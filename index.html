@@ -1,583 +1,236 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Калькулятор теплиц — Полный</title>
+<meta name="theme-color" content="#198754">
+<title>Калькулятор теплиц — услуги и фото</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--g:#148a58;--g2:#0e7047;--bg:#f3f6f8;--card:#fff;--text:#1f2933;--muted:#68737d;--line:#e2e7eb;--red:#c83c3c;--blue:#3478c9;--shadow:0 5px 20px rgba(0,0,0,.07)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-body{padding-bottom:32px}
-button,input,select,textarea{font:inherit}
-button{border:0;cursor:pointer}
-.app{max-width:900px;margin:auto}
-.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
-.brand{font-weight:800;font-size:20px}
-.header small{color:var(--muted)}
-.page{padding:16px}
-.hidden{display:none!important}
-.hero{background:linear-gradient(135deg,#168b59,#0c6842);color:#fff;border-radius:28px;padding:25px 22px;margin-bottom:16px;box-shadow:var(--shadow)}
-.hero h1{font-size:30px;margin:0 0 10px}
-.hero p{font-size:17px;line-height:1.5;margin:0;opacity:.92}
-.btn{width:100%;min-height:58px;border-radius:18px;padding:13px 16px;font-weight:700;font-size:18px;margin:7px 0;background:var(--g);color:#fff}
-.btn.secondary{background:#eaf0f4;color:#20272d}
-.btn.dark{background:#27323a;color:#fff}
-.btn.red{background:#fff0f0;color:var(--red)}
-.btn.small{width:auto;min-height:40px;border-radius:12px;font-size:14px;margin:0;padding:8px 12px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-@media(max-width:560px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin:10px 0;box-shadow:var(--shadow)}
-.card h2,.card h3{margin:0 0 10px}
-.muted{color:var(--muted)}
-.row{display:flex;gap:10px;align-items:center;justify-content:space-between}
-.row>*{min-width:0}
-label{display:block;font-size:13px;font-weight:700;color:#5f6971;margin:12px 0 6px}
-input,select,textarea{width:100%;border:1px solid #ccd4da;background:#fff;border-radius:12px;padding:12px 13px;outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--g)}
-textarea{min-height:90px;resize:vertical}
-.tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 10px}
-.tab{white-space:nowrap;background:#e7edf0;border-radius:999px;padding:9px 13px;font-weight:700}
-.tab.active{background:var(--g);color:#fff}
-.model{position:relative;overflow:hidden}
-.model-img{height:145px;border-radius:15px;background:linear-gradient(135deg,#d9eee4,#a9d8c2);display:flex;align-items:center;justify-content:center;font-size:55px;margin-bottom:12px}
-.model .tag{position:absolute;top:26px;left:26px;background:#fff;padding:5px 8px;border-radius:8px;font-size:11px;font-weight:700}
-.price{font-size:23px;font-weight:800;color:var(--g)}
-.pills{display:flex;gap:7px;flex-wrap:wrap}
-.pill{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff}
-.pill.active{background:#e1f4eb;border-color:var(--g);color:var(--g2);font-weight:700}
-.qty{display:flex;align-items:center;gap:10px}
-.qty button{width:42px;height:42px;border-radius:12px;background:#e9eef1;font-size:25px}
-.qty b{min-width:30px;text-align:center}
-.service{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.service:last-child{border-bottom:0}
-.total{background:#173c2d;color:#fff;border-radius:20px;padding:18px}
-.total .big{font-size:32px;font-weight:900}
-.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.kpi div{background:#f0f4f6;border-radius:13px;padding:11px}
-.kpi b{display:block;font-size:18px;margin-top:4px}
-.list-item{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:12px 0}
-.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#222;color:#fff;border-radius:12px;padding:11px 16px;z-index:100;display:none}
-.notice{background:#fff8df;border:1px solid #efd98b;border-radius:14px;padding:12px;font-size:13px}
-.footer{padding:20px;text-align:center;color:var(--muted);font-size:12px}
-hr{border:0;border-top:1px solid var(--line);margin:16px 0}
-.check{display:flex;gap:10px;align-items:center;padding:8px 0}
-.check input{width:auto}
+*{box-sizing:border-box}
+:root{--bg:#f4f6f8;--card:#fff;--text:#202124;--muted:#73777d;--line:#e2e6e9;--green:#198754;--green2:#116b43;--soft:#edf8f1;--danger:#d63b3b}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+button,input,select{font:inherit}button{border:0;cursor:pointer;touch-action:manipulation}
+.app{max-width:820px;margin:auto;padding-bottom:35px}
+.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:12px 15px;display:flex;align-items:center;gap:10px}
+.header h1{margin:0;font-size:20px;flex:1}.back{width:42px;height:42px;border-radius:13px;background:#edf0f2;font-size:23px}
+.page{display:none;padding:15px}.page.active{display:block}
+.hero{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;padding:23px;border-radius:24px;margin-bottom:14px}
+.hero h2{font-size:27px;margin:0 0 8px}.hero p{margin:0;line-height:1.45;opacity:.92}
+.card{background:var(--card);border:1px solid rgba(0,0,0,.03);border-radius:20px;padding:15px;margin-bottom:13px;box-shadow:0 3px 16px rgba(0,0,0,.045)}
+.bigbtn{width:100%;padding:17px;border-radius:16px;background:var(--green);color:#fff;font-weight:800;font-size:16px;margin:5px 0}.bigbtn.secondary{background:#eaf0ec;color:#1e3026}
+.section-title{font-size:18px;font-weight:800;margin:4px 0 12px}.muted{color:var(--muted)}
+.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:6px;margin-bottom:12px}.tab{white-space:nowrap;background:#e9edef;padding:10px 13px;border-radius:12px}.tab.active{background:var(--green);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.model{padding:0;background:#fff;border:2px solid var(--line);border-radius:18px;overflow:hidden;text-align:left}.model:hover{border-color:var(--green)}
+.model-img{height:125px;background:linear-gradient(135deg,#dff2e6,#f7fbf8);display:flex;align-items:center;justify-content:center;font-size:55px}.model-body{padding:12px}.model-name{font-weight:800}.model-meta{font-size:12px;color:var(--muted);line-height:1.45;margin-top:5px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin-bottom:13px}label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
+input,select{width:100%;border:1px solid #d7dce0;background:#fff;border-radius:13px;padding:13px;outline:none}input:focus,select:focus{border-color:var(--green)}
+.option{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:15px;padding:12px;margin:8px 0}.option small{display:block;color:var(--muted);margin-top:3px}
+.counter{display:flex;align-items:center;gap:9px}.counter button{width:38px;height:38px;border-radius:12px;background:#edf0f2;font-size:22px}.counter b{min-width:22px;text-align:center}
+.switch{width:49px;height:29px;background:#d4d8db;border-radius:20px;position:relative;flex:none}.switch:after{content:"";position:absolute;left:3px;top:3px;width:23px;height:23px;border-radius:50%;background:#fff;transition:.2s}.switch.on{background:var(--green)}.switch.on:after{left:23px}
+.total{background:#f0f8f3;border:1px solid #cce6d6;border-radius:18px;padding:15px}.line{display:flex;justify-content:space-between;gap:10px;margin:8px 0}.line.final{font-size:21px;font-weight:900;border-top:1px solid #cce6d6;padding-top:12px;margin-top:12px}
+.price{font-size:28px;font-weight:900}.smallbtn{padding:10px 12px;border-radius:12px;background:#edf0f2}.danger{background:#ffeaea;color:var(--danger)}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.service{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:#fff}.service-img{height:135px;display:flex;align-items:center;justify-content:center}.service-img img{width:100%;height:100%;object-fit:cover}.service-body{padding:12px}.service-body h3{font-size:15px;margin:0 0 6px}.service-body p{font-size:12px;line-height:1.45;color:var(--muted);margin:0 0 9px}.service-foot{display:flex;justify-content:space-between;align-items:center;gap:6px}.service-price{font-weight:900}.info-btn{padding:8px 10px;border-radius:10px;background:#eef3ef;color:#205a3c;font-weight:700}
+.modal{display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);padding:18px;align-items:flex-end;justify-content:center}.modal.show{display:flex}.modal-box{width:100%;max-width:760px;max-height:88vh;overflow:auto;background:#fff;border-radius:24px;padding:16px}.modal-box img{width:100%;max-height:300px;object-fit:cover;border-radius:17px}.modal-close{float:right;width:40px;height:40px;border-radius:12px;background:#eef0f2;font-size:20px}
+.saved{border:1px solid var(--line);border-radius:15px;padding:13px;margin-bottom:9px}.empty{text-align:center;padding:30px;color:var(--muted)}
+.toast{position:fixed;z-index:100;left:50%;bottom:20px;transform:translate(-50%,20px);opacity:0;background:#202124;color:#fff;padding:12px 16px;border-radius:14px;transition:.2s;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kpi .card{margin:0}.kpi b{font-size:21px}
+@media(max-width:520px){.service-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.model-img{height:105px}.row{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="header">
-  <div><div class="brand">🌱 Теплицы</div><small id="pageTitle">Полный калькулятор</small></div>
-  <button class="btn small secondary" onclick="goHome()">Главная</button>
-</header>
+<header class="header"><button class="back" id="backBtn" data-action="back" style="display:none">‹</button><h1 id="headerTitle">Теплицы</h1></header>
 
-<main class="page">
-
-<section id="home">
-  <div class="hero">
-    <h1>Калькулятор теплиц</h1>
-    <p>Полный расчёт продажи, комплектации, дополнительных услуг, доставки, монтажа, себестоимости и прибыли.</p>
-  </div>
-  <button class="btn" onclick="openCatalog()">🧮 Рассчитать стоимость</button>
-  <button class="btn secondary" onclick="openSettings()">⚙️ Изменить закупочные цены</button>
-  <button class="btn secondary" onclick="openSaved()">💾 Сохранённые расчёты</button>
-  <button class="btn secondary" onclick="openExtrasManager()">➕ Управление дополнительными товарами</button>
-  <div class="notice">Цены в приложении — внутренняя база. Публичные цены сайта могут отличаться по региону, акции и комплектации. Все закупочные цены можно менять.</div>
+<main>
+<section id="home" class="page active">
+  <div class="hero"><h2>Калькулятор теплиц</h2><p>Размеры, поликарбонат, усиления, услуги, дополнительные товары, клиент и сохранение расчётов.</p></div>
+  <button class="bigbtn" data-action="open" data-page="catalog">🧮 Рассчитать стоимость</button>
+  <button class="bigbtn secondary" data-action="open" data-page="services">🛠️ Все услуги и фото</button>
+  <button class="bigbtn secondary" data-action="open" data-page="settings">⚙️ Изменить стоимость</button>
+  <button class="bigbtn secondary" data-action="open" data-page="saved">💾 Сохранённые расчёты</button>
 </section>
 
-<section id="catalog" class="hidden">
-  <div class="card">
-    <h2>Каталог теплиц</h2>
-    <div class="tabs" id="categoryTabs"></div>
-    <label>Поиск модели</label>
-    <input id="modelSearch" placeholder="Например: Сказка" oninput="renderModels()">
-  </div>
-  <div id="modelList"></div>
+<section id="catalog" class="page">
+  <div class="section-title">Выберите модель</div><div id="categoryTabs" class="tabs"></div><div id="models" class="grid"></div>
 </section>
 
-<section id="calc" class="hidden">
-  <div class="card">
-    <div class="row"><div><h2 id="calcModelName">Модель</h2><div class="muted" id="calcModelInfo"></div></div><button class="btn small secondary" onclick="openCatalog()">← Модели</button></div>
+<section id="calculator" class="page">
+  <div class="card"><div class="section-title" id="calcModelName">Теплица</div><div id="calcModelMeta" class="muted"></div></div>
+  <div class="card"><div class="section-title">Размер и покрытие</div><div class="row">
+    <div class="field"><label>Ширина</label><select id="width"></select></div><div class="field"><label>Длина</label><select id="length"></select></div>
+  </div><div class="field"><label>Поликарбонат</label><select id="poly"></select></div></div>
+
+  <div class="card"><div class="section-title">Двери и проветривание</div>
+    <div class="option"><div><b>Дополнительная дверь</b><small>Для второго входа</small></div><div class="counter"><button data-action="qty" data-key="doors" data-delta="-1">−</button><b id="doorsQty">0</b><button data-action="qty" data-key="doors" data-delta="1">+</button></div></div>
+    <div class="option"><div><b>Дополнительная форточка</b><small>Для усиления проветривания</small></div><div class="counter"><button data-action="qty" data-key="vents" data-delta="-1">−</button><b id="ventsQty">0</b><button data-action="qty" data-key="vents" data-delta="1">+</button></div></div>
+    <div class="option"><div><b>Автоматический открыватель</b><small>Автоматически открывает форточку</small></div><div class="counter"><button data-action="qty" data-key="auto" data-delta="-1">−</button><b id="autoQty">0</b><button data-action="qty" data-key="auto" data-delta="1">+</button></div></div>
   </div>
 
-  <div class="card">
-    <h3>📐 Размер</h3>
-    <label>Ширина</label>
-    <div class="pills" id="widths"></div>
-    <label>Длина</label>
-    <div class="pills" id="lengths"></div>
-    <label>Количество стяжек</label>
-    <input id="ties" type="number" min="0" value="8" oninput="recalc()">
+  <div class="card"><div class="section-title">Каркас и основание</div>
+    <div class="option"><div><b>Стяжки / усиление</b><small>Повышают жёсткость каркаса</small></div><div class="counter"><button data-action="qty" data-key="braces" data-delta="-1">−</button><b id="bracesQty">0</b><button data-action="qty" data-key="braces" data-delta="1">+</button></div></div>
+    <div class="option"><div><b>Брус под теплицу</b><small>Основание по периметру</small></div><div class="counter"><button data-action="qty" data-key="wood" data-delta="-1">−</button><b id="woodQty">0</b><button data-action="qty" data-key="wood" data-delta="1">+</button></div></div>
   </div>
 
-  <div class="card">
-    <h3>🧱 Поликарбонат</h3>
-    <div id="polyList" class="pills"></div>
+  <div class="card"><div class="section-title">Дополнительные товары</div><div id="calcServices" class="service-grid"></div></div>
+
+  <div class="card"><div class="section-title">Монтаж и доставка</div>
+    <div class="option"><div><b>Монтаж</b><small>Сборка на участке</small></div><div id="assemblySwitch" class="switch" data-action="service" data-key="assembly"></div></div>
+    <div class="option"><div><b>Доставка</b><small>Стоимость вводится вручную</small></div><div id="deliverySwitch" class="switch" data-action="service" data-key="delivery"></div></div>
+    <div id="deliveryField" class="field" style="display:none"><label>Доставка, ₽</label><input id="delivery" type="number" min="0" value="0"></div>
   </div>
 
-  <div class="card">
-    <h3>🚪 Двери и форточки</h3>
-    <div class="service"><span>Стандартные торцевые двери</span><b id="stdDoors">2</b></div>
-    <div class="service"><span>Дополнительные двери</span><div class="qty"><button onclick="changeQty('doors',-1)">−</button><b id="doors">0</b><button onclick="changeQty('doors',1)">+</button></div></div>
-    <div class="service"><span>Дополнительные форточки</span><div class="qty"><button onclick="changeQty('vents',-1)">−</button><b id="vents">0</b><button onclick="changeQty('vents',1)">+</button></div></div>
-    <div class="service"><span>Автоматы проветривания</span><div class="qty"><button onclick="changeQty('auto',-1)">−</button><b id="auto">0</b><button onclick="changeQty('auto',1)">+</button></div></div>
-    <div class="service"><span>Двери с форточкой</span><div class="qty"><button onclick="changeQty('doorVent',-1)">−</button><b id="doorVent">0</b><button onclick="changeQty('doorVent',1)">+</button></div></div>
-    <div class="service"><span>Автомат для двери</span><div class="qty"><button onclick="changeQty('doorAuto',-1)">−</button><b id="doorAuto">0</b><button onclick="changeQty('doorAuto',1)">+</button></div></div>
-  </div>
-
-  <div class="card">
-    <h3>🔩 Усиление и комплектация</h3>
-    <div class="service"><span>Дополнительные дуги</span><div class="qty"><button onclick="changeQty('arcs',-1)">−</button><b id="arcs">0</b><button onclick="changeQty('arcs',1)">+</button></div></div>
-    <div class="service"><span>Дополнительные стяжки</span><div class="qty"><button onclick="changeQty('tiesExtra',-1)">−</button><b id="tiesExtra">0</b><button onclick="changeQty('tiesExtra',1)">+</button></div></div>
-    <div class="service"><span>Перегородки</span><div class="qty"><button onclick="changeQty('partitions',-1)">−</button><b id="partitions">0</b><button onclick="changeQty('partitions',1)">+</button></div></div>
-  </div>
-
-  <div class="card">
-    <h3>🛒 Дополнительные товары</h3>
-    <div id="extrasList"></div>
-  </div>
-
-  <div class="card">
-    <h3>🔨 Монтаж</h3>
-    <label class="check"><input id="assembly" type="checkbox" onchange="recalc()"> Нужна сборка</label>
-    <label>Тип монтажа</label>
-    <select id="assemblyType" onchange="recalc()">
-      <option value="standard">Стандартная до 3 м</option>
-      <option value="wide">Широкая от 3,5 м — по м²</option>
-      <option value="custom">Индивидуальная / договорная</option>
-    </select>
-  </div>
-
-  <div class="card">
-    <h3>🚚 Доставка</h3>
-    <label class="check"><input id="delivery" type="checkbox" onchange="recalc()"> Нужна доставка</label>
-    <label>Расстояние, км</label>
-    <input id="km" type="number" min="0" value="0" oninput="recalc()">
-    <label class="check"><input id="loading" type="checkbox" onchange="recalc()"> Погрузочно-разгрузочные работы</label>
-  </div>
-
-  <div class="card">
-    <h3>💰 Продажа</h3>
-    <label>Скидка, %</label>
-    <input id="discount" type="number" min="0" max="100" value="0" oninput="recalc()">
-    <label>Ручная корректировка цены продажи, ₽</label>
-    <input id="saleAdjust" type="number" value="0" oninput="recalc()">
-  </div>
-
-  <div class="card">
-    <h3>👤 Клиент</h3>
-    <input id="clientName" placeholder="ФИО / название клиента">
-    <input id="clientPhone" placeholder="Телефон" style="margin-top:8px">
-    <input id="clientAddress" placeholder="Адрес доставки" style="margin-top:8px">
-    <textarea id="clientNote" placeholder="Комментарий" style="margin-top:8px"></textarea>
-  </div>
-
-  <div class="total">
-    <div class="muted" style="color:#b9d5c9">ИТОГО К ОПЛАТЕ</div>
-    <div class="big" id="totalSale">0 ₽</div>
-    <div class="kpi">
-      <div>Себестоимость<b id="cost">0 ₽</b></div>
-      <div>Прибыль<b id="profit">0 ₽</b></div>
-      <div>Маржа<b id="margin">0%</b></div>
-    </div>
-  </div>
-  <button class="btn" onclick="saveCalc()">💾 Сохранить расчёт</button>
-  <button class="btn secondary" onclick="shareCalc()">📤 Поделиться расчётом</button>
-  <button class="btn secondary" onclick="printCalc()">🖨️ Печать / PDF</button>
+  <div class="total"><div class="line"><span>Базовая теплица</span><b id="framePrice">0 ₽</b></div><div class="line"><span>Поликарбонат</span><b id="polyPrice">0 ₽</b></div><div class="line"><span>Опции</span><b id="optionsPrice">0 ₽</b></div><div class="line"><span>Монтаж</span><b id="assemblyPrice">0 ₽</b></div><div class="line"><span>Доставка</span><b id="deliveryPrice">0 ₽</b></div><div class="line final"><span>Итого</span><b id="totalPrice">0 ₽</b></div></div>
+  <button class="bigbtn" data-action="open" data-page="client">Продолжить →</button>
 </section>
 
-<section id="settings" class="hidden">
-  <div class="card">
-    <h2>⚙️ Закупочные цены</h2>
-    <div class="notice">Это твои внутренние цены. Они не меняют публичный сайт. Значения сохраняются в памяти браузера.</div>
-    <label>Труба 20×20, ₽/м</label><input id="p20" type="number">
-    <label>Труба 40×20, ₽/м</label><input id="p40" type="number">
-    <label>Поликарбонат 4 мм, ₽/м²</label><input id="pc4" type="number">
-    <label>Поликарбонат 6 мм, ₽/м²</label><input id="pc6" type="number">
-    <label>Поликарбонат 8 мм, ₽/м²</label><input id="pc8" type="number">
-    <label>Крепёж, ₽/комплект</label><input id="fasteners" type="number">
-    <label>Брус, ₽/комплект</label><input id="wood" type="number">
-    <label>Монтаж, ₽/час</label><input id="laborHour" type="number">
-    <label>Доставка, ₽/км</label><input id="deliveryKm" type="number">
-    <label>Погрузочно-разгрузочные, ₽</label><input id="loadingPrice" type="number">
-    <label>Широкий монтаж, ₽/м²</label><input id="wideAssembly" type="number">
-    <label>Стандартный монтаж 4 м, ₽</label><input id="a4" type="number">
-    <label>Стандартный монтаж 6 м, ₽</label><input id="a6" type="number">
-    <label>Стандартный монтаж 8 м, ₽</label><input id="a8" type="number">
-    <label>Стандартный монтаж 10 м, ₽</label><input id="a10" type="number">
-    <button class="btn" onclick="saveSettings()">💾 Сохранить цены</button>
-    <button class="btn red" onclick="resetSettings()">↺ Сбросить к базовым</button>
-  </div>
-  <div class="card">
-    <h3>💵 Цены моделей</h3>
-    <div id="modelPricesEditor"></div>
-  </div>
+<section id="services" class="page">
+  <div class="card"><div class="section-title">Услуги и дополнительные товары</div><p class="muted">У каждой позиции есть фото/иллюстрация, цена и понятное описание — нажми «Подробнее».</p></div>
+  <div id="servicesGrid" class="service-grid"></div>
 </section>
 
-<section id="extrasManager" class="hidden">
-  <div class="card">
-    <h2>➕ Дополнительные товары</h2>
-    <label>Название</label><input id="newExtraName">
-    <label>Цена</label><input id="newExtraPrice" type="number">
-    <label>Единица</label><input id="newExtraUnit" value="шт">
-    <button class="btn" onclick="addExtra()">Добавить товар</button>
+<section id="client" class="page">
+  <div class="card"><div class="section-title">Данные клиента</div>
+    <div class="field"><label>Имя</label><input id="clientName" placeholder="Иван"></div>
+    <div class="field"><label>Телефон</label><input id="clientPhone" placeholder="+7 ..."></div>
+    <div class="field"><label>Комментарий</label><input id="clientComment" placeholder="Адрес, пожелания..."></div>
   </div>
-  <div class="card"><div id="managerList"></div></div>
+  <div class="card"><div class="section-title">Итог</div><div class="price" id="clientTotal">0 ₽</div><div id="clientSummary" class="muted"></div></div>
+  <button class="bigbtn" data-action="save">💾 Сохранить расчёт</button><button class="bigbtn secondary" data-action="share">📤 Поделиться</button>
 </section>
 
-<section id="saved" class="hidden">
-  <div class="card"><h2>💾 Сохранённые расчёты</h2><div id="savedList"></div></div>
-</section>
+<section id="saved" class="page"><div class="section-title">Сохранённые расчёты</div><div id="savedList"></div></section>
 
+<section id="settings" class="page">
+  <div class="card"><div class="section-title">Внутренние закупочные цены</div>
+    <div class="field"><label>Труба, ₽/м</label><input id="setPipe" type="number" min="0"></div>
+    <div class="field"><label>Поликарбонат, ₽/м²</label><input id="setPoly" type="number" min="0"></div>
+    <div class="field"><label>Крепёж, ₽</label><input id="setFastener" type="number" min="0"></div>
+    <div class="field"><label>Брус, ₽/м</label><input id="setWood" type="number" min="0"></div>
+    <div class="field"><label>Монтаж, ₽/м</label><input id="setAssembly" type="number" min="0"></div>
+    <button class="bigbtn" data-action="save-settings">Сохранить цены</button>
+  </div>
+  <div class="card"><div class="section-title">Редактирование услуг</div><div id="settingsExtras"></div></div>
+  <div class="card"><div class="section-title">Добавить свою услугу</div><div class="row"><input id="newExtraName" placeholder="Название"><input id="newExtraPrice" type="number" placeholder="Цена"></div><button class="bigbtn" data-action="add-extra">＋ Добавить</button></div>
+  <button class="smallbtn danger" data-action="reset">Сбросить настройки</button>
+</section>
 </main>
-<div class="footer">Внутренний калькулятор. Данные хранятся локально на устройстве.</div>
-<div class="toast" id="toast"></div>
 </div>
 
+<div id="serviceModal" class="modal"><div class="modal-box"><button class="modal-close" data-action="close-modal">×</button><img id="modalImg"><h2 id="modalTitle"></h2><p id="modalDesc" class="muted"></p><b id="modalPrice" class="price"></b><button class="bigbtn" data-action="close-modal">Понятно</button></div></div>
+<div id="toast" class="toast"></div>
+
 <script>
-const MODELS = [{"name": "Счастье Садовода", "category": "Арочные", "widths": [3], "height": 2.1, "frame": "40×20, одинарная дуга", "snow": "100 мм", "prices": [19700, 27300, 36200, 44900, 53900]}, {"name": "Звезда", "category": "Арочные", "widths": [2, 2.5, 3], "height": 2.1, "frame": "20×20 + 20×20, двойная дуга", "snow": "250 мм", "prices": [23900, 33600, 44600, 55700, 66700]}, {"name": "Усиленная", "category": "Арочные", "widths": [2.5, 3], "height": 2.1, "frame": "40×20 + 20×20, двойная дуга", "snow": "250 мм", "prices": [31100, 44600, 59400, 74500, 89400]}, {"name": "Квадратная", "category": "Арочные", "widths": [2, 2.5], "height": 1.9, "frame": "40×20, одинарная дуга", "snow": "100 мм", "prices": [21300, 29800, 39500, 49300, 59300]}, {"name": "Сказка", "category": "Арочные", "widths": [2, 2.5, 3], "height": 2.2, "frame": "40×20 + 20×20", "snow": "до 500 мм", "prices": [28800, 42100, 56500, 71300, 86000]}, {"name": "Сказка Титан", "category": "Арочные", "widths": [3, 3.5, 4], "height": 2.4, "frame": "40×20 + 40×20, двойная дуга", "snow": "500 мм", "prices": [51200, 72100, 94500, 117200, 139900]}, {"name": "Пристенная", "category": "Пристенные", "widths": [2.5, 3], "height": 2.5, "frame": "усиленный каркас", "snow": "зависит от исполнения", "prices": [45000, 62000, 79000, 96000, 113000]}, {"name": "Промышленная", "category": "Промышленные", "widths": [4, 4.5, 5, 6, 7], "height": 3.0, "frame": "40×20 + 40×20, двойная дуга", "snow": "промышленная", "prices": [90900, 114100, 137400, 160500, 183800]}, {"name": "Миттлайдер", "category": "Специальные", "widths": [2.5, 3, 3.5], "height": 2.6, "frame": "40×20 + 20×20, двойная дуга", "snow": "250 мм", "prices": [36500, 51500, 67500, 83700, 99800]}, {"name": "Каплевидная", "category": "Двускатные", "widths": [2.5, 3, 3.5, 4], "height": 2.4, "frame": "40×20, две полуарки", "snow": "1200 кг/м²", "prices": [28900, 37200, 46800, 56300, 65700]}, {"name": "Капелька", "category": "Двускатные", "widths": [2.5, 3, 3.5, 4], "height": 2.4, "frame": "40×20", "snow": "по исполнению", "prices": [30000, 39000, 49000, 59000, 69000]}, {"name": "Алтайская сказка", "category": "Двускатные", "widths": [2.5, 3, 3.5, 4], "height": 2.75, "frame": "40×20 + 20×20, двойная", "snow": "320 кг/м²", "prices": [45100, 62700, 81400, 100700, 119600]}, {"name": "Терем", "category": "Двускатные", "widths": [2.5, 3], "height": 2.75, "frame": "40×20, одинарная", "snow": "225/305 кг/м²", "prices": [43000, 59000, 76000, 93000, 109000]}];
-const DEFAULT_EXTRAS = [{"name": "Дополнительная форточка", "price": 1500, "unit": "шт"}, {"name": "Автомат для проветривания", "price": 2950, "unit": "шт"}, {"name": "Паро-пропускающая лента", "price": 1650, "unit": "шт"}, {"name": "Брус для теплицы", "price": 6990, "unit": "комплект"}, {"name": "Дополнительная дверь", "price": 4500, "unit": "шт"}, {"name": "Дополнительная форточка с автоматом", "price": 4450, "unit": "шт"}, {"name": "Грядка оцинкованная", "price": 3500, "unit": "шт"}, {"name": "Грядка с полимерным покрытием", "price": 4200, "unit": "шт"}, {"name": "Перегородка внутри теплицы", "price": 4500, "unit": "шт"}, {"name": "Торцевой профиль", "price": 900, "unit": "комплект"}, {"name": "Крепёжный комплект", "price": 1200, "unit": "комплект"}, {"name": "Анкерное крепление", "price": 1800, "unit": "комплект"}, {"name": "Пароизоляционная лента", "price": 1650, "unit": "комплект"}, {"name": "Уплотнительная лента", "price": 900, "unit": "комплект"}, {"name": "Подвязка растений", "price": 650, "unit": "комплект"}, {"name": "Полка", "price": 2200, "unit": "шт"}, {"name": "Стеллаж", "price": 3900, "unit": "шт"}, {"name": "Система подвязки", "price": 2500, "unit": "комплект"}, {"name": "Дверь с форточкой", "price": 6500, "unit": "шт"}, {"name": "Автомат для двери", "price": 4500, "unit": "шт"}];
-const POLY = [{"name": "4 мм Стандарт+", "add": 0, "mult": 1.0}, {"name": "4 мм Ультра-Премиум", "add": 6200, "mult": 1.0}, {"name": "6 мм Стандарт+", "add": 7000, "mult": 1.05}, {"name": "6 мм Ультра-Премиум", "add": 11000, "mult": 1.1}, {"name": "8 мм Премиум", "add": 18000, "mult": 1.18}];
-
-const DEFAULT_SETTINGS = {
-  p20:120,p40:190,pc4:450,pc6:650,pc8:900,fasteners:1200,wood:6990,
-  laborHour:700,deliveryKm:55,loadingPrice:900,wideAssembly:700,
-  a4:9900,a6:11900,a8:13900,a10:15900
-};
-
-let extras = JSON.parse(localStorage.getItem('green_extras') || 'null') || DEFAULT_EXTRAS.map(x=>({...x}));
-let settings = JSON.parse(localStorage.getItem('green_settings') || 'null') || {...DEFAULT_SETTINGS};
-let selectedCategory='Все', selectedModel=null;
-let state = {
-  width:3,length:6,poly:0,ties:8,doors:0,vents:0,auto:0,doorVent:0,doorAuto:0,
-  arcs:0,tiesExtra:0,partitions:0,extras:{}
-};
-
-function tgReady(){
-  try{
-    if(window.Telegram && Telegram.WebApp){
-      Telegram.WebApp.ready();
-      Telegram.WebApp.expand();
-    }
-  }catch(e){}
+const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
+const models=[{"name": "Счастье Садовода", "cat": "Арочные", "widths": [3], "lengths": [2, 4, 6, 8, 10], "frame": "40×20", "emoji": "🌱"}, {"name": "Звезда", "cat": "Арочные", "widths": [2, 2.5, 3], "lengths": [2, 4, 6, 8, 10], "frame": "20×20 + 20×20", "emoji": "⭐"}, {"name": "Усиленная", "cat": "Арочные", "widths": [2.5, 3, 4], "lengths": [2, 4, 6, 8, 10], "frame": "40×20 + 20×20", "emoji": "💪"}, {"name": "Квадратная", "cat": "Прямостенные", "widths": [2, 2.5], "lengths": [2, 4, 6, 8, 10], "frame": "усиленный", "emoji": "▣"}, {"name": "Сказка", "cat": "Арочные", "widths": [2, 2.5, 3], "lengths": [2, 4, 6, 8, 10], "frame": "40×20", "emoji": "🏡"}, {"name": "Сказка Титан", "cat": "Арочные", "widths": [3, 3.5, 4], "lengths": [2, 4, 6, 8, 10], "frame": "40×20 + 40×20", "emoji": "🛡️"}, {"name": "Пристенная", "cat": "Специальные", "widths": [2.5, 3], "lengths": [2, 4, 6, 8, 10], "frame": "усиленный", "emoji": "🏠"}, {"name": "Промышленная", "cat": "Промышленные", "widths": [4, 4.5, 5, 6, 7], "lengths": [4, 6, 8, 10, 12], "frame": "40×20 + 40×20", "emoji": "🏭"}, {"name": "Миттлайдер", "cat": "Специальные", "widths": [3, 3.5, 4], "lengths": [4, 6, 8, 10], "frame": "усиленный", "emoji": "🌤️"}, {"name": "Каплевидная", "cat": "Каплевидные", "widths": [2.5, 3], "lengths": [4, 6, 8, 10], "frame": "40×20", "emoji": "💧"}, {"name": "Алтайская сказка", "cat": "Каплевидные", "widths": [3, 3.5, 4], "lengths": [4, 6, 8, 10], "frame": "40×20 + 20×20", "emoji": "🏔️"}, {"name": "Терем", "cat": "Специальные", "widths": [2.5, 3], "lengths": [4, 6, 8, 10], "frame": "усиленный", "emoji": "🏰"}, {"name": "Парник Звезда", "cat": "Парники", "widths": [2], "lengths": [2, 4, 6, 8, 10], "frame": "20×20 + 20×20", "emoji": "🌿"}, {"name": "Парник Сказка", "cat": "Парники", "widths": [2.5], "lengths": [2, 4, 6, 8, 10], "frame": "40×20", "emoji": "🌾"}, {"name": "Квадратный парник", "cat": "Парники", "widths": [2], "lengths": [2, 4, 6, 8, 10], "frame": "усиленный", "emoji": "⬜"}];
+const services=[{"id": "extraVent", "name": "Дополнительная форточка", "price": 1500, "desc": "Дополнительное проветривание теплицы. Удобна, если штатных отверстий недостаточно.", "title": "Форточка", "bg": "#dff3e7", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI0MCIgeT0iNjAiIHdpZHRoPSI1MjAiIGhlaWdodD0iMTkwIiByeD0iMjQiIGZpbGw9IiNmN2ZiZjgiIHN0cm9rZT0iIzdmOGQ4NiIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTcwIDIzNSBRMzAwIDMwIDUzMCAyMzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhiOTY5MCIgc3Ryb2tlLXdpZHRoPSIxMCIvPjxyZWN0IHg9IjIxMCIgeT0iOTUiIHdpZHRoPSIxODAiIGhlaWdodD0iOTAiIHJ4PSIxMCIgZmlsbD0iI2NmZTlkZiIgc3Ryb2tlPSIjNGU2NDVhIiBzdHJva2Utd2lkdGg9IjciLz48cGF0aCBkPSJNMjIwIDE4NSBMMzgwIDk1IiBzdHJva2U9IiM0ZTY0NWEiIHN0cm9rZS13aWR0aD0iNyIvPjwvc3ZnPg=="}, {"id": "opener", "name": "Автоматический открыватель", "price": 2950, "desc": "Сам открывает и закрывает форточку при изменении температуры. Не нужно постоянно следить вручную.", "title": "Автомат", "bg": "#e8f5df", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNjAgMjM1IFEzMDAgMzUgNTQwIDIzNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNmU3Yzc1IiBzdHJva2Utd2lkdGg9IjEyIi8+PHJlY3QgeD0iMTkwIiB5PSIxMjUiIHdpZHRoPSIyMjAiIGhlaWdodD0iNTUiIHJ4PSIxOCIgZmlsbD0iIzhiYjM3YSIvPjxjaXJjbGUgY3g9IjIyNSIgY3k9IjE1MiIgcj0iMTgiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIzNzUiIGN5PSIxNTIiIHI9IjE4IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTMwMCAxMjUgVjgwIiBzdHJva2U9IiM0ZTYyNTciIHN0cm9rZS13aWR0aD0iMTAiLz48L3N2Zz4="}, {"id": "tape", "name": "Паропропускающая лента", "price": 1650, "desc": "Закрывает торцы каналов поликарбоната от грязи и насекомых, при этом помогает выводить конденсат.", "title": "Паро-пропускающая лента", "bg": "#eef4f7", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI5NSIgeT0iNzAiIHdpZHRoPSI0MTAiIGhlaWdodD0iMTUwIiByeD0iMjIiIGZpbGw9IiNkN2VhZjIiIHN0cm9rZT0iIzYyNzc4MyIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHJlY3QgeD0iMTIwIiB5PSI5OCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSI5NSIgcng9IjE1IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIuNzUiLz48cGF0aCBkPSJNMTQ1IDE0NSBoNDUgbTIwIDAgaDQ1IG0yMCAwIGg0NSBtMjAgMCBoNDUiIHN0cm9rZT0iIzVmODM5MyIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"}, {"id": "profile", "name": "Торцевой профиль", "price": 100, "desc": "Защищает край листа поликарбоната и делает торец аккуратнее и долговечнее.", "title": "Торцевой профиль", "bg": "#f2f0e8", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTQwIDU1IEw0NjUgNTUgTDQ2NSAyNDUgTDE0MCAyNDUgWiIgZmlsbD0iI2U4ZTJjZiIgc3Ryb2tlPSIjNmY2YjVmIiBzdHJva2Utd2lkdGg9IjkiLz48cGF0aCBkPSJNMTkwIDU1IFYyNDUgTTI0MCA1NSBWMjQ1IE0yOTAgNTUgVjI0NSIgc3Ryb2tlPSIjOWE5NDg0IiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNMTIwIDI0NSBINDgwIiBzdHJva2U9IiM0ZjUxNGUiIHN0cm9rZS13aWR0aD0iMTYiLz48L3N2Zz4="}, {"id": "drip", "name": "Система капельного полива", "price": 1200, "desc": "Подаёт воду непосредственно к растениям небольшими порциями и помогает экономить воду.", "title": "Капельный полив", "bg": "#e4f2ff", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNODAgMTAwIEg1MjAiIHN0cm9rZT0iIzRkODZiZCIgc3Ryb2tlLXdpZHRoPSIxOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTEzMCAxMDAgVjIyNSBNMjQwIDEwMCBWMjI1IE0zNTAgMTAwIFYyMjUgTTQ2MCAxMDAgVjIyNSIgc3Ryb2tlPSIjNmFhMmQxIiBzdHJva2Utd2lkdGg9IjEwIi8+PHBhdGggZD0iTTEzMCAyMjAgQzExNSAyNDUgMTQ1IDI2NSAxMzAgMjY1IEMxMTUgMjY1IDExNSAyNDUgMTMwIDIyMCBNMjQwIDIyMCBDMjI1IDI0NSAyNTUgMjY1IDI0MCAyNjUgQzIyNSAyNjUgMjI1IDI0NSAyNDAgMjIwIE0zNTAgMjIwIEMzMzUgMjQ1IDM2NSAyNjUgMzUwIDI2NSBDMzM1IDI2NSAzMzUgMjQ1IDM1MCAyMjAgTTQ2MCAyMjAgQzQ0NSAyNDUgNDc1IDI2NSA0NjAgMjY1IEM0NDUgMjY1IDQ0NSAyNDUgNDYwIDIyMCIgZmlsbD0iIzZhYTJkMSIvPjwvc3ZnPg=="}, {"id": "timer", "name": "Таймер капельного полива", "price": 3300, "desc": "Автоматизирует включение полива по расписанию. Можно использовать вместе с фильтром.", "title": "Таймер с фильтром", "bg": "#edf4ff", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMDAiIGN5PSIxNDUiIHI9Ijk1IiBmaWxsPSIjZjhmYmZmIiBzdHJva2U9IiM1NTcxOGQiIHN0cm9rZS13aWR0aD0iMTIiLz48cGF0aCBkPSJNMzAwIDE0NSBMMzAwIDg1IE0zMDAgMTQ1IEwzNTAgMTcwIiBzdHJva2U9IiM1NTcxOGQiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxyZWN0IHg9IjQzMCIgeT0iMTEwIiB3aWR0aD0iOTAiIGhlaWdodD0iNzAiIHJ4PSIxMiIgZmlsbD0iI2I4ZDNlOCIgc3Ryb2tlPSIjNTU3MThkIiBzdHJva2Utd2lkdGg9IjciLz48cGF0aCBkPSJNOTAgMTQ1IEgyMDUiIHN0cm9rZT0iIzU1NzE4ZCIgc3Ryb2tlLXdpZHRoPSIxNCIvPjwvc3ZnPg=="}, {"id": "stake", "name": "Оцинкованная свая", "price": 200, "desc": "Помогает закрепить основание теплицы в грунте без бетонного фундамента.", "title": "Оцинкованная свая", "bg": "#f0f0f0", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjQwIDQ1IEgzNjAgVjE3NSBMMzAwIDI2MCBMMjQwIDE3NSBaIiBmaWxsPSIjY2JkMGQyIiBzdHJva2U9IiM1ZjY3NmIiIHN0cm9rZS13aWR0aD0iMTAiLz48cGF0aCBkPSJNMjcwIDc1IEgzMzAgTTI3MCAxMTAgSDMzMCBNMjcwIDE0NSBIMzMwIiBzdHJva2U9IiM4YjkzOTciIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik0xMzAgMjYwIEg0NzAiIHN0cm9rZT0iIzZhNTU0MyIgc3Ryb2tlLXdpZHRoPSIxOCIvPjwvc3ZnPg=="}, {"id": "mole", "name": "Сетка от кротов", "price": 2900, "desc": "Защищает грядки от проникновения кротов снизу. Укладывается под основанием.", "title": "Сетка от кротов", "bg": "#eef8ea", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI5MCIgeT0iNTUiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTkwIiBmaWxsPSIjZGNlYmQ2IiBzdHJva2U9IiM2MTcwNWMiIHN0cm9rZS13aWR0aD0iNyIvPjxwYXRoIGQ9Ik05MCA4MCBINTEwIE05MCAxMTUgSDUxMCBNOTAgMTUwIEg1MTAgTTkwIDE4NSBINTEwIE05MCAyMjAgSDUxMCBNMTIwIDU1IFYyNDUgTTE2MCA1NSBWMjQ1IE0yMDAgNTUgVjI0NSBNMjQwIDU1IFYyNDUgTTI4MCA1NSBWMjQ1IE0zMjAgNTUgVjI0NSBNMzYwIDU1IFYyNDUgTTQwMCA1NSBWMjQ1IE00NDAgNTUgVjI0NSBNNDgwIDU1IFYyNDUiIHN0cm9rZT0iIzZmOGI2NyIgc3Ryb2tlLXdpZHRoPSI0Ii8+PC9zdmc+"}, {"id": "mesh", "name": "Садовая сетка", "price": 1900, "desc": "Подходит для подвязки растений, поддержки огурцов, томатов и других культур.", "title": "Садовая сетка", "bg": "#edf6ec", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAwIDI0NSBMMTUwIDY1IE01MDAgMjQ1IEw0NTAgNjUiIHN0cm9rZT0iIzY1Nzc1ZiIgc3Ryb2tlLXdpZHRoPSIxMCIvPjxwYXRoIGQ9Ik0xNTAgNjUgSDQ1MCBNMTI1IDEwNSBINDc1IE0xMTUgMTQ1IEg0ODUgTTEwNSAxODUgSDQ5NSBNMTAwIDIyNSBINTAwIiBzdHJva2U9IiM3ODkwNzAiIHN0cm9rZS13aWR0aD0iNiIvPjxwYXRoIGQ9Ik0xNTAgNjUgTDEyNSAxMDUgTDExNSAxNDUgTDEwNSAxODUgTDEwMCAyMjUgTTQ1MCA2NSBMNDc1IDEwNSBMNDg1IDE0NSBMNDk1IDE4NSBMNTAwIDIyNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzg5MDcwIiBzdHJva2Utd2lkdGg9IjYiLz48L3N2Zz4="}, {"id": "wood", "name": "Брус для основания", "price": 6990, "desc": "Деревянное основание упрощает установку и помогает выставить теплицу по уровню.", "title": "Брус для основания", "bg": "#f7efe4", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI5MCIgeT0iNzUiIHdpZHRoPSI0MjAiIGhlaWdodD0iMTU1IiByeD0iOCIgZmlsbD0iI2E4Nzk0ZSIgc3Ryb2tlPSIjNmU0ZDMyIiBzdHJva2Utd2lkdGg9IjEwIi8+PHBhdGggZD0iTTEyMCAxMDUgQzE5MCA4NSAyMzAgMTM1IDMwMCAxMDUgQzM3MCA3NSA0MjAgMTM1IDQ4MCAxMDUgTTEyMCAxNjUgQzE5MCAxNDUgMjMwIDE5NSAzMDAgMTY1IEMzNzAgMTM1IDQyMCAxOTUgNDgwIDE2NSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDNhNzdiIiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4="}, {"id": "partition", "name": "Перегородка с покрытием", "price": 4500, "desc": "Разделяет теплицу на зоны, например для разных культур или температурных режимов.", "title": "Перегородка", "bg": "#edf4ed", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI5MCIgeT0iNTAiIHdpZHRoPSI0MjAiIGhlaWdodD0iMjA1IiBmaWxsPSIjZDhlYWRjIiBvcGFjaXR5PSIuNyIgc3Ryb2tlPSIjNTk3NDVmIiBzdHJva2Utd2lkdGg9IjEwIi8+PHBhdGggZD0iTTMwMCA1MCBWMjU1IiBzdHJva2U9IiM1OTc0NWYiIHN0cm9rZS13aWR0aD0iMTIiLz48cGF0aCBkPSJNMTIwIDIyMCBINDgwIiBzdHJva2U9IiM1OTc0NWYiIHN0cm9rZS13aWR0aD0iOCIvPjwvc3ZnPg=="}, {"id": "braces", "name": "Стяжки / усиление каркаса", "price": 1600, "desc": "Продольные и поперечные элементы связывают каркас, уменьшают раскачивание и повышают жёсткость.", "title": "Стяжки / усиление", "bg": "#e9f0ff", "img": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjAwIDMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNODAgMjQwIFEzMDAgMjUgNTIwIDI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNjk3NzgzIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTEwNSAxOTAgSDQ5NSBNMTM1IDE0NSBINDY1IE0xNzUgMTA1IEg0MjUiIHN0cm9rZT0iIzM5NzVjNCIgc3Ryb2tlLXdpZHRoPSIxMiIvPjxwYXRoIGQ9Ik04MCAyNDAgVjgwIE01MjAgMjQwIFY4MCIgc3Ryb2tlPSIjNjk3NzgzIiBzdHJva2Utd2lkdGg9IjEyIi8+PC9zdmc+"}];
+const defaults={pipe:190,poly:420,fastener:1200,wood:650,assembly:700};
+let settings=Object.assign({},defaults,JSON.parse(localStorage.getItem("greenhouseSettingsV2")||"null")||{});
+let state={page:"home",model:null,width:null,length:null,poly:"4 мм Стандарт+",qty:{doors:0,vents:0,auto:0,braces:0,wood:0},services:{assembly:false,delivery:false},extraQty:{}};
+const extraPrices=Object.fromEntries(services.map(x=>[x.id,x.price]));
+function money(n){return Math.round(Number(n)||0).toLocaleString("ru-RU")+" ₽"}
+function toast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>x.classList.remove("show"),2200)}
+function openPage(id){
+  state.page=id;document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");
+  document.getElementById("backBtn").style.display=id==="home"?"none":"block";
+  const titles={home:"Теплицы",catalog:"Модели",calculator:"Расчёт",services:"Услуги",client:"Клиент",saved:"Расчёты",settings:"Настройки"};
+  document.getElementById("headerTitle").textContent=titles[id]||"Теплицы";
+  if(id==="catalog")renderCatalog();if(id==="calculator")renderCalculator();if(id==="services")renderServices();if(id==="client")renderClient();if(id==="saved")renderSaved();if(id==="settings")renderSettings();
+  scrollTo(0,0);
 }
-tgReady();
-
-function money(v){return Math.round(Number(v)||0).toLocaleString('ru-RU')+' ₽'}
-function toast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>x.style.display='none',2200)}
-function hideAll(){['home','catalog','calc','settings','extrasManager','saved'].forEach(id=>document.getElementById(id).classList.add('hidden'))}
-function goHome(){hideAll();document.getElementById('home').classList.remove('hidden');document.getElementById('pageTitle').textContent='Полный калькулятор'}
-function openCatalog(){hideAll();document.getElementById('catalog').classList.remove('hidden');document.getElementById('pageTitle').textContent='Каталог';renderTabs();renderModels()}
-function renderTabs(){
-  const cats=['Все',...new Set(MODELS.map(m=>m.category))];
-  document.getElementById('categoryTabs').innerHTML=cats.map(c=>`<button class="tab ${selectedCategory===c?'active':''}" onclick="selectedCategory=${JSON.stringify(c)};renderTabs();renderModels()">${c}</button>`).join('');
+function back(){if(state.page==="calculator")openPage("catalog");else if(state.page==="client")openPage("calculator");else openPage("home")}
+function renderCatalog(){
+  const cats=["Все",...new Set(models.map(m=>m.cat))];
+  document.getElementById("categoryTabs").innerHTML=cats.map((c,i)=>`<button class="tab ${i===0?"active":""}" data-action="filter" data-cat="${c}">${c}</button>`).join("");
+  renderModels("Все");
 }
-function renderModels(){
-  const q=(document.getElementById('modelSearch')?.value||'').toLowerCase();
-  const arr=MODELS.filter(m=>(selectedCategory==='Все'||m.category===selectedCategory)&&m.name.toLowerCase().includes(q));
-  document.getElementById('modelList').innerHTML=arr.map((m,i)=>{
-    const min=Math.min(...m.prices);
-    return `<div class="card model">
-      <div class="model-img">🏡</div>
-      <div class="tag">${m.category}</div>
-      <h3>${m.name}</h3>
-      <div class="muted">Ширина: ${m.widths.join(' / ')} м · Высота: ${m.height} м</div>
-      <div class="muted">${m.frame}</div>
-      <div class="muted">Нагрузка: ${m.snow}</div>
-      <hr><div class="price">от ${money(min)}</div>
-      <button class="btn" onclick="selectModel(${MODELS.indexOf(m)})">Выбрать</button>
-    </div>`
-  }).join('') || '<div class="card">Ничего не найдено.</div>';
+function renderModels(cat){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.cat===cat));
+  const arr=cat==="Все"?models:models.filter(m=>m.cat===cat);
+  document.getElementById("models").innerHTML=arr.map(m=>`<button class="model" data-action="model" data-model="${m.name.replaceAll('"','&quot;')}"><div class="model-img">${m.emoji}</div><div class="model-body"><div class="model-name">${m.name}</div><div class="model-meta">${m.cat}<br>Ширина: ${m.widths.join(", ")} м<br>Длина: ${m.lengths.join(", ")} м<br>${m.frame}</div></div></button>`).join("");
 }
-function selectModel(index){
-  selectedModel=index;
-  const m=MODELS[index];
-  state.width=m.widths[0];
-  state.length=6;
-  state.poly=0;
-  state.ties=8;
-  ['doors','vents','auto','doorVent','doorAuto','arcs','tiesExtra','partitions'].forEach(k=>state[k]=0);
-  state.extras={};
-  hideAll();document.getElementById('calc').classList.remove('hidden');
-  document.getElementById('pageTitle').textContent='Расчёт';
-  renderCalc();
+function selectModel(name){
+  state.model=models.find(m=>m.name===name);state.width=state.model.widths[0];state.length=state.model.lengths[0];
+  state.qty={doors:0,vents:0,auto:0,braces:0,wood:0};state.services={assembly:false,delivery:false};state.extraQty={};openPage("calculator");
 }
-function renderCalc(){
-  const m=MODELS[selectedModel];
-  document.getElementById('calcModelName').textContent=m.name;
-  document.getElementById('calcModelInfo').textContent=`${m.category} · ${m.frame} · высота ${m.height} м · нагрузка ${m.snow}`;
-  document.getElementById('widths').innerHTML=m.widths.map(w=>`<button class="pill ${state.width===w?'active':''}" onclick="state.width=${w};renderCalc();recalc()">${w} м</button>`).join('');
-  const lengths=[2,4,6,8,10];
-  document.getElementById('lengths').innerHTML=lengths.map(l=>`<button class="pill ${state.length===l?'active':''}" onclick="state.length=${l};recalc();renderCalc()">${l} м</button>`).join('');
-  document.getElementById('polyList').innerHTML=POLY.map((p,i)=>`<button class="pill ${state.poly===i?'active':''}" onclick="state.poly=${i};renderCalc();recalc()">${p.name}</button>`).join('');
-  document.getElementById('ties').value=state.ties;
-  ['doors','vents','auto','doorVent','doorAuto','arcs','tiesExtra','partitions'].forEach(k=>document.getElementById(k).textContent=state[k]);
-  renderExtras();
-  recalc();
+function renderCalculator(){
+  if(!state.model)return;
+  document.getElementById("calcModelName").textContent=state.model.name;
+  document.getElementById("calcModelMeta").textContent=`${state.model.cat} • каркас ${state.model.frame}`;
+  document.getElementById("width").innerHTML=state.model.widths.map(x=>`<option value="${x}">${x} м</option>`).join("");
+  document.getElementById("length").innerHTML=state.model.lengths.map(x=>`<option value="${x}">${x} м</option>`).join("");
+  document.getElementById("width").value=state.width;document.getElementById("length").value=state.length;
+  document.getElementById("poly").innerHTML=["4 мм Стандарт+","4 мм Ультра-Премиум","6 мм Стандарт+"].map(x=>`<option>${x}</option>`).join("");document.getElementById("poly").value=state.poly;
+  ["doors","vents","auto","braces","wood"].forEach(k=>document.getElementById(k+"Qty").textContent=state.qty[k]);
+  renderCalcServices();updateSwitches();calculate();
 }
-function changeQty(k,d){
-  state[k]=Math.max(0,(state[k]||0)+d);
-  const el=document.getElementById(k); if(el)el.textContent=state[k];
-  recalc();
+function renderCalcServices(){
+  document.getElementById("calcServices").innerHTML=services.map(s=>`<div class="service"><div class="service-img" style="background:${s.bg}"><img src="${s.img}" alt=""></div><div class="service-body"><h3>${s.name}</h3><p>${s.desc}</p><div class="service-foot"><span class="service-price">${money(s.price)}</span><button class="info-btn" data-action="service-info" data-id="${s.id}">Подробнее</button></div><div class="counter" style="margin-top:9px;justify-content:flex-end"><button data-action="extra" data-id="${s.id}" data-delta="-1">−</button><b id="extra_${s.id}">${state.extraQty[s.id]||0}</b><button data-action="extra" data-id="${s.id}" data-delta="1">+</button></div></div></div>`).join("");
 }
-function renderExtras(){
-  document.getElementById('extrasList').innerHTML=extras.map((e,i)=>{
-    const q=state.extras[i]||0;
-    return `<div class="service"><span>${e.name}<br><small class="muted">${money(e.price)} / ${e.unit}</small></span>
-    <div class="qty"><button onclick="changeExtra(${i},-1)">−</button><b>${q}</b><button onclick="changeExtra(${i},1)">+</button></div></div>`;
-  }).join('');
+function renderServices(){
+  document.getElementById("servicesGrid").innerHTML=services.map(s=>`<div class="service"><div class="service-img" style="background:${s.bg}"><img src="${s.img}" alt="${s.name}"></div><div class="service-body"><h3>${s.name}</h3><p>${s.desc}</p><div class="service-foot"><span class="service-price">от ${money(s.price)}</span><button class="info-btn" data-action="service-info" data-id="${s.id}">Подробнее</button></div></div></div>`).join("");
 }
-function changeExtra(i,d){state.extras[i]=Math.max(0,(state.extras[i]||0)+d);renderExtras();recalc()}
-function baseModelPrice(){
-  const m=MODELS[selectedModel];
-  const li=[2,4,6,8,10].indexOf(state.length);
-  let p=m.prices[Math.max(0,li)];
-  // Scale by width relative to the first available width.
-  const baseW=m.widths[0];
-  if(state.width!==baseW)p*=state.width/baseW;
-  return p;
+function changeQty(k,d){state.qty[k]=Math.max(0,Math.min(99,state.qty[k]+d));document.getElementById(k+"Qty").textContent=state.qty[k];calculate()}
+function changeExtra(id,d){state.extraQty[id]=Math.max(0,Math.min(99,(state.extraQty[id]||0)+d));const x=document.getElementById("extra_"+id);if(x)x.textContent=state.extraQty[id];calculate()}
+function toggleService(k){state.services[k]=!state.services[k];updateSwitches();calculate()}
+function updateSwitches(){["assembly","delivery"].forEach(k=>document.getElementById(k+"Switch").classList.toggle("on",state.services[k]));document.getElementById("deliveryField").style.display=state.services.delivery?"block":"none"}
+function basePrice(){
+  const m=state.model,w=Number(state.width),l=Number(state.length);
+  const starts={"Счастье Садовода":19700,"Звезда":23900,"Усиленная":30000,"Квадратная":24000,"Сказка":28800,"Сказка Титан":51200,"Пристенная":35000,"Промышленная":90900,"Миттлайдер":42000,"Каплевидная":32000,"Алтайская сказка":48000,"Терем":39000,"Парник Звезда":23900,"Парник Сказка":29500,"Квадратный парник":24000};
+  let p=starts[m.name]||20000;p*=Math.max(.45,l/2);p*=1+Math.max(0,w-3)*.18;return p;
 }
-function polyCost(){
-  const p=POLY[state.poly];
-  if(!p)return 0;
-  return p.add + Math.max(0,state.length*state.width-18)*p.add*0.02;
+function polyFactor(){return state.poly==="4 мм Ультра-Премиум"?1.27:state.poly==="6 мм Стандарт+"?1.30:1}
+function calculate(){
+  if(!state.model)return;
+  const area=Number(state.width)*Number(state.length);
+  const frame=basePrice(),poly=area*Number(settings.poly)*polyFactor();
+  let options=state.qty.doors*3500+state.qty.vents*extraPrices.extraVent+state.qty.auto*extraPrices.opener+state.qty.braces*extraPrices.braces;
+  options+=state.qty.wood*(Number(state.length)*2*Number(settings.wood)/10);
+  services.forEach(s=>options+=(state.extraQty[s.id]||0)*s.price);
+  const assembly=state.services.assembly?Number(state.length)*Number(settings.assembly):0;
+  const delivery=state.services.delivery?Number(document.getElementById("delivery").value||0):0;
+  document.getElementById("framePrice").textContent=money(frame);document.getElementById("polyPrice").textContent=money(poly);document.getElementById("optionsPrice").textContent=money(options);document.getElementById("assemblyPrice").textContent=money(assembly);document.getElementById("deliveryPrice").textContent=money(delivery);document.getElementById("totalPrice").textContent=money(frame+poly+options+assembly+delivery);
 }
-function calcAssembly(){
-  if(!document.getElementById('assembly').checked)return 0;
-  const type=document.getElementById('assemblyType').value;
-  if(type==='wide')return state.width*state.length*settings.wideAssembly;
-  if(type==='custom')return Number(settings.laborHour||700)*4;
-  return ({2:0,4:settings.a4,6:settings.a6,8:settings.a8,10:settings.a10})[state.length]||0;
+function renderClient(){document.getElementById("clientTotal").textContent=document.getElementById("totalPrice").textContent;document.getElementById("clientSummary").textContent=`${state.model.name} • ${state.width}×${state.length} м • ${state.poly}`}
+function getEstimate(){return{id:Date.now(),date:new Date().toLocaleString("ru-RU"),model:state.model.name,width:state.width,length:state.length,poly:state.poly,total:Number(document.getElementById("totalPrice").textContent.replace(/\D/g,""))||0,name:document.getElementById("clientName").value,phone:document.getElementById("clientPhone").value,comment:document.getElementById("clientComment").value,qty:state.qty,services:state.services,extraQty:state.extraQty}}
+function saveEstimate(){const a=JSON.parse(localStorage.getItem("greenhouseEstimatesV2")||"[]");a.unshift(getEstimate());localStorage.setItem("greenhouseEstimatesV2",JSON.stringify(a.slice(0,100)));toast("Расчёт сохранён");openPage("saved")}
+function renderSaved(){const a=JSON.parse(localStorage.getItem("greenhouseEstimatesV2")||"[]"),el=document.getElementById("savedList");if(!a.length){el.innerHTML='<div class="empty">Пока нет сохранённых расчётов</div>';return}el.innerHTML=a.map(x=>`<div class="saved"><b>${x.model}</b><br><span class="muted">${x.width}×${x.length} м • ${x.poly}<br>${x.name||"Без имени"} • ${x.date}</span><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><b>${money(x.total)}</b><button class="smallbtn danger" data-action="delete-saved" data-id="${x.id}">Удалить</button></div></div>`).join("")}
+function deleteSaved(id){let a=JSON.parse(localStorage.getItem("greenhouseEstimatesV2")||"[]");a=a.filter(x=>x.id!==id);localStorage.setItem("greenhouseEstimatesV2",JSON.stringify(a));renderSaved();toast("Удалено")}
+function renderSettings(){
+  document.getElementById("setPipe").value=settings.pipe;document.getElementById("setPoly").value=settings.poly;document.getElementById("setFastener").value=settings.fastener;document.getElementById("setWood").value=settings.wood;document.getElementById("setAssembly").value=settings.assembly;
+  document.getElementById("settingsExtras").innerHTML=services.map(s=>`<div class="option"><div><b>${s.name}</b><small>${money(s.price)}</small></div><button class="smallbtn" data-action="edit-price" data-id="${s.id}">Изменить</button></div>`).join("");
 }
-function calcDelivery(){
-  if(!document.getElementById('delivery').checked)return 0;
-  const km=Number(document.getElementById('km').value)||0;
-  let v=km*Number(settings.deliveryKm||0);
-  if(document.getElementById('loading').checked)v+=Number(settings.loadingPrice||0);
-  return v;
-}
-function recalc(){
-  if(selectedModel===null)return;
-  state.ties=Number(document.getElementById('ties').value)||0;
-  const model=baseModelPrice();
-  const pc=polyCost();
-  const doors=state.doors*4500;
-  const vents=state.vents*Number(extras.find(x=>x.name==='Дополнительная форточка')?.price||1500);
-  const auto=state.auto*Number(extras.find(x=>x.name==='Автомат для проветривания')?.price||2950);
-  const dv=state.doorVent*6500;
-  const da=state.doorAuto*4500;
-  const arcs=state.arcs*1500;
-  const ties=state.tiesExtra*350;
-  const parts=state.partitions*4500;
-  let extrasTotal=0;
-  Object.entries(state.extras).forEach(([i,q])=>{extrasTotal+=q*(Number(extras[i]?.price)||0)});
-  const assembly=calcAssembly();
-  const delivery=calcDelivery();
-  const subtotal=model+pc+doors+vents+auto+dv+da+arcs+ties+parts+extrasTotal+assembly+delivery;
-  const discount=Math.min(100,Math.max(0,Number(document.getElementById('discount').value)||0));
-  const adjusted=subtotal*(1-discount/100)+(Number(document.getElementById('saleAdjust').value)||0);
-
-  // Internal cost estimate based on area, frame and options.
-  const area=state.width*state.length;
-  const frameFactor=model<40000?1:1.35;
-  const frameCost=area*settings.p20*0.9*frameFactor + area*settings.p40*0.65*frameFactor;
-  const pcThickness=state.poly>=3?settings.pc8:(state.poly===2?settings.pc6:settings.pc4);
-  const costPC=area*pcThickness*1.05;
-  const costExtras=extrasTotal*0.62;
-  const costServices=assembly*0.55+delivery*0.7;
-  const cost=frameCost+costPC+settings.fasteners+costExtras+costServices;
-  const profit=adjusted-cost;
-  const margin=adjusted>0?(profit/adjusted*100):0;
-
-  document.getElementById('totalSale').textContent=money(adjusted);
-  document.getElementById('cost').textContent=money(cost);
-  document.getElementById('profit').textContent=money(profit);
-  document.getElementById('margin').textContent=margin.toFixed(1)+'%';
-  window.__current={model,pc,doors,vents,auto,dv,da,arcs,ties,parts,extrasTotal,assembly,delivery,subtotal,adjusted,cost,profit,margin,area};
-}
-function calcSnapshot(){
-  recalc();
-  return {
-    created:new Date().toLocaleString('ru-RU'),
-    model:MODELS[selectedModel].name,width:state.width,length:state.length,
-    poly:POLY[state.poly].name, state:JSON.parse(JSON.stringify(state)),
-    client:{
-      name:document.getElementById('clientName').value,
-      phone:document.getElementById('clientPhone').value,
-      address:document.getElementById('clientAddress').value,
-      note:document.getElementById('clientNote').value
-    },
-    discount:Number(document.getElementById('discount').value)||0,
-    saleAdjust:Number(document.getElementById('saleAdjust').value)||0,
-    assembly:document.getElementById('assembly').checked,
-    assemblyType:document.getElementById('assemblyType').value,
-    delivery:document.getElementById('delivery').checked,
-    km:Number(document.getElementById('km').value)||0,
-    loading:document.getElementById('loading').checked,
-    result:window.__current
-  };
-}
-function saveCalc(){
-  const list=JSON.parse(localStorage.getItem('green_saved')||'[]');
-  list.unshift(calcSnapshot());
-  localStorage.setItem('green_saved',JSON.stringify(list.slice(0,100)));
-  toast('Расчёт сохранён');
-}
-function openSaved(){hideAll();document.getElementById('saved').classList.remove('hidden');document.getElementById('pageTitle').textContent='Сохранённые';renderSaved()}
-function renderSaved(){
-  const list=JSON.parse(localStorage.getItem('green_saved')||'[]');
-  const box=document.getElementById('savedList');
-  if(!list.length){box.innerHTML='<div class="muted">Пока нет сохранённых расчётов.</div>';return}
-  box.innerHTML=list.map((x,i)=>`<div class="list-item"><div><b>${x.model} ${x.width}×${x.length}</b><br><small>${x.created} · ${money(x.result.adjusted)}</small></div><div><button class="btn small" onclick="loadSaved(${i})">Открыть</button><button class="btn small red" onclick="deleteSaved(${i})">×</button></div></div>`).join('');
-}
-function loadSaved(i){
-  const list=JSON.parse(localStorage.getItem('green_saved')||'[]');const x=list[i];
-  const idx=MODELS.findIndex(m=>m.name===x.model);if(idx<0)return;
-  selectedModel=idx;state=x.state;hideAll();document.getElementById('calc').classList.remove('hidden');
-  document.getElementById('clientName').value=x.client?.name||'';document.getElementById('clientPhone').value=x.client?.phone||'';
-  document.getElementById('clientAddress').value=x.client?.address||'';document.getElementById('clientNote').value=x.client?.note||'';
-  document.getElementById('discount').value=x.discount||0;document.getElementById('saleAdjust').value=x.saleAdjust||0;
-  document.getElementById('assembly').checked=!!x.assembly;document.getElementById('assemblyType').value=x.assemblyType||'standard';
-  document.getElementById('delivery').checked=!!x.delivery;document.getElementById('km').value=x.km||0;document.getElementById('loading').checked=!!x.loading;
-  renderCalc();toast('Расчёт загружен');
-}
-function deleteSaved(i){const list=JSON.parse(localStorage.getItem('green_saved')||'[]');list.splice(i,1);localStorage.setItem('green_saved',JSON.stringify(list));renderSaved()}
-function shareCalc(){
-  const x=calcSnapshot();
-  const text=`Теплица: ${x.model}\\nРазмер: ${x.width}×${x.length} м\\nПоликарбонат: ${x.poly}\\nИтого: ${money(x.result.adjusted)}\\nСебестоимость: ${money(x.result.cost)}\\nПрибыль: ${money(x.result.profit)}`;
-  if(navigator.share)navigator.share({title:'Расчёт теплицы',text}).catch(()=>{});
-  else{navigator.clipboard?.writeText(text);toast('Расчёт скопирован')}
-}
-function printCalc(){window.print()}
-function openSettings(){hideAll();document.getElementById('settings').classList.remove('hidden');document.getElementById('pageTitle').textContent='Закупочные цены';fillSettings();renderModelPrices()}
-function fillSettings(){Object.keys(DEFAULT_SETTINGS).forEach(k=>{const e=document.getElementById(k);if(e)e.value=settings[k]})}
-function saveSettings(){
-  Object.keys(DEFAULT_SETTINGS).forEach(k=>{const e=document.getElementById(k);if(e)settings[k]=Number(e.value)||0});
-  localStorage.setItem('green_settings',JSON.stringify(settings));toast('Цены сохранены');
-}
-function resetSettings(){settings={...DEFAULT_SETTINGS};localStorage.setItem('green_settings',JSON.stringify(settings));fillSettings();toast('Сброшено')}
-function renderModelPrices(){
-  document.getElementById('modelPricesEditor').innerHTML=MODELS.map((m,i)=>`
-    <div class="card">
-      <b>${m.name}</b>
-      <div class="grid">${[2,4,6,8,10].map((l,j)=>`<label>${l} м<input id="mp_${i}_${j}" type="number" value="${m.prices[j]}"></label>`).join('')}</div>
-      <button class="btn small" onclick="saveModelPrice(${i})">Сохранить цены модели</button>
-    </div>`).join('');
-}
-function saveModelPrice(i){
-  for(let j=0;j<5;j++){const e=document.getElementById(`mp_${i}_${j}`);MODELS[i].prices[j]=Number(e.value)||0}
-  localStorage.setItem('green_models',JSON.stringify(MODELS));toast('Цена модели сохранена');
-}
-function openExtrasManager(){hideAll();document.getElementById('extrasManager').classList.remove('hidden');document.getElementById('pageTitle').textContent='Дополнительные товары';renderManager()}
-function renderManager(){
-  document.getElementById('managerList').innerHTML=extras.map((e,i)=>`<div class="list-item"><div><b>${e.name}</b><br>${money(e.price)} / ${e.unit}</div><div><button class="btn small" onclick="editExtra(${i})">✏️</button><button class="btn small red" onclick="removeExtra(${i})">🗑</button></div></div>`).join('');
-}
-function addExtra(){
-  const name=document.getElementById('newExtraName').value.trim();const price=Number(document.getElementById('newExtraPrice').value)||0;const unit=document.getElementById('newExtraUnit').value.trim()||'шт';
-  if(!name)return toast('Введи название');
-  extras.push({name,price,unit});localStorage.setItem('green_extras',JSON.stringify(extras));
-  document.getElementById('newExtraName').value='';document.getElementById('newExtraPrice').value='';renderManager();toast('Товар добавлен');
-}
-function editExtra(i){
-  const n=prompt('Название',extras[i].name);if(n===null)return;
-  const p=prompt('Цена',extras[i].price);if(p===null)return;
-  const u=prompt('Единица',extras[i].unit);if(u===null)return;
-  extras[i]={name:n,price:Number(p)||0,unit:u||'шт'};localStorage.setItem('green_extras',JSON.stringify(extras));renderManager();toast('Изменено');
-}
-function removeExtra(i){if(!confirm('Удалить товар?'))return;extras.splice(i,1);localStorage.setItem('green_extras',JSON.stringify(extras));renderManager()}
-const savedModels=JSON.parse(localStorage.getItem('green_models')||'null');if(savedModels&&savedModels.length)for(let i=0;i<MODELS.length;i++)if(savedModels[i])MODELS[i].prices=savedModels[i].prices;
-goHome();
+function saveSettings(){settings.pipe=+document.getElementById("setPipe").value||0;settings.poly=+document.getElementById("setPoly").value||0;settings.fastener=+document.getElementById("setFastener").value||0;settings.wood=+document.getElementById("setWood").value||0;settings.assembly=+document.getElementById("setAssembly").value||0;localStorage.setItem("greenhouseSettingsV2",JSON.stringify(settings));toast("Закупочные цены сохранены");if(state.page==="calculator")calculate()}
+function addExtra(){const n=document.getElementById("newExtraName").value.trim(),p=+document.getElementById("newExtraPrice").value;if(!n||!p){toast("Введите название и цену");return}const s={id:"custom_"+Date.now(),name:n,price:p,desc:"Пользовательская услуга. Описание можно изменить в коде.",bg:"#eef2f0",img:services[0].img};services.push(s);document.getElementById("newExtraName").value="";document.getElementById("newExtraPrice").value="";renderSettings();toast("Услуга добавлена")}
+function resetSettings(){if(confirm("Сбросить закупочные цены?")){settings=Object.assign({},defaults);localStorage.setItem("greenhouseSettingsV2",JSON.stringify(settings));renderSettings();toast("Сброшено")}}
+function showService(id){const s=services.find(x=>x.id===id);if(!s)return;document.getElementById("modalImg").src=s.img;document.getElementById("modalTitle").textContent=s.name;document.getElementById("modalDesc").textContent=s.desc;document.getElementById("modalPrice").textContent=money(s.price);document.getElementById("serviceModal").classList.add("show")}
+async function shareEstimate(){const x=getEstimate(),text=`Расчёт теплицы\n${x.model}\n${x.width}×${x.length} м\n${x.poly}\nИтого: ${money(x.total)}\nКлиент: ${x.name||"-"}\nТелефон: ${x.phone||"-"}`;if(navigator.share){try{await navigator.share({title:"Расчёт теплицы",text})}catch(e){}}else if(navigator.clipboard){await navigator.clipboard.writeText(text);toast("Скопировано")}}
+document.addEventListener("click",e=>{
+  const el=e.target.closest("[data-action]");if(!el)return;e.preventDefault();
+  const a=el.dataset.action;
+  if(a==="open")openPage(el.dataset.page);
+  else if(a==="back")back();
+  else if(a==="filter")renderModels(el.dataset.cat);
+  else if(a==="model")selectModel(el.dataset.model);
+  else if(a==="qty")changeQty(el.dataset.key,+el.dataset.delta);
+  else if(a==="extra")changeExtra(el.dataset.id,+el.dataset.delta);
+  else if(a==="service")toggleService(el.dataset.key);
+  else if(a==="save")saveEstimate();
+  else if(a==="share")shareEstimate();
+  else if(a==="delete-saved")deleteSaved(Number(el.dataset.id));
+  else if(a==="save-settings")saveSettings();
+  else if(a==="add-extra")addExtra();
+  else if(a==="reset")resetSettings();
+  else if(a==="service-info")showService(el.dataset.id);
+  else if(a==="close-modal")document.getElementById("serviceModal").classList.remove("show");
+  else if(a==="edit-price"){const s=services.find(x=>x.id===el.dataset.id);const p=prompt("Новая цена для: "+s.name,s.price);if(p!==null&&Number(p)>=0){s.price=Number(p);extraPrices[s.id]=s.price;renderSettings();renderCalcServices();calculate();toast("Цена изменена")}}
+});
+document.getElementById("width").addEventListener("change",e=>{state.width=+e.target.value;calculate()});
+document.getElementById("length").addEventListener("change",e=>{state.length=+e.target.value;calculate()});
+document.getElementById("poly").addEventListener("change",e=>{state.poly=e.target.value;calculate()});
+document.getElementById("delivery").addEventListener("input",calculate);
+document.getElementById("serviceModal").addEventListener("click",e=>{if(e.target.id==="serviceModal")e.currentTarget.classList.remove("show")});
+renderCatalog();
 </script>
-
-<!--
-РАСШИРЕННАЯ БАЗА КАЛЬКУЛЯТОРА
-
-Поддерживаемые категории:
-1. Арочные
-2. Пристенные
-3. Промышленные
-4. Специальные
-5. Двускатные
-
-Поддерживаемые модели:
-Счастье Садовода
-Звезда
-Усиленная
-Квадратная
-Сказка
-Сказка Титан
-Пристенная
-Промышленная
-Миттлайдер
-Каплевидная
-Капелька
-Алтайская сказка
-Терем
-
-Логика:
-- выбор модели
-- выбор ширины
-- выбор длины
-- поликарбонат
-- стяжки
-- двери
-- форточки
-- автоматы
-- усиление
-- перегородки
-- дополнительные товары
-- монтаж
-- доставка
-- погрузочно-разгрузочные работы
-- скидка
-- ручная корректировка цены
-- клиент
-- сохранение
-- загрузка
-- удаление
-- печать
-- Web Share
-- Telegram WebApp
-- редактирование закупочных цен
-- редактирование цен моделей
-- добавление/изменение/удаление дополнительных товаров
-
-ВАЖНО:
-Публичные цены сайта зависят от региона и текущих условий. Эта версия использует
-внутреннюю редактируемую базу, поэтому менеджер может самостоятельно выставить
-актуальные цены.
-
-Чтобы заменить картинки на реальные локальные фотографии, можно позже создать
-папку images и заменить содержимое .model-img на <img src="images/....jpg">.
-Это специально оставлено без внешних изображений, чтобы Mini App не ломался
-из-за блокировки внешних картинок.
-
-ФОРМУЛА ПРОДАЖИ:
-Цена модели
-+ поликарбонат
-+ двери
-+ форточки
-+ автоматы
-+ усиления
-+ дополнительные товары
-+ монтаж
-+ доставка
-- скидка
-+ ручная корректировка
-
-ФОРМУЛА ВНУТРЕННЕЙ СЕБЕСТОИМОСТИ:
-оценка трубы по площади
-+ поликарбонат по толщине
-+ крепёж
-+ доля дополнительных товаров
-+ доля услуг.
-
-Это именно внутренняя управленческая оценка, а не бухгалтерская себестоимость.
-"""
-</script>
--->
-
 </body>
 </html>
