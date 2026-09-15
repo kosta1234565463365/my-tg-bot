@@ -1,147 +1,583 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-               maximum-scale=1.0, user-scalable=no">
-
-<title>Тест кнопок</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Калькулятор теплиц — Полный</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-* {
-    box-sizing: border-box;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-    font-family: Arial, sans-serif;
-    background: #f2f4f7;
-}
-
-body {
-    padding: 30px 20px;
-}
-
-h1 {
-    text-align: center;
-}
-
-button {
-    display: block;
-    width: 100%;
-    min-height: 70px;
-    margin: 20px 0;
-    border: none;
-    border-radius: 20px;
-    background: #168b5c;
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-    cursor: pointer;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-#result {
-    margin-top: 30px;
-    padding: 25px;
-    border-radius: 20px;
-    background: white;
-    font-size: 22px;
-    text-align: center;
-}
-
-#debug {
-    margin-top: 20px;
-    padding: 15px;
-    background: #222;
-    color: #00ff66;
-    border-radius: 15px;
-    font-family: monospace;
-}
+:root{--g:#148a58;--g2:#0e7047;--bg:#f3f6f8;--card:#fff;--text:#1f2933;--muted:#68737d;--line:#e2e7eb;--red:#c83c3c;--blue:#3478c9;--shadow:0 5px 20px rgba(0,0,0,.07)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+body{padding-bottom:32px}
+button,input,select,textarea{font:inherit}
+button{border:0;cursor:pointer}
+.app{max-width:900px;margin:auto}
+.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:800;font-size:20px}
+.header small{color:var(--muted)}
+.page{padding:16px}
+.hidden{display:none!important}
+.hero{background:linear-gradient(135deg,#168b59,#0c6842);color:#fff;border-radius:28px;padding:25px 22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.hero h1{font-size:30px;margin:0 0 10px}
+.hero p{font-size:17px;line-height:1.5;margin:0;opacity:.92}
+.btn{width:100%;min-height:58px;border-radius:18px;padding:13px 16px;font-weight:700;font-size:18px;margin:7px 0;background:var(--g);color:#fff}
+.btn.secondary{background:#eaf0f4;color:#20272d}
+.btn.dark{background:#27323a;color:#fff}
+.btn.red{background:#fff0f0;color:var(--red)}
+.btn.small{width:auto;min-height:40px;border-radius:12px;font-size:14px;margin:0;padding:8px 12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin:10px 0;box-shadow:var(--shadow)}
+.card h2,.card h3{margin:0 0 10px}
+.muted{color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.row>*{min-width:0}
+label{display:block;font-size:13px;font-weight:700;color:#5f6971;margin:12px 0 6px}
+input,select,textarea{width:100%;border:1px solid #ccd4da;background:#fff;border-radius:12px;padding:12px 13px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--g)}
+textarea{min-height:90px;resize:vertical}
+.tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 10px}
+.tab{white-space:nowrap;background:#e7edf0;border-radius:999px;padding:9px 13px;font-weight:700}
+.tab.active{background:var(--g);color:#fff}
+.model{position:relative;overflow:hidden}
+.model-img{height:145px;border-radius:15px;background:linear-gradient(135deg,#d9eee4,#a9d8c2);display:flex;align-items:center;justify-content:center;font-size:55px;margin-bottom:12px}
+.model .tag{position:absolute;top:26px;left:26px;background:#fff;padding:5px 8px;border-radius:8px;font-size:11px;font-weight:700}
+.price{font-size:23px;font-weight:800;color:var(--g)}
+.pills{display:flex;gap:7px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff}
+.pill.active{background:#e1f4eb;border-color:var(--g);color:var(--g2);font-weight:700}
+.qty{display:flex;align-items:center;gap:10px}
+.qty button{width:42px;height:42px;border-radius:12px;background:#e9eef1;font-size:25px}
+.qty b{min-width:30px;text-align:center}
+.service{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.service:last-child{border-bottom:0}
+.total{background:#173c2d;color:#fff;border-radius:20px;padding:18px}
+.total .big{font-size:32px;font-weight:900}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi div{background:#f0f4f6;border-radius:13px;padding:11px}
+.kpi b{display:block;font-size:18px;margin-top:4px}
+.list-item{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:12px 0}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#222;color:#fff;border-radius:12px;padding:11px 16px;z-index:100;display:none}
+.notice{background:#fff8df;border:1px solid #efd98b;border-radius:14px;padding:12px;font-size:13px}
+.footer{padding:20px;text-align:center;color:var(--muted);font-size:12px}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.check{display:flex;gap:10px;align-items:center;padding:8px 0}
+.check input{width:auto}
 </style>
 </head>
-
 <body>
+<div class="app">
+<header class="header">
+  <div><div class="brand">🌱 Теплицы</div><small id="pageTitle">Полный калькулятор</small></div>
+  <button class="btn small secondary" onclick="goHome()">Главная</button>
+</header>
 
-<h1>Тест кнопок</h1>
+<main class="page">
 
-<button id="test1">
-    🔘 НАЖМИ МЕНЯ
-</button>
+<section id="home">
+  <div class="hero">
+    <h1>Калькулятор теплиц</h1>
+    <p>Полный расчёт продажи, комплектации, дополнительных услуг, доставки, монтажа, себестоимости и прибыли.</p>
+  </div>
+  <button class="btn" onclick="openCatalog()">🧮 Рассчитать стоимость</button>
+  <button class="btn secondary" onclick="openSettings()">⚙️ Изменить закупочные цены</button>
+  <button class="btn secondary" onclick="openSaved()">💾 Сохранённые расчёты</button>
+  <button class="btn secondary" onclick="openExtrasManager()">➕ Управление дополнительными товарами</button>
+  <div class="notice">Цены в приложении — внутренняя база. Публичные цены сайта могут отличаться по региону, акции и комплектации. Все закупочные цены можно менять.</div>
+</section>
 
-<button id="test2">
-    🧮 РАССЧИТАТЬ
-</button>
+<section id="catalog" class="hidden">
+  <div class="card">
+    <h2>Каталог теплиц</h2>
+    <div class="tabs" id="categoryTabs"></div>
+    <label>Поиск модели</label>
+    <input id="modelSearch" placeholder="Например: Сказка" oninput="renderModels()">
+  </div>
+  <div id="modelList"></div>
+</section>
 
-<button id="test3">
-    ⚙️ НАСТРОЙКИ
-</button>
+<section id="calc" class="hidden">
+  <div class="card">
+    <div class="row"><div><h2 id="calcModelName">Модель</h2><div class="muted" id="calcModelInfo"></div></div><button class="btn small secondary" onclick="openCatalog()">← Модели</button></div>
+  </div>
 
-<div id="result">
-    Пока ничего не нажато
-</div>
+  <div class="card">
+    <h3>📐 Размер</h3>
+    <label>Ширина</label>
+    <div class="pills" id="widths"></div>
+    <label>Длина</label>
+    <div class="pills" id="lengths"></div>
+    <label>Количество стяжек</label>
+    <input id="ties" type="number" min="0" value="8" oninput="recalc()">
+  </div>
 
-<div id="debug">
-    JavaScript запускается...
+  <div class="card">
+    <h3>🧱 Поликарбонат</h3>
+    <div id="polyList" class="pills"></div>
+  </div>
+
+  <div class="card">
+    <h3>🚪 Двери и форточки</h3>
+    <div class="service"><span>Стандартные торцевые двери</span><b id="stdDoors">2</b></div>
+    <div class="service"><span>Дополнительные двери</span><div class="qty"><button onclick="changeQty('doors',-1)">−</button><b id="doors">0</b><button onclick="changeQty('doors',1)">+</button></div></div>
+    <div class="service"><span>Дополнительные форточки</span><div class="qty"><button onclick="changeQty('vents',-1)">−</button><b id="vents">0</b><button onclick="changeQty('vents',1)">+</button></div></div>
+    <div class="service"><span>Автоматы проветривания</span><div class="qty"><button onclick="changeQty('auto',-1)">−</button><b id="auto">0</b><button onclick="changeQty('auto',1)">+</button></div></div>
+    <div class="service"><span>Двери с форточкой</span><div class="qty"><button onclick="changeQty('doorVent',-1)">−</button><b id="doorVent">0</b><button onclick="changeQty('doorVent',1)">+</button></div></div>
+    <div class="service"><span>Автомат для двери</span><div class="qty"><button onclick="changeQty('doorAuto',-1)">−</button><b id="doorAuto">0</b><button onclick="changeQty('doorAuto',1)">+</button></div></div>
+  </div>
+
+  <div class="card">
+    <h3>🔩 Усиление и комплектация</h3>
+    <div class="service"><span>Дополнительные дуги</span><div class="qty"><button onclick="changeQty('arcs',-1)">−</button><b id="arcs">0</b><button onclick="changeQty('arcs',1)">+</button></div></div>
+    <div class="service"><span>Дополнительные стяжки</span><div class="qty"><button onclick="changeQty('tiesExtra',-1)">−</button><b id="tiesExtra">0</b><button onclick="changeQty('tiesExtra',1)">+</button></div></div>
+    <div class="service"><span>Перегородки</span><div class="qty"><button onclick="changeQty('partitions',-1)">−</button><b id="partitions">0</b><button onclick="changeQty('partitions',1)">+</button></div></div>
+  </div>
+
+  <div class="card">
+    <h3>🛒 Дополнительные товары</h3>
+    <div id="extrasList"></div>
+  </div>
+
+  <div class="card">
+    <h3>🔨 Монтаж</h3>
+    <label class="check"><input id="assembly" type="checkbox" onchange="recalc()"> Нужна сборка</label>
+    <label>Тип монтажа</label>
+    <select id="assemblyType" onchange="recalc()">
+      <option value="standard">Стандартная до 3 м</option>
+      <option value="wide">Широкая от 3,5 м — по м²</option>
+      <option value="custom">Индивидуальная / договорная</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <h3>🚚 Доставка</h3>
+    <label class="check"><input id="delivery" type="checkbox" onchange="recalc()"> Нужна доставка</label>
+    <label>Расстояние, км</label>
+    <input id="km" type="number" min="0" value="0" oninput="recalc()">
+    <label class="check"><input id="loading" type="checkbox" onchange="recalc()"> Погрузочно-разгрузочные работы</label>
+  </div>
+
+  <div class="card">
+    <h3>💰 Продажа</h3>
+    <label>Скидка, %</label>
+    <input id="discount" type="number" min="0" max="100" value="0" oninput="recalc()">
+    <label>Ручная корректировка цены продажи, ₽</label>
+    <input id="saleAdjust" type="number" value="0" oninput="recalc()">
+  </div>
+
+  <div class="card">
+    <h3>👤 Клиент</h3>
+    <input id="clientName" placeholder="ФИО / название клиента">
+    <input id="clientPhone" placeholder="Телефон" style="margin-top:8px">
+    <input id="clientAddress" placeholder="Адрес доставки" style="margin-top:8px">
+    <textarea id="clientNote" placeholder="Комментарий" style="margin-top:8px"></textarea>
+  </div>
+
+  <div class="total">
+    <div class="muted" style="color:#b9d5c9">ИТОГО К ОПЛАТЕ</div>
+    <div class="big" id="totalSale">0 ₽</div>
+    <div class="kpi">
+      <div>Себестоимость<b id="cost">0 ₽</b></div>
+      <div>Прибыль<b id="profit">0 ₽</b></div>
+      <div>Маржа<b id="margin">0%</b></div>
+    </div>
+  </div>
+  <button class="btn" onclick="saveCalc()">💾 Сохранить расчёт</button>
+  <button class="btn secondary" onclick="shareCalc()">📤 Поделиться расчётом</button>
+  <button class="btn secondary" onclick="printCalc()">🖨️ Печать / PDF</button>
+</section>
+
+<section id="settings" class="hidden">
+  <div class="card">
+    <h2>⚙️ Закупочные цены</h2>
+    <div class="notice">Это твои внутренние цены. Они не меняют публичный сайт. Значения сохраняются в памяти браузера.</div>
+    <label>Труба 20×20, ₽/м</label><input id="p20" type="number">
+    <label>Труба 40×20, ₽/м</label><input id="p40" type="number">
+    <label>Поликарбонат 4 мм, ₽/м²</label><input id="pc4" type="number">
+    <label>Поликарбонат 6 мм, ₽/м²</label><input id="pc6" type="number">
+    <label>Поликарбонат 8 мм, ₽/м²</label><input id="pc8" type="number">
+    <label>Крепёж, ₽/комплект</label><input id="fasteners" type="number">
+    <label>Брус, ₽/комплект</label><input id="wood" type="number">
+    <label>Монтаж, ₽/час</label><input id="laborHour" type="number">
+    <label>Доставка, ₽/км</label><input id="deliveryKm" type="number">
+    <label>Погрузочно-разгрузочные, ₽</label><input id="loadingPrice" type="number">
+    <label>Широкий монтаж, ₽/м²</label><input id="wideAssembly" type="number">
+    <label>Стандартный монтаж 4 м, ₽</label><input id="a4" type="number">
+    <label>Стандартный монтаж 6 м, ₽</label><input id="a6" type="number">
+    <label>Стандартный монтаж 8 м, ₽</label><input id="a8" type="number">
+    <label>Стандартный монтаж 10 м, ₽</label><input id="a10" type="number">
+    <button class="btn" onclick="saveSettings()">💾 Сохранить цены</button>
+    <button class="btn red" onclick="resetSettings()">↺ Сбросить к базовым</button>
+  </div>
+  <div class="card">
+    <h3>💵 Цены моделей</h3>
+    <div id="modelPricesEditor"></div>
+  </div>
+</section>
+
+<section id="extrasManager" class="hidden">
+  <div class="card">
+    <h2>➕ Дополнительные товары</h2>
+    <label>Название</label><input id="newExtraName">
+    <label>Цена</label><input id="newExtraPrice" type="number">
+    <label>Единица</label><input id="newExtraUnit" value="шт">
+    <button class="btn" onclick="addExtra()">Добавить товар</button>
+  </div>
+  <div class="card"><div id="managerList"></div></div>
+</section>
+
+<section id="saved" class="hidden">
+  <div class="card"><h2>💾 Сохранённые расчёты</h2><div id="savedList"></div></div>
+</section>
+
+</main>
+<div class="footer">Внутренний калькулятор. Данные хранятся локально на устройстве.</div>
+<div class="toast" id="toast"></div>
 </div>
 
 <script>
+const MODELS = [{"name": "Счастье Садовода", "category": "Арочные", "widths": [3], "height": 2.1, "frame": "40×20, одинарная дуга", "snow": "100 мм", "prices": [19700, 27300, 36200, 44900, 53900]}, {"name": "Звезда", "category": "Арочные", "widths": [2, 2.5, 3], "height": 2.1, "frame": "20×20 + 20×20, двойная дуга", "snow": "250 мм", "prices": [23900, 33600, 44600, 55700, 66700]}, {"name": "Усиленная", "category": "Арочные", "widths": [2.5, 3], "height": 2.1, "frame": "40×20 + 20×20, двойная дуга", "snow": "250 мм", "prices": [31100, 44600, 59400, 74500, 89400]}, {"name": "Квадратная", "category": "Арочные", "widths": [2, 2.5], "height": 1.9, "frame": "40×20, одинарная дуга", "snow": "100 мм", "prices": [21300, 29800, 39500, 49300, 59300]}, {"name": "Сказка", "category": "Арочные", "widths": [2, 2.5, 3], "height": 2.2, "frame": "40×20 + 20×20", "snow": "до 500 мм", "prices": [28800, 42100, 56500, 71300, 86000]}, {"name": "Сказка Титан", "category": "Арочные", "widths": [3, 3.5, 4], "height": 2.4, "frame": "40×20 + 40×20, двойная дуга", "snow": "500 мм", "prices": [51200, 72100, 94500, 117200, 139900]}, {"name": "Пристенная", "category": "Пристенные", "widths": [2.5, 3], "height": 2.5, "frame": "усиленный каркас", "snow": "зависит от исполнения", "prices": [45000, 62000, 79000, 96000, 113000]}, {"name": "Промышленная", "category": "Промышленные", "widths": [4, 4.5, 5, 6, 7], "height": 3.0, "frame": "40×20 + 40×20, двойная дуга", "snow": "промышленная", "prices": [90900, 114100, 137400, 160500, 183800]}, {"name": "Миттлайдер", "category": "Специальные", "widths": [2.5, 3, 3.5], "height": 2.6, "frame": "40×20 + 20×20, двойная дуга", "snow": "250 мм", "prices": [36500, 51500, 67500, 83700, 99800]}, {"name": "Каплевидная", "category": "Двускатные", "widths": [2.5, 3, 3.5, 4], "height": 2.4, "frame": "40×20, две полуарки", "snow": "1200 кг/м²", "prices": [28900, 37200, 46800, 56300, 65700]}, {"name": "Капелька", "category": "Двускатные", "widths": [2.5, 3, 3.5, 4], "height": 2.4, "frame": "40×20", "snow": "по исполнению", "prices": [30000, 39000, 49000, 59000, 69000]}, {"name": "Алтайская сказка", "category": "Двускатные", "widths": [2.5, 3, 3.5, 4], "height": 2.75, "frame": "40×20 + 20×20, двойная", "snow": "320 кг/м²", "prices": [45100, 62700, 81400, 100700, 119600]}, {"name": "Терем", "category": "Двускатные", "widths": [2.5, 3], "height": 2.75, "frame": "40×20, одинарная", "snow": "225/305 кг/м²", "prices": [43000, 59000, 76000, 93000, 109000]}];
+const DEFAULT_EXTRAS = [{"name": "Дополнительная форточка", "price": 1500, "unit": "шт"}, {"name": "Автомат для проветривания", "price": 2950, "unit": "шт"}, {"name": "Паро-пропускающая лента", "price": 1650, "unit": "шт"}, {"name": "Брус для теплицы", "price": 6990, "unit": "комплект"}, {"name": "Дополнительная дверь", "price": 4500, "unit": "шт"}, {"name": "Дополнительная форточка с автоматом", "price": 4450, "unit": "шт"}, {"name": "Грядка оцинкованная", "price": 3500, "unit": "шт"}, {"name": "Грядка с полимерным покрытием", "price": 4200, "unit": "шт"}, {"name": "Перегородка внутри теплицы", "price": 4500, "unit": "шт"}, {"name": "Торцевой профиль", "price": 900, "unit": "комплект"}, {"name": "Крепёжный комплект", "price": 1200, "unit": "комплект"}, {"name": "Анкерное крепление", "price": 1800, "unit": "комплект"}, {"name": "Пароизоляционная лента", "price": 1650, "unit": "комплект"}, {"name": "Уплотнительная лента", "price": 900, "unit": "комплект"}, {"name": "Подвязка растений", "price": 650, "unit": "комплект"}, {"name": "Полка", "price": 2200, "unit": "шт"}, {"name": "Стеллаж", "price": 3900, "unit": "шт"}, {"name": "Система подвязки", "price": 2500, "unit": "комплект"}, {"name": "Дверь с форточкой", "price": 6500, "unit": "шт"}, {"name": "Автомат для двери", "price": 4500, "unit": "шт"}];
+const POLY = [{"name": "4 мм Стандарт+", "add": 0, "mult": 1.0}, {"name": "4 мм Ультра-Премиум", "add": 6200, "mult": 1.0}, {"name": "6 мм Стандарт+", "add": 7000, "mult": 1.05}, {"name": "6 мм Ультра-Премиум", "add": 11000, "mult": 1.1}, {"name": "8 мм Премиум", "add": 18000, "mult": 1.18}];
 
-document.addEventListener("DOMContentLoaded", function () {
+const DEFAULT_SETTINGS = {
+  p20:120,p40:190,pc4:450,pc6:650,pc8:900,fasteners:1200,wood:6990,
+  laborHour:700,deliveryKm:55,loadingPrice:900,wideAssembly:700,
+  a4:9900,a6:11900,a8:13900,a10:15900
+};
 
-    const result = document.getElementById("result");
-    const debug = document.getElementById("debug");
+let extras = JSON.parse(localStorage.getItem('green_extras') || 'null') || DEFAULT_EXTRAS.map(x=>({...x}));
+let settings = JSON.parse(localStorage.getItem('green_settings') || 'null') || {...DEFAULT_SETTINGS};
+let selectedCategory='Все', selectedModel=null;
+let state = {
+  width:3,length:6,poly:0,ties:8,doors:0,vents:0,auto:0,doorVent:0,doorAuto:0,
+  arcs:0,tiesExtra:0,partitions:0,extras:{}
+};
 
-    debug.innerHTML = "JavaScript OK";
-
-    function testButton(number, text) {
-
-        result.innerHTML = text;
-
-        debug.innerHTML =
-            "Кнопка " + number + " нажата";
-
-        if (
-            window.Telegram &&
-            window.Telegram.WebApp
-        ) {
-            try {
-                window.Telegram.WebApp.HapticFeedback
-                    .impactOccurred("medium");
-            } catch (e) {}
-        }
+function tgReady(){
+  try{
+    if(window.Telegram && Telegram.WebApp){
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
     }
+  }catch(e){}
+}
+tgReady();
 
-    document
-        .getElementById("test1")
-        .addEventListener("click", function () {
-            testButton(1, "✅ ПЕРВАЯ КНОПКА РАБОТАЕТ");
-        });
+function money(v){return Math.round(Number(v)||0).toLocaleString('ru-RU')+' ₽'}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>x.style.display='none',2200)}
+function hideAll(){['home','catalog','calc','settings','extrasManager','saved'].forEach(id=>document.getElementById(id).classList.add('hidden'))}
+function goHome(){hideAll();document.getElementById('home').classList.remove('hidden');document.getElementById('pageTitle').textContent='Полный калькулятор'}
+function openCatalog(){hideAll();document.getElementById('catalog').classList.remove('hidden');document.getElementById('pageTitle').textContent='Каталог';renderTabs();renderModels()}
+function renderTabs(){
+  const cats=['Все',...new Set(MODELS.map(m=>m.category))];
+  document.getElementById('categoryTabs').innerHTML=cats.map(c=>`<button class="tab ${selectedCategory===c?'active':''}" onclick="selectedCategory=${JSON.stringify(c)};renderTabs();renderModels()">${c}</button>`).join('');
+}
+function renderModels(){
+  const q=(document.getElementById('modelSearch')?.value||'').toLowerCase();
+  const arr=MODELS.filter(m=>(selectedCategory==='Все'||m.category===selectedCategory)&&m.name.toLowerCase().includes(q));
+  document.getElementById('modelList').innerHTML=arr.map((m,i)=>{
+    const min=Math.min(...m.prices);
+    return `<div class="card model">
+      <div class="model-img">🏡</div>
+      <div class="tag">${m.category}</div>
+      <h3>${m.name}</h3>
+      <div class="muted">Ширина: ${m.widths.join(' / ')} м · Высота: ${m.height} м</div>
+      <div class="muted">${m.frame}</div>
+      <div class="muted">Нагрузка: ${m.snow}</div>
+      <hr><div class="price">от ${money(min)}</div>
+      <button class="btn" onclick="selectModel(${MODELS.indexOf(m)})">Выбрать</button>
+    </div>`
+  }).join('') || '<div class="card">Ничего не найдено.</div>';
+}
+function selectModel(index){
+  selectedModel=index;
+  const m=MODELS[index];
+  state.width=m.widths[0];
+  state.length=6;
+  state.poly=0;
+  state.ties=8;
+  ['doors','vents','auto','doorVent','doorAuto','arcs','tiesExtra','partitions'].forEach(k=>state[k]=0);
+  state.extras={};
+  hideAll();document.getElementById('calc').classList.remove('hidden');
+  document.getElementById('pageTitle').textContent='Расчёт';
+  renderCalc();
+}
+function renderCalc(){
+  const m=MODELS[selectedModel];
+  document.getElementById('calcModelName').textContent=m.name;
+  document.getElementById('calcModelInfo').textContent=`${m.category} · ${m.frame} · высота ${m.height} м · нагрузка ${m.snow}`;
+  document.getElementById('widths').innerHTML=m.widths.map(w=>`<button class="pill ${state.width===w?'active':''}" onclick="state.width=${w};renderCalc();recalc()">${w} м</button>`).join('');
+  const lengths=[2,4,6,8,10];
+  document.getElementById('lengths').innerHTML=lengths.map(l=>`<button class="pill ${state.length===l?'active':''}" onclick="state.length=${l};recalc();renderCalc()">${l} м</button>`).join('');
+  document.getElementById('polyList').innerHTML=POLY.map((p,i)=>`<button class="pill ${state.poly===i?'active':''}" onclick="state.poly=${i};renderCalc();recalc()">${p.name}</button>`).join('');
+  document.getElementById('ties').value=state.ties;
+  ['doors','vents','auto','doorVent','doorAuto','arcs','tiesExtra','partitions'].forEach(k=>document.getElementById(k).textContent=state[k]);
+  renderExtras();
+  recalc();
+}
+function changeQty(k,d){
+  state[k]=Math.max(0,(state[k]||0)+d);
+  const el=document.getElementById(k); if(el)el.textContent=state[k];
+  recalc();
+}
+function renderExtras(){
+  document.getElementById('extrasList').innerHTML=extras.map((e,i)=>{
+    const q=state.extras[i]||0;
+    return `<div class="service"><span>${e.name}<br><small class="muted">${money(e.price)} / ${e.unit}</small></span>
+    <div class="qty"><button onclick="changeExtra(${i},-1)">−</button><b>${q}</b><button onclick="changeExtra(${i},1)">+</button></div></div>`;
+  }).join('');
+}
+function changeExtra(i,d){state.extras[i]=Math.max(0,(state.extras[i]||0)+d);renderExtras();recalc()}
+function baseModelPrice(){
+  const m=MODELS[selectedModel];
+  const li=[2,4,6,8,10].indexOf(state.length);
+  let p=m.prices[Math.max(0,li)];
+  // Scale by width relative to the first available width.
+  const baseW=m.widths[0];
+  if(state.width!==baseW)p*=state.width/baseW;
+  return p;
+}
+function polyCost(){
+  const p=POLY[state.poly];
+  if(!p)return 0;
+  return p.add + Math.max(0,state.length*state.width-18)*p.add*0.02;
+}
+function calcAssembly(){
+  if(!document.getElementById('assembly').checked)return 0;
+  const type=document.getElementById('assemblyType').value;
+  if(type==='wide')return state.width*state.length*settings.wideAssembly;
+  if(type==='custom')return Number(settings.laborHour||700)*4;
+  return ({2:0,4:settings.a4,6:settings.a6,8:settings.a8,10:settings.a10})[state.length]||0;
+}
+function calcDelivery(){
+  if(!document.getElementById('delivery').checked)return 0;
+  const km=Number(document.getElementById('km').value)||0;
+  let v=km*Number(settings.deliveryKm||0);
+  if(document.getElementById('loading').checked)v+=Number(settings.loadingPrice||0);
+  return v;
+}
+function recalc(){
+  if(selectedModel===null)return;
+  state.ties=Number(document.getElementById('ties').value)||0;
+  const model=baseModelPrice();
+  const pc=polyCost();
+  const doors=state.doors*4500;
+  const vents=state.vents*Number(extras.find(x=>x.name==='Дополнительная форточка')?.price||1500);
+  const auto=state.auto*Number(extras.find(x=>x.name==='Автомат для проветривания')?.price||2950);
+  const dv=state.doorVent*6500;
+  const da=state.doorAuto*4500;
+  const arcs=state.arcs*1500;
+  const ties=state.tiesExtra*350;
+  const parts=state.partitions*4500;
+  let extrasTotal=0;
+  Object.entries(state.extras).forEach(([i,q])=>{extrasTotal+=q*(Number(extras[i]?.price)||0)});
+  const assembly=calcAssembly();
+  const delivery=calcDelivery();
+  const subtotal=model+pc+doors+vents+auto+dv+da+arcs+ties+parts+extrasTotal+assembly+delivery;
+  const discount=Math.min(100,Math.max(0,Number(document.getElementById('discount').value)||0));
+  const adjusted=subtotal*(1-discount/100)+(Number(document.getElementById('saleAdjust').value)||0);
 
-    document
-        .getElementById("test2")
-        .addEventListener("click", function () {
-            testButton(2, "🧮 КАЛЬКУЛЯТОР РАБОТАЕТ");
-        });
+  // Internal cost estimate based on area, frame and options.
+  const area=state.width*state.length;
+  const frameFactor=model<40000?1:1.35;
+  const frameCost=area*settings.p20*0.9*frameFactor + area*settings.p40*0.65*frameFactor;
+  const pcThickness=state.poly>=3?settings.pc8:(state.poly===2?settings.pc6:settings.pc4);
+  const costPC=area*pcThickness*1.05;
+  const costExtras=extrasTotal*0.62;
+  const costServices=assembly*0.55+delivery*0.7;
+  const cost=frameCost+costPC+settings.fasteners+costExtras+costServices;
+  const profit=adjusted-cost;
+  const margin=adjusted>0?(profit/adjusted*100):0;
 
-    document
-        .getElementById("test3")
-        .addEventListener("click", function () {
-            testButton(3, "⚙️ НАСТРОЙКИ РАБОТАЮТ");
-        });
-
-});
-
+  document.getElementById('totalSale').textContent=money(adjusted);
+  document.getElementById('cost').textContent=money(cost);
+  document.getElementById('profit').textContent=money(profit);
+  document.getElementById('margin').textContent=margin.toFixed(1)+'%';
+  window.__current={model,pc,doors,vents,auto,dv,da,arcs,ties,parts,extrasTotal,assembly,delivery,subtotal,adjusted,cost,profit,margin,area};
+}
+function calcSnapshot(){
+  recalc();
+  return {
+    created:new Date().toLocaleString('ru-RU'),
+    model:MODELS[selectedModel].name,width:state.width,length:state.length,
+    poly:POLY[state.poly].name, state:JSON.parse(JSON.stringify(state)),
+    client:{
+      name:document.getElementById('clientName').value,
+      phone:document.getElementById('clientPhone').value,
+      address:document.getElementById('clientAddress').value,
+      note:document.getElementById('clientNote').value
+    },
+    discount:Number(document.getElementById('discount').value)||0,
+    saleAdjust:Number(document.getElementById('saleAdjust').value)||0,
+    assembly:document.getElementById('assembly').checked,
+    assemblyType:document.getElementById('assemblyType').value,
+    delivery:document.getElementById('delivery').checked,
+    km:Number(document.getElementById('km').value)||0,
+    loading:document.getElementById('loading').checked,
+    result:window.__current
+  };
+}
+function saveCalc(){
+  const list=JSON.parse(localStorage.getItem('green_saved')||'[]');
+  list.unshift(calcSnapshot());
+  localStorage.setItem('green_saved',JSON.stringify(list.slice(0,100)));
+  toast('Расчёт сохранён');
+}
+function openSaved(){hideAll();document.getElementById('saved').classList.remove('hidden');document.getElementById('pageTitle').textContent='Сохранённые';renderSaved()}
+function renderSaved(){
+  const list=JSON.parse(localStorage.getItem('green_saved')||'[]');
+  const box=document.getElementById('savedList');
+  if(!list.length){box.innerHTML='<div class="muted">Пока нет сохранённых расчётов.</div>';return}
+  box.innerHTML=list.map((x,i)=>`<div class="list-item"><div><b>${x.model} ${x.width}×${x.length}</b><br><small>${x.created} · ${money(x.result.adjusted)}</small></div><div><button class="btn small" onclick="loadSaved(${i})">Открыть</button><button class="btn small red" onclick="deleteSaved(${i})">×</button></div></div>`).join('');
+}
+function loadSaved(i){
+  const list=JSON.parse(localStorage.getItem('green_saved')||'[]');const x=list[i];
+  const idx=MODELS.findIndex(m=>m.name===x.model);if(idx<0)return;
+  selectedModel=idx;state=x.state;hideAll();document.getElementById('calc').classList.remove('hidden');
+  document.getElementById('clientName').value=x.client?.name||'';document.getElementById('clientPhone').value=x.client?.phone||'';
+  document.getElementById('clientAddress').value=x.client?.address||'';document.getElementById('clientNote').value=x.client?.note||'';
+  document.getElementById('discount').value=x.discount||0;document.getElementById('saleAdjust').value=x.saleAdjust||0;
+  document.getElementById('assembly').checked=!!x.assembly;document.getElementById('assemblyType').value=x.assemblyType||'standard';
+  document.getElementById('delivery').checked=!!x.delivery;document.getElementById('km').value=x.km||0;document.getElementById('loading').checked=!!x.loading;
+  renderCalc();toast('Расчёт загружен');
+}
+function deleteSaved(i){const list=JSON.parse(localStorage.getItem('green_saved')||'[]');list.splice(i,1);localStorage.setItem('green_saved',JSON.stringify(list));renderSaved()}
+function shareCalc(){
+  const x=calcSnapshot();
+  const text=`Теплица: ${x.model}\\nРазмер: ${x.width}×${x.length} м\\nПоликарбонат: ${x.poly}\\nИтого: ${money(x.result.adjusted)}\\nСебестоимость: ${money(x.result.cost)}\\nПрибыль: ${money(x.result.profit)}`;
+  if(navigator.share)navigator.share({title:'Расчёт теплицы',text}).catch(()=>{});
+  else{navigator.clipboard?.writeText(text);toast('Расчёт скопирован')}
+}
+function printCalc(){window.print()}
+function openSettings(){hideAll();document.getElementById('settings').classList.remove('hidden');document.getElementById('pageTitle').textContent='Закупочные цены';fillSettings();renderModelPrices()}
+function fillSettings(){Object.keys(DEFAULT_SETTINGS).forEach(k=>{const e=document.getElementById(k);if(e)e.value=settings[k]})}
+function saveSettings(){
+  Object.keys(DEFAULT_SETTINGS).forEach(k=>{const e=document.getElementById(k);if(e)settings[k]=Number(e.value)||0});
+  localStorage.setItem('green_settings',JSON.stringify(settings));toast('Цены сохранены');
+}
+function resetSettings(){settings={...DEFAULT_SETTINGS};localStorage.setItem('green_settings',JSON.stringify(settings));fillSettings();toast('Сброшено')}
+function renderModelPrices(){
+  document.getElementById('modelPricesEditor').innerHTML=MODELS.map((m,i)=>`
+    <div class="card">
+      <b>${m.name}</b>
+      <div class="grid">${[2,4,6,8,10].map((l,j)=>`<label>${l} м<input id="mp_${i}_${j}" type="number" value="${m.prices[j]}"></label>`).join('')}</div>
+      <button class="btn small" onclick="saveModelPrice(${i})">Сохранить цены модели</button>
+    </div>`).join('');
+}
+function saveModelPrice(i){
+  for(let j=0;j<5;j++){const e=document.getElementById(`mp_${i}_${j}`);MODELS[i].prices[j]=Number(e.value)||0}
+  localStorage.setItem('green_models',JSON.stringify(MODELS));toast('Цена модели сохранена');
+}
+function openExtrasManager(){hideAll();document.getElementById('extrasManager').classList.remove('hidden');document.getElementById('pageTitle').textContent='Дополнительные товары';renderManager()}
+function renderManager(){
+  document.getElementById('managerList').innerHTML=extras.map((e,i)=>`<div class="list-item"><div><b>${e.name}</b><br>${money(e.price)} / ${e.unit}</div><div><button class="btn small" onclick="editExtra(${i})">✏️</button><button class="btn small red" onclick="removeExtra(${i})">🗑</button></div></div>`).join('');
+}
+function addExtra(){
+  const name=document.getElementById('newExtraName').value.trim();const price=Number(document.getElementById('newExtraPrice').value)||0;const unit=document.getElementById('newExtraUnit').value.trim()||'шт';
+  if(!name)return toast('Введи название');
+  extras.push({name,price,unit});localStorage.setItem('green_extras',JSON.stringify(extras));
+  document.getElementById('newExtraName').value='';document.getElementById('newExtraPrice').value='';renderManager();toast('Товар добавлен');
+}
+function editExtra(i){
+  const n=prompt('Название',extras[i].name);if(n===null)return;
+  const p=prompt('Цена',extras[i].price);if(p===null)return;
+  const u=prompt('Единица',extras[i].unit);if(u===null)return;
+  extras[i]={name:n,price:Number(p)||0,unit:u||'шт'};localStorage.setItem('green_extras',JSON.stringify(extras));renderManager();toast('Изменено');
+}
+function removeExtra(i){if(!confirm('Удалить товар?'))return;extras.splice(i,1);localStorage.setItem('green_extras',JSON.stringify(extras));renderManager()}
+const savedModels=JSON.parse(localStorage.getItem('green_models')||'null');if(savedModels&&savedModels.length)for(let i=0;i<MODELS.length;i++)if(savedModels[i])MODELS[i].prices=savedModels[i].prices;
+goHome();
 </script>
+
+<!--
+РАСШИРЕННАЯ БАЗА КАЛЬКУЛЯТОРА
+
+Поддерживаемые категории:
+1. Арочные
+2. Пристенные
+3. Промышленные
+4. Специальные
+5. Двускатные
+
+Поддерживаемые модели:
+Счастье Садовода
+Звезда
+Усиленная
+Квадратная
+Сказка
+Сказка Титан
+Пристенная
+Промышленная
+Миттлайдер
+Каплевидная
+Капелька
+Алтайская сказка
+Терем
+
+Логика:
+- выбор модели
+- выбор ширины
+- выбор длины
+- поликарбонат
+- стяжки
+- двери
+- форточки
+- автоматы
+- усиление
+- перегородки
+- дополнительные товары
+- монтаж
+- доставка
+- погрузочно-разгрузочные работы
+- скидка
+- ручная корректировка цены
+- клиент
+- сохранение
+- загрузка
+- удаление
+- печать
+- Web Share
+- Telegram WebApp
+- редактирование закупочных цен
+- редактирование цен моделей
+- добавление/изменение/удаление дополнительных товаров
+
+ВАЖНО:
+Публичные цены сайта зависят от региона и текущих условий. Эта версия использует
+внутреннюю редактируемую базу, поэтому менеджер может самостоятельно выставить
+актуальные цены.
+
+Чтобы заменить картинки на реальные локальные фотографии, можно позже создать
+папку images и заменить содержимое .model-img на <img src="images/....jpg">.
+Это специально оставлено без внешних изображений, чтобы Mini App не ломался
+из-за блокировки внешних картинок.
+
+ФОРМУЛА ПРОДАЖИ:
+Цена модели
++ поликарбонат
++ двери
++ форточки
++ автоматы
++ усиления
++ дополнительные товары
++ монтаж
++ доставка
+- скидка
++ ручная корректировка
+
+ФОРМУЛА ВНУТРЕННЕЙ СЕБЕСТОИМОСТИ:
+оценка трубы по площади
++ поликарбонат по толщине
++ крепёж
++ доля дополнительных товаров
++ доля услуг.
+
+Это именно внутренняя управленческая оценка, а не бухгалтерская себестоимость.
+"""
+</script>
+-->
 
 </body>
 </html>
