@@ -11,7 +11,7 @@ from telebot.apihelper import ApiTelegramException
 # ==========================================
 # ВНИМАНИЕ! Аккуратно сотри текст внутри кавычек ниже и вставь свой токен:
 TOKEN = "8955717735:AAEB6fi66bZXd6ff4ab31NeQqUWL5T5VSrI"
-bot = telebot.TeleBot()
+bot = telebot.TeleBot(TOKEN)
 
 # Хранилище сессий пользователей (для Единого Окна)
 user_sessions = {}
