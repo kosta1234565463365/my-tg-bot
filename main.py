@@ -9,15 +9,15 @@ from telebot.apihelper import ApiTelegramException
 # ==========================================
 # ЧАСТЬ 1: НАСТРОЙКА БОТА И ПЕРЕМЕННЫХ
 # ==========================================
-# ВНИМАНИЕ! Аккуратно сотри текст внутри кавычек ниже и вставь свой токен:
-TOKEN = "8955717735:AAEB6fi66bZXd6ff4ab31NeQqUWL5T5VSrI"
+# Бот автоматически возьмет токен из настроек Render (переменная TOKEN)
+TOKEN = os.environ.get("8955717735:AAEB6fi66bZXd6ff4ab31NeQqUWL5T5VSrI")
 bot = telebot.TeleBot(TOKEN)
 
 # Хранилище сессий пользователей (для Единого Окна)
 user_sessions = {}
 
 # ==========================================
-# ЧАСТЬ 2: ЗАЗАЩИТА ОТ ЗАСЫПАНИЯ (FLASK СЕРВЕР)
+# ЧАСТЬ 2: ЗАЩИТА ОТ ЗАСЫПАНИЯ (FLASK СЕРВЕР)
 # ==========================================
 app = Flask(__name__)
 
@@ -47,7 +47,7 @@ def init_db():
         conn.commit()
 
         cursor.execute("SELECT COUNT(*) FROM businesses")
-        if cursor.fetchone()[0] == 0:
+        if cursor.fetchone() == 0:
             cursor.executemany("INSERT INTO businesses VALUES (?, ?, ?)", 
                                [("Туи", 0, 0), ("Заборы", 0, 0), ("Теплицы", 0, 0)])
             cursor.execute("INSERT INTO employees VALUES (?, ?, ?, ?)", ("10", "Тестовый Работник", "employee", 0.0))
@@ -117,8 +117,12 @@ def handle_text(message):
             session["role"] = "admin"
             session["state"] = "MAIN_MENU"
             
+            # ТВОЯ ССЫЛКА НА MINI APP УЖЕ ПОДКЛЮЧЕНА СЮДА АВТОМАТИЧЕСКИ:
             markup = telebot.types.InlineKeyboardMarkup()
-            markup.add(telebot.types.InlineKeyboardButton("Открыть Mini App", text="В разработке")) 
+            markup.add(telebot.types.InlineKeyboardButton(
+                "Открыть Mini App 🚀", 
+                web_app=telebot.types.WebAppInfo(url="https://vercel.app")
+            )) 
             
             send_or_edit_menu(chat_id, "🔓 Вы вошли как Администратор!\n\nИспользуйте меню или откройте веб-панель:", reply_markup=markup)
         else:
