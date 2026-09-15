@@ -121,7 +121,7 @@ def handle_text(message):
             markup = telebot.types.InlineKeyboardMarkup()
             markup.add(telebot.types.InlineKeyboardButton(
                 "Открыть Mini App 🚀", 
-                web_app=telebot.types.WebAppInfo(url="https://vercel.app")
+                web_app=telebot.types.WebAppInfo(url="https://my-tg-bot-khaki.vercel.app")
             )) 
             
             send_or_edit_menu(chat_id, "🔓 Вы вошли как Администратор!\n\nИспользуйте меню или откройте веб-панель:", reply_markup=markup)
