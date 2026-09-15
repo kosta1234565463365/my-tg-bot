@@ -2,87 +2,80 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-/>
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 
-<title>Теплица PRO — калькулятор</title>
+<meta name="theme-color" content="#ffffff">
+
+<title>Калькулятор теплиц</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
+
 /* =========================================================
-   ОСНОВНЫЕ НАСТРОЙКИ
+   ОСНОВА
 ========================================================= */
 
-:root {
-  --green: #1d8a4b;
-  --green-dark: #126637;
-  --green-light: #eaf7ef;
-
-  --bg: #f4f6f5;
-  --card: #ffffff;
-  --text: #17211b;
-  --muted: #6e7771;
-  --border: #e2e7e4;
-
-  --danger: #d94848;
-  --orange: #e58a20;
-  --blue: #3977d5;
-
-  --radius: 18px;
-  --shadow: 0 8px 30px rgba(0,0,0,.07);
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+:root {
+    --bg: #f3f5f7;
+    --card: #ffffff;
+    --text: #202124;
+    --muted: #777d84;
+    --border: #e1e5e8;
+    --green: #198754;
+    --green-dark: #126b43;
+    --green-light: #eaf7ef;
+    --red: #d93636;
+    --red-light: #fff0f0;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  background: var(--bg);
-  color: var(--text);
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Arial,
-    sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
 }
 
 body {
-  padding-bottom: 30px;
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
 }
 
 button,
 input,
 select {
-  font: inherit;
+    font: inherit;
 }
 
 button {
-  cursor: pointer;
-}
-
-.hidden {
-  display: none !important;
+    border: 0;
+    cursor: pointer;
 }
 
 /* =========================================================
-   APP
+   ПРИЛОЖЕНИЕ
 ========================================================= */
 
 .app {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 14px;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding-bottom: 30px;
 }
 
 /* =========================================================
@@ -90,896 +83,587 @@ button {
 ========================================================= */
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding:
+        calc(12px + env(safe-area-inset-top))
+        16px
+        12px;
+
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid var(--border);
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.header h1 {
+    margin: 0;
+    flex: 1;
 
-.logo-icon {
-  width: 45px;
-  height: 45px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--green), #39ad68);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 23px;
-  box-shadow: 0 7px 18px rgba(29,138,75,.22);
-}
-
-.logo-title {
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.logo-subtitle {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
-}
-
-.header-button {
-  width: 43px;
-  height: 43px;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 13px;
-  font-size: 20px;
-}
-
-/* =========================================================
-   SCREENS
-========================================================= */
-
-.screen {
-  display: none;
-}
-
-.screen.active {
-  display: block;
-}
-
-/* =========================================================
-   HOME
-========================================================= */
-
-.hero {
-  background:
-    radial-gradient(circle at 90% 10%, rgba(255,255,255,.25), transparent 35%),
-    linear-gradient(135deg, #17733f, #279e58);
-  color: white;
-  border-radius: 24px;
-  padding: 25px 21px;
-  margin-bottom: 15px;
-  box-shadow: 0 12px 35px rgba(29,138,75,.22);
-}
-
-.hero h1 {
-  margin: 0 0 8px;
-  font-size: 27px;
-  line-height: 1.15;
-}
-
-.hero p {
-  margin: 0;
-  opacity: .9;
-  line-height: 1.45;
-  font-size: 14px;
-}
-
-.home-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.home-card {
-  border: 0;
-  border-radius: 20px;
-  min-height: 150px;
-  padding: 18px;
-  background: white;
-  box-shadow: var(--shadow);
-  text-align: left;
-  color: var(--text);
-  position: relative;
-  overflow: hidden;
-}
-
-.home-card::after {
-  content: "";
-  position: absolute;
-  right: -25px;
-  bottom: -30px;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: var(--green-light);
-}
-
-.home-card-icon {
-  font-size: 31px;
-  margin-bottom: 15px;
-}
-
-.home-card-title {
-  font-size: 17px;
-  font-weight: 800;
-  position: relative;
-  z-index: 2;
-}
-
-.home-card-text {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.4;
-  margin-top: 6px;
-  position: relative;
-  z-index: 2;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 9px;
-  margin-top: 14px;
-}
-
-.stat {
-  background: white;
-  border-radius: 15px;
-  padding: 13px 8px;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-
-.stat-number {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--green);
-}
-
-.stat-label {
-  margin-top: 3px;
-  font-size: 10px;
-  color: var(--muted);
-}
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-
-.topbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
+    font-size: 20px;
+    font-weight: 800;
 }
 
 .back-button {
-  width: 42px;
-  height: 42px;
-  border: 0;
-  background: white;
-  border-radius: 13px;
-  box-shadow: var(--shadow);
-  font-size: 21px;
-}
+    width: 42px;
+    height: 42px;
 
-.page-title {
-  font-size: 22px;
-  font-weight: 850;
+    border-radius: 14px;
+
+    background: #eef1f3;
+
+    font-size: 28px;
+    line-height: 42px;
 }
 
 /* =========================================================
-   CARDS
+   СТРАНИЦЫ
+========================================================= */
+
+.page {
+    display: none;
+    padding: 16px;
+}
+
+.page.active {
+    display: block;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    padding: 25px;
+
+    color: white;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            var(--green-dark)
+        );
+
+    margin-bottom: 16px;
+}
+
+.hero h2 {
+    margin: 0 0 10px;
+
+    font-size: 28px;
+    line-height: 1.1;
+}
+
+.hero p {
+    margin: 0;
+
+    line-height: 1.5;
+
+    opacity: .92;
+}
+
+/* =========================================================
+   КАРТОЧКИ
 ========================================================= */
 
 .card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 5px 20px rgba(0,0,0,.035);
+    background: var(--card);
+
+    border-radius: 20px;
+
+    padding: 16px;
+
+    margin-bottom: 14px;
+
+    box-shadow:
+        0 2px 12px rgba(0,0,0,.04);
 }
 
-.card-title {
-  font-weight: 800;
-  font-size: 16px;
-  margin-bottom: 13px;
+.section-title {
+    margin:
+        4px
+        0
+        13px;
+
+    font-size: 18px;
+    font-weight: 800;
 }
 
-.card-subtitle {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: -7px;
-  margin-bottom: 14px;
-}
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-.search {
-  position: relative;
-  margin-bottom: 12px;
-}
-
-.search input {
-  width: 100%;
-  height: 48px;
-  padding: 0 15px 0 44px;
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  outline: none;
-  background: white;
-}
-
-.search input:focus {
-  border-color: var(--green);
-}
-
-.search-icon {
-  position: absolute;
-  left: 15px;
-  top: 14px;
-  color: var(--muted);
+.muted {
+    color: var(--muted);
 }
 
 /* =========================================================
-   CATEGORY
+   КНОПКИ
 ========================================================= */
 
-.category-tabs {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding-bottom: 5px;
-  margin-bottom: 13px;
-  scrollbar-width: none;
+.big-button {
+    width: 100%;
+
+    padding: 18px;
+
+    margin-top: 10px;
+
+    border-radius: 17px;
+
+    background: var(--green);
+
+    color: white;
+
+    font-size: 17px;
+    font-weight: 800;
 }
 
-.category-tabs::-webkit-scrollbar {
-  display: none;
+.big-button:active {
+    transform: scale(.98);
 }
 
-.category-tab {
-  white-space: nowrap;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 999px;
-  padding: 9px 13px;
-  font-size: 12px;
+.big-button.secondary {
+    background: #e9edef;
+    color: var(--text);
 }
 
-.category-tab.active {
-  background: var(--green);
-  color: white;
-  border-color: var(--green);
+.small-button {
+    padding: 10px 13px;
+
+    border-radius: 12px;
+
+    background: #eef1f3;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.small-button.danger {
+    background: var(--red-light);
+    color: var(--red);
 }
 
 /* =========================================================
-   MODEL CARDS
+   КАТЕГОРИИ
 ========================================================= */
 
-.model-list {
-  display: grid;
-  gap: 10px;
+.tabs {
+    display: flex;
+    gap: 7px;
+
+    overflow-x: auto;
+
+    padding-bottom: 5px;
+    margin-bottom: 14px;
+
+    scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    flex: 0 0 auto;
+
+    padding: 10px 14px;
+
+    border-radius: 13px;
+
+    background: #e9edef;
+
+    color: var(--text);
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.tab.active {
+    background: var(--green);
+    color: white;
+}
+
+/* =========================================================
+   МОДЕЛИ
+========================================================= */
+
+.models-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
 }
 
 .model-card {
-  display: grid;
-  grid-template-columns: 115px 1fr;
-  gap: 13px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 4px 17px rgba(0,0,0,.04);
+    padding: 0;
+
+    overflow: hidden;
+
+    background: white;
+
+    border:
+        2px solid
+        var(--border);
+
+    border-radius: 18px;
+
+    text-align: left;
+}
+
+.model-card:active {
+    transform: scale(.98);
 }
 
 .model-image {
-  min-height: 125px;
-  background:
-    linear-gradient(135deg, #dfeee3, #f5f8f6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 45px;
-  overflow: hidden;
+    height: 125px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dcefe5,
+            #f6faf7
+        );
+
+    font-size: 54px;
 }
 
-.model-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.model-info {
-  padding: 12px 11px 12px 0;
+.model-body {
+    padding: 12px;
 }
 
 .model-name {
-  font-size: 15px;
-  font-weight: 800;
+    font-weight: 800;
+    font-size: 15px;
 }
 
-.model-description {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.35;
-  margin-top: 5px;
-}
+.model-meta {
+    margin-top: 6px;
 
-.model-price {
-  color: var(--green);
-  font-weight: 850;
-  font-size: 14px;
-  margin-top: 7px;
-}
+    color: var(--muted);
 
-.model-select {
-  margin-top: 8px;
-  width: 100%;
-  height: 36px;
-  border: 0;
-  border-radius: 10px;
-  background: var(--green-light);
-  color: var(--green-dark);
-  font-weight: 750;
+    font-size: 12px;
+    line-height: 1.45;
 }
 
 /* =========================================================
-   PHOTO
-========================================================= */
-
-.product-photo {
-  width: 100%;
-  height: 210px;
-  border-radius: 17px;
-  overflow: hidden;
-  background: linear-gradient(135deg,#dfeee3,#f6f8f7);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.product-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.product-placeholder {
-  text-align: center;
-  color: var(--muted);
-}
-
-.product-placeholder-icon {
-  font-size: 65px;
-}
-
-.product-placeholder-text {
-  font-size: 13px;
-  margin-top: 7px;
-}
-
-/* =========================================================
-   FORM
+   ПОЛЯ
 ========================================================= */
 
 .field {
-  margin-bottom: 13px;
+    margin-bottom: 14px;
 }
 
-.field:last-child {
-  margin-bottom: 0;
+.field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+    font-weight: 800;
 }
 
-.label {
-  display: block;
-  font-size: 12px;
-  font-weight: 750;
-  color: #4f5852;
-  margin-bottom: 6px;
+input,
+select {
+    width: 100%;
+
+    min-height: 48px;
+
+    padding:
+        12px
+        14px;
+
+    background: white;
+
+    border:
+        1px solid
+        #d7dce0;
+
+    border-radius: 13px;
+
+    outline: none;
 }
 
-.input,
-.select {
-  width: 100%;
-  height: 47px;
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  background: white;
-  padding: 0 13px;
-  outline: none;
-  color: var(--text);
-}
-
-.input:focus,
-.select:focus {
-  border-color: var(--green);
-}
-
-.two-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+input:focus,
+select:focus {
+    border-color: var(--green);
 }
 
 /* =========================================================
-   CHOICE BUTTONS
+   ДВЕ КОЛОНКИ
 ========================================================= */
 
-.choice-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 8px;
-}
+.row {
+    display: grid;
 
-.choice {
-  min-height: 47px;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 13px;
-  padding: 9px;
-  text-align: center;
-  font-size: 12px;
-}
+    grid-template-columns:
+        1fr 1fr;
 
-.choice.active {
-  border-color: var(--green);
-  background: var(--green-light);
-  color: var(--green-dark);
-  font-weight: 800;
+    gap: 10px;
 }
 
 /* =========================================================
-   COUNTER
+   ОПЦИИ
+========================================================= */
+
+.option {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 12px;
+
+    margin-bottom: 9px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 15px;
+}
+
+.option:last-child {
+    margin-bottom: 0;
+}
+
+.option-title {
+    font-weight: 800;
+}
+
+.option small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   СЧЁТЧИК
 ========================================================= */
 
 .counter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
 }
 
 .counter button {
-  width: 45px;
-  height: 43px;
-  border: 0;
-  border-radius: 12px;
-  background: var(--green-light);
-  color: var(--green-dark);
-  font-size: 21px;
-  font-weight: 800;
+    width: 38px;
+    height: 38px;
+
+    border-radius: 12px;
+
+    background: #eef1f3;
+
+    font-size: 23px;
 }
 
-.counter-value {
-  min-width: 70px;
-  text-align: center;
-  font-weight: 850;
-}
+.counter b {
+    min-width: 22px;
 
-/* =========================================================
-   EXTRA PRODUCTS
-========================================================= */
-
-.extra-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.extra-item:last-child {
-  border-bottom: 0;
-}
-
-.extra-main {
-  flex: 1;
-}
-
-.extra-name {
-  font-weight: 750;
-  font-size: 13px;
-}
-
-.extra-price {
-  color: var(--green);
-  font-size: 11px;
-  margin-top: 3px;
-}
-
-.extra-counter {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.extra-counter button {
-  width: 32px;
-  height: 32px;
-  border: 0;
-  border-radius: 9px;
-  background: var(--green-light);
-  color: var(--green-dark);
-  font-weight: 850;
-}
-
-.extra-count {
-  width: 25px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 800;
+    text-align: center;
 }
 
 /* =========================================================
-   CHECKBOX
+   SWITCH
 ========================================================= */
-
-.checkbox-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 11px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.checkbox-row:last-child {
-  border-bottom: 0;
-}
-
-.checkbox-left {
-  flex: 1;
-}
-
-.checkbox-title {
-  font-size: 13px;
-  font-weight: 750;
-}
-
-.checkbox-description {
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 3px;
-}
 
 .switch {
-  position: relative;
-  width: 49px;
-  height: 28px;
-  flex: 0 0 auto;
+    position: relative;
+
+    width: 49px;
+    height: 29px;
+
+    flex: none;
+
+    border-radius: 20px;
+
+    background: #d4d9dd;
 }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+.switch::after {
+    content: "";
+
+    position: absolute;
+
+    width: 23px;
+    height: 23px;
+
+    top: 3px;
+    left: 3px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    transition: .2s;
 }
 
-.slider {
-  position: absolute;
-  inset: 0;
-  border-radius: 30px;
-  background: #d9dedb;
-  transition: .2s;
+.switch.on {
+    background: var(--green);
 }
 
-.slider::before {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  left: 3px;
-  top: 3px;
-  background: white;
-  border-radius: 50%;
-  transition: .2s;
-  box-shadow: 0 2px 5px rgba(0,0,0,.18);
-}
-
-.switch input:checked + .slider {
-  background: var(--green);
-}
-
-.switch input:checked + .slider::before {
-  transform: translateX(21px);
+.switch.on::after {
+    left: 23px;
 }
 
 /* =========================================================
-   PRICE RESULT
+   ИТОГ
 ========================================================= */
 
-.price-box {
-  background:
-    linear-gradient(135deg, #126637, #279d58);
-  color: white;
-  border-radius: 21px;
-  padding: 19px;
-  margin-top: 12px;
-  box-shadow: 0 12px 28px rgba(29,138,75,.2);
-  position: sticky;
-  bottom: 10px;
-  z-index: 20;
+.total-box {
+    padding: 16px;
+
+    margin-top: 14px;
+
+    border:
+        1px solid
+        #cde7d7;
+
+    border-radius: 18px;
+
+    background: var(--green-light);
 }
 
-.price-label {
-  font-size: 12px;
-  opacity: .85;
+.price-line {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin: 9px 0;
 }
 
-.total-price {
-  font-size: 31px;
-  line-height: 1;
-  font-weight: 900;
-  margin: 7px 0 12px;
-}
+.price-line.total {
+    padding-top: 12px;
 
-.price-detail {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 5px;
-  font-size: 12px;
-  opacity: .94;
-}
+    margin-top: 13px;
 
-.price-detail strong {
-  font-weight: 800;
-}
+    border-top:
+        1px solid
+        #cde7d7;
 
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.btn {
-  width: 100%;
-  min-height: 49px;
-  border: 0;
-  border-radius: 14px;
-  font-weight: 800;
-  padding: 12px 16px;
-}
-
-.btn-primary {
-  background: var(--green);
-  color: white;
-}
-
-.btn-primary:active {
-  transform: scale(.99);
-}
-
-.btn-secondary {
-  background: var(--green-light);
-  color: var(--green-dark);
-}
-
-.btn-danger {
-  background: #ffeded;
-  color: var(--danger);
-}
-
-.btn-dark {
-  background: #1d2520;
-  color: white;
-}
-
-.button-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 9px;
-}
-
-.button-row-3 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 7px;
+    font-size: 21px;
+    font-weight: 900;
 }
 
 /* =========================================================
-   SETTINGS
-========================================================= */
-
-.setting-item {
-  padding: 13px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.setting-item:last-child {
-  border-bottom: 0;
-}
-
-.setting-title {
-  font-size: 13px;
-  font-weight: 800;
-  margin-bottom: 7px;
-}
-
-.money-input {
-  position: relative;
-}
-
-.money-input input {
-  width: 100%;
-  height: 44px;
-  padding: 0 50px 0 12px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  outline: none;
-}
-
-.money-input span {
-  position: absolute;
-  right: 13px;
-  top: 13px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-/* =========================================================
-   SAVED
+   СОХРАНЁННЫЕ
 ========================================================= */
 
 .saved-item {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 9px;
+    padding: 14px;
+
+    margin-bottom: 10px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 16px;
+
+    background: white;
 }
 
-.saved-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+.saved-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 10px;
 }
 
-.saved-name {
-  font-weight: 800;
-}
+.empty {
+    padding: 40px 10px;
 
-.saved-date {
-  font-size: 10px;
-  color: var(--muted);
-}
+    color: var(--muted);
 
-.saved-price {
-  font-size: 19px;
-  color: var(--green);
-  font-weight: 900;
-  margin-top: 6px;
-}
-
-.saved-info {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 4px;
+    text-align: center;
 }
 
 /* =========================================================
-   MODAL
-========================================================= */
-
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(0,0,0,.45);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.modal-content {
-  width: 100%;
-  max-width: 900px;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: white;
-  border-radius: 24px 24px 0 0;
-  padding: 18px;
-}
-
-.modal-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.modal-title {
-  font-weight: 900;
-  font-size: 19px;
-}
-
-.close {
-  width: 36px;
-  height: 36px;
-  border: 0;
-  border-radius: 10px;
-  background: #f0f2f1;
-}
-
-/* =========================================================
-   TOAST
+   ТОСТ
 ========================================================= */
 
 .toast {
-  position: fixed;
-  left: 50%;
-  bottom: 24px;
-  transform: translateX(-50%) translateY(100px);
-  background: #202622;
-  color: white;
-  padding: 12px 17px;
-  border-radius: 13px;
-  font-size: 12px;
-  z-index: 200;
-  transition: .25s;
-  max-width: calc(100% - 30px);
-  text-align: center;
+    position: fixed;
+
+    left: 50%;
+    bottom: 22px;
+
+    z-index: 999;
+
+    max-width: 90%;
+
+    padding: 12px 17px;
+
+    border-radius: 14px;
+
+    background: #202124;
+    color: white;
+
+    text-align: center;
+
+    opacity: 0;
+
+    transform:
+        translateX(-50%)
+        translateY(20px);
+
+    pointer-events: none;
+
+    transition: .25s;
 }
 
 .toast.show {
-  transform: translateX(-50%) translateY(0);
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
 }
 
 /* =========================================================
-   DESKTOP
+   АДАПТИВ
 ========================================================= */
 
-@media (min-width: 700px) {
+@media(max-width:480px) {
 
-  .app {
-    padding: 25px;
-  }
+    .models-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
 
-  .model-list {
-    grid-template-columns: 1fr 1fr;
-  }
+    .model-image {
+        height: 105px;
+    }
 
-  .home-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+    .hero h2 {
+        font-size: 25px;
+    }
 
-  .product-photo {
-    height: 280px;
-  }
 }
 
-@media (max-width: 420px) {
-
-  .home-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .two-columns {
-    grid-template-columns: 1fr;
-  }
-
-  .model-card {
-    grid-template-columns: 100px 1fr;
-  }
-
-  .model-image {
-    min-height: 120px;
-  }
-}
 </style>
 </head>
 
@@ -987,1098 +671,900 @@ button {
 
 <div class="app">
 
-  <!-- =====================================================
-       HEADER
-  ====================================================== -->
+<!-- ======================================================
+     HEADER
+====================================================== -->
 
-  <header class="header">
-
-    <div class="logo">
-
-      <div class="logo-icon">
-        🌱
-      </div>
-
-      <div>
-        <div class="logo-title">
-          Теплица PRO
-        </div>
-
-        <div class="logo-subtitle">
-          Калькулятор и продажи
-        </div>
-      </div>
-
-    </div>
+<header class="header">
 
     <button
-      class="header-button"
-      onclick="openScreen('savedScreen')"
-      title="Расчёты"
-    >
-      📋
+        id="backButton"
+        class="back-button"
+        style="display:none"
+        onclick="goBack()">
+
+        ‹
+
     </button>
 
-  </header>
+    <h1 id="headerTitle">
+        Теплицы
+    </h1>
+
+</header>
 
 
-  <!-- =====================================================
-       HOME SCREEN
-  ====================================================== -->
+<main>
 
-  <section id="homeScreen" class="screen active">
+
+<!-- ======================================================
+     ГЛАВНАЯ
+====================================================== -->
+
+<section
+    id="home"
+    class="page active">
 
     <div class="hero">
 
-      <h1>
-        Рассчитай теплицу
-      </h1>
-
-      <p>
-        Большой калькулятор для расчёта стоимости теплиц,
-        монтажа и дополнительных товаров.
-      </p>
-
-    </div>
-
-
-    <div class="home-grid">
-
-      <button
-        class="home-card"
-        onclick="openScreen('catalogScreen')"
-      >
-
-        <div class="home-card-icon">
-          🧮
-        </div>
-
-        <div class="home-card-title">
-          Рассчитать стоимость
-        </div>
-
-        <div class="home-card-text">
-          Модель, размер, поликарбонат,
-          стяжки, монтаж и дополнительные товары
-        </div>
-
-      </button>
-
-
-      <button
-        class="home-card"
-        onclick="openScreen('settingsScreen')"
-      >
-
-        <div class="home-card-icon">
-          ⚙️
-        </div>
-
-        <div class="home-card-title">
-          Изменить стоимость
-        </div>
-
-        <div class="home-card-text">
-          Закупочные цены, труба,
-          поликарбонат и дополнительные товары
-        </div>
-
-      </button>
-
-
-      <button
-        class="home-card"
-        onclick="openScreen('savedScreen')"
-      >
-
-        <div class="home-card-icon">
-          📋
-        </div>
-
-        <div class="home-card-title">
-          Сохранённые расчёты
-        </div>
-
-        <div class="home-card-text">
-          Сохраняй готовые расчёты клиентов
-        </div>
-
-      </button>
-
-
-      <button
-        class="home-card"
-        onclick="openAbout()"
-      >
-
-        <div class="home-card-icon">
-          ℹ️
-        </div>
-
-        <div class="home-card-title">
-          О калькуляторе
-        </div>
-
-        <div class="home-card-text">
-          Версия PRO для работы продавца
-        </div>
-
-      </button>
-
-    </div>
-
-
-    <div class="stats">
-
-      <div class="stat">
-        <div class="stat-number" id="modelCountStat">
-          0
-        </div>
-        <div class="stat-label">
-          моделей
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-number">
-          2–10
-        </div>
-        <div class="stat-label">
-          длина, м
-        </div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-number">
-          ₽
-        </div>
-        <div class="stat-label">
-          свои цены
-        </div>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       CATALOG SCREEN
-  ====================================================== -->
-
-  <section id="catalogScreen" class="screen">
-
-    <div class="topbar">
-
-      <button
-        class="back-button"
-        onclick="openScreen('homeScreen')"
-      >
-        ←
-      </button>
-
-      <div class="page-title">
-        Выбор теплицы
-      </div>
-
-    </div>
-
-
-    <div class="search">
-
-      <span class="search-icon">
-        🔎
-      </span>
-
-      <input
-        id="modelSearch"
-        type="text"
-        placeholder="Поиск модели..."
-        oninput="renderModelList()"
-      >
-
-    </div>
-
-
-    <div class="category-tabs">
-
-      <button
-        class="category-tab active"
-        data-category="all"
-        onclick="setCategory('all', this)"
-      >
-        Все
-      </button>
-
-      <button
-        class="category-tab"
-        data-category="arched"
-        onclick="setCategory('arched', this)"
-      >
-        Арочные
-      </button>
-
-      <button
-        class="category-tab"
-        data-category="straight"
-        onclick="setCategory('straight', this)"
-      >
-        Прямостенные
-      </button>
-
-      <button
-        class="category-tab"
-        data-category="gabled"
-        onclick="setCategory('gabled', this)"
-      >
-        Двускатные
-      </button>
-
-      <button
-        class="category-tab"
-        data-category="industrial"
-        onclick="setCategory('industrial', this)"
-      >
-        Промышленные
-      </button>
-
-    </div>
-
-
-    <div
-      id="modelList"
-      class="model-list"
-    ></div>
-
-  </section>
-
-
-  <!-- =====================================================
-       CALCULATOR SCREEN
-  ====================================================== -->
-
-  <section id="calculatorScreen" class="screen">
-
-    <div class="topbar">
-
-      <button
-        class="back-button"
-        onclick="openScreen('catalogScreen')"
-      >
-        ←
-      </button>
-
-      <div
-        id="calculatorTitle"
-        class="page-title"
-      >
-        Расчёт
-      </div>
-
-    </div>
-
-
-    <!-- MODEL PHOTO -->
-
-    <div class="card">
-
-      <div
-        id="productPhoto"
-        class="product-photo"
-      ></div>
-
-      <div
-        id="productDescription"
-        class="card-subtitle"
-      ></div>
-
-    </div>
-
-
-    <!-- BASIC PARAMETERS -->
-
-    <div class="card">
-
-      <div class="card-title">
-        📐 Размеры
-      </div>
-
-      <div class="two-columns">
-
-        <div class="field">
-
-          <label class="label">
-            Ширина
-          </label>
-
-          <select
-            id="widthSelect"
-            class="select"
-            onchange="recalculate()"
-          ></select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label class="label">
-            Длина
-          </label>
-
-          <select
-            id="lengthSelect"
-            class="select"
-            onchange="recalculate()"
-          ></select>
-
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label class="label">
-          Высота
-        </label>
-
-        <input
-          id="heightValue"
-          class="input"
-          type="text"
-          readonly
-        >
-
-      </div>
-
-    </div>
-
-
-    <!-- POLYCARBONATE -->
-
-    <div class="card">
-
-      <div class="card-title">
-        🧱 Поликарбонат
-      </div>
-
-      <div
-        id="polyChoices"
-        class="choice-grid"
-      ></div>
-
-    </div>
-
-
-    <!-- BRACES -->
-
-    <div
-      id="bracesCard"
-      class="card"
-    >
-
-      <div class="card-title">
-        🔩 Усиление
-      </div>
-
-      <div
-        id="braceChoices"
-        class="choice-grid"
-      ></div>
-
-    </div>
-
-
-    <!-- DOORS / WINDOWS -->
-
-    <div class="card">
-
-      <div class="card-title">
-        🚪 Двери и проветривание
-      </div>
-
-
-      <div class="checkbox-row">
-
-        <div class="checkbox-left">
-
-          <div class="checkbox-title">
-            Дополнительная дверь
-          </div>
-
-          <div class="checkbox-description">
-            Дополнительный вход в теплицу
-          </div>
-
-        </div>
-
-
-        <label class="switch">
-
-          <input
-            id="extraDoor"
-            type="checkbox"
-            onchange="recalculate()"
-          >
-
-          <span class="slider"></span>
-
-        </label>
-
-      </div>
-
-
-      <div class="checkbox-row">
-
-        <div class="checkbox-left">
-
-          <div class="checkbox-title">
-            Дополнительная форточка
-          </div>
-
-          <div class="checkbox-description">
-            1 500 ₽ за штуку
-          </div>
-
-        </div>
-
-
-        <div class="counter">
-
-          <button
-            onclick="changeCounter('windowCount', -1)"
-          >
-            −
-          </button>
-
-          <div
-            id="windowCount"
-            class="counter-value"
-          >
-            0
-          </div>
-
-          <button
-            onclick="changeCounter('windowCount', 1)"
-          >
-            +
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div class="checkbox-row">
-
-        <div class="checkbox-left">
-
-          <div class="checkbox-title">
-            Автомат для проветривания
-          </div>
-
-          <div class="checkbox-description">
-            2 950 ₽ за штуку
-          </div>
-
-        </div>
-
-
-        <div class="counter">
-
-          <button
-            onclick="changeCounter('autoVentCount', -1)"
-          >
-            −
-          </button>
-
-          <div
-            id="autoVentCount"
-            class="counter-value"
-          >
-            0
-          </div>
-
-          <button
-            onclick="changeCounter('autoVentCount', 1)"
-          >
-            +
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- ASSEMBLY -->
-
-    <div class="card">
-
-      <div class="card-title">
-        🔧 Сборка
-      </div>
-
-
-      <div class="checkbox-row">
-
-        <div class="checkbox-left">
-
-          <div class="checkbox-title">
-            Монтаж теплицы
-          </div>
-
-          <div class="checkbox-description">
-            Рассчитывается автоматически
-          </div>
-
-        </div>
-
-
-        <label class="switch">
-
-          <input
-            id="assemblyEnabled"
-            type="checkbox"
-            checked
-            onchange="recalculate()"
-          >
-
-          <span class="slider"></span>
-
-        </label>
-
-      </div>
-
-    </div>
-
-
-    <!-- EXTRA PRODUCTS -->
-
-    <div class="card">
-
-      <div class="card-title">
-        📦 Дополнительные товары
-      </div>
-
-      <div id="extraProducts"></div>
-
-    </div>
-
-
-    <!-- DISCOUNT -->
-
-    <div class="card">
-
-      <div class="card-title">
-        💰 Скидка
-      </div>
-
-      <div class="field">
-
-        <label class="label">
-          Процент скидки
-        </label>
-
-        <input
-          id="discount"
-          class="input"
-          type="number"
-          min="0"
-          max="100"
-          value="0"
-          oninput="recalculate()"
-        >
-
-      </div>
-
-    </div>
-
-
-    <!-- RESULT -->
-
-    <div class="price-box">
-
-      <div class="price-label">
-        Итоговая стоимость
-      </div>
-
-      <div
-        id="totalPrice"
-        class="total-price"
-      >
-        0 ₽
-      </div>
-
-
-      <div class="price-detail">
-
-        <span>
-          Теплица
-        </span>
-
-        <strong id="basePrice">
-          0 ₽
-        </strong>
-
-
-        <span>
-          Доп. товары
-        </span>
-
-        <strong id="extrasPrice">
-          0 ₽
-        </strong>
-
-
-        <span>
-          Монтаж
-        </span>
-
-        <strong id="assemblyPrice">
-          0 ₽
-        </strong>
-
-
-        <span>
-          Скидка
-        </span>
-
-        <strong id="discountPrice">
-          0 ₽
-        </strong>
-
-      </div>
-
-
-      <div style="margin-top:14px">
-
-        <div class="button-row">
-
-          <button
-            class="btn btn-secondary"
-            onclick="saveCalculation()"
-          >
-            💾 Сохранить
-          </button>
-
-          <button
-            class="btn btn-dark"
-            onclick="shareCalculation()"
-          >
-            📤 Отправить
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       SETTINGS SCREEN
-  ====================================================== -->
-
-  <section id="settingsScreen" class="screen">
-
-    <div class="topbar">
-
-      <button
-        class="back-button"
-        onclick="openScreen('homeScreen')"
-      >
-        ←
-      </button>
-
-      <div class="page-title">
-        Стоимость
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="card-title">
-        ⚙️ Закупочные цены
-      </div>
-
-      <div class="card-subtitle">
-        Эти значения используются в дополнительных расчётах.
-      </div>
-
-
-      <div class="setting-item">
-
-        <div class="setting-title">
-          Труба 40×20
-        </div>
-
-        <div class="money-input">
-
-          <input
-            id="costPipe4020"
-            type="number"
-            onchange="saveSettings()"
-          >
-
-          <span>
-            ₽/м
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="setting-item">
-
-        <div class="setting-title">
-          Труба 20×20
-        </div>
-
-        <div class="money-input">
-
-          <input
-            id="costPipe2020"
-            type="number"
-            onchange="saveSettings()"
-          >
-
-          <span>
-            ₽/м
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="setting-item">
-
-        <div class="setting-title">
-          Поликарбонат 4 мм
-        </div>
-
-        <div class="money-input">
-
-          <input
-            id="costPoly4"
-            type="number"
-            onchange="saveSettings()"
-          >
-
-          <span>
-            ₽/м²
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="setting-item">
-
-        <div class="setting-title">
-          Поликарбонат 6 мм
-        </div>
-
-        <div class="money-input">
-
-          <input
-            id="costPoly6"
-            type="number"
-            onchange="saveSettings()"
-          >
-
-          <span>
-            ₽/м²
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="setting-item">
-
-        <div class="setting-title">
-          Крепёж
-        </div>
-
-        <div class="money-input">
-
-          <input
-            id="costFasteners"
-            type="number"
-            onchange="saveSettings()"
-          >
-
-          <span>
-            ₽
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="setting-item">
-
-        <div class="setting-title">
-          Брус
-        </div>
-
-        <div class="money-input">
-
-          <input
-            id="costWood"
-            type="number"
-            onchange="saveSettings()"
-          >
-
-          <span>
-            ₽
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="setting-item">
-
-        <div class="setting-title">
-          Монтаж за м²
-        </div>
-
-        <div class="money-input">
-
-          <input
-            id="costAssemblyM2"
-            type="number"
-            onchange="saveSettings()"
-          >
-
-          <span>
-            ₽
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- EXTRA PRODUCT MANAGEMENT -->
-
-    <div class="card">
-
-      <div class="card-title">
-        📦 Дополнительные товары
-      </div>
-
-      <div id="settingsExtras"></div>
-
-      <button
-        class="btn btn-primary"
-        onclick="openAddExtraModal()"
-      >
-        + Добавить товар
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="card-title">
-        🔄 Сброс
-      </div>
-
-      <button
-        class="btn btn-danger"
-        onclick="resetSettings()"
-      >
-        Сбросить настройки
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       SAVED SCREEN
-  ====================================================== -->
-
-  <section id="savedScreen" class="screen">
-
-    <div class="topbar">
-
-      <button
-        class="back-button"
-        onclick="openScreen('homeScreen')"
-      >
-        ←
-      </button>
-
-      <div class="page-title">
-        Расчёты
-      </div>
-
-    </div>
-
-
-    <div id="savedList"></div>
-
-  </section>
-
-
-</div>
-
-
-<!-- =======================================================
-     ADD EXTRA MODAL
-======================================================== -->
-
-<div
-  id="extraModal"
-  class="modal hidden"
->
-
-  <div class="modal-content">
-
-    <div class="modal-head">
-
-      <div class="modal-title">
-        Новый товар
-      </div>
-
-      <button
-        class="close"
-        onclick="closeExtraModal()"
-      >
-        ✕
-      </button>
-
-    </div>
-
-
-    <div class="field">
-
-      <label class="label">
-        Название
-      </label>
-
-      <input
-        id="newExtraName"
-        class="input"
-        placeholder="Например: Автополив"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label class="label">
-        Цена
-      </label>
-
-      <input
-        id="newExtraPrice"
-        class="input"
-        type="number"
-        placeholder="8500"
-      >
+        <h2>
+            Калькулятор теплиц
+        </h2>
+
+        <p>
+            Рассчитывайте стоимость теплицы,
+            дополнительные опции, монтаж,
+            доставку и закупочную себестоимость.
+        </p>
 
     </div>
 
 
     <button
-      class="btn btn-primary"
-      onclick="addExtraProduct()"
-    >
-      Добавить
+        class="big-button"
+        onclick="openPage('catalog')">
+
+        🧮 Рассчитать стоимость
+
     </button>
 
-  </div>
 
-</div>
+    <button
+        class="big-button secondary"
+        onclick="openPage('settings')">
+
+        ⚙️ Изменить стоимость
+
+    </button>
 
 
-<!-- =======================================================
-     ABOUT MODAL
-======================================================== -->
+    <button
+        class="big-button secondary"
+        onclick="openPage('saved')">
 
-<div
-  id="aboutModal"
-  class="modal hidden"
->
+        💾 Сохранённые расчёты
 
-  <div class="modal-content">
+    </button>
 
-    <div class="modal-head">
+</section>
 
-      <div class="modal-title">
-        О калькуляторе
-      </div>
 
-      <button
-        class="close"
-        onclick="closeAbout()"
-      >
-        ✕
-      </button>
+
+<!-- ======================================================
+     КАТАЛОГ
+====================================================== -->
+
+<section
+    id="catalog"
+    class="page">
+
+    <div class="section-title">
+        Выберите теплицу
+    </div>
+
+
+    <div
+        id="categoryTabs"
+        class="tabs">
+    </div>
+
+
+    <div
+        id="models"
+        class="models-grid">
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     КАЛЬКУЛЯТОР
+====================================================== -->
+
+<section
+    id="calculator"
+    class="page">
+
+
+    <div class="card">
+
+        <div
+            id="calcModelName"
+            class="section-title">
+
+            Теплица
+
+        </div>
+
+        <div
+            id="calcModelMeta"
+            class="muted">
+
+        </div>
 
     </div>
 
 
-    <div style="line-height:1.6;font-size:13px;color:#4f5852">
 
-      <p>
-        <b>Теплица PRO</b> — внутренний калькулятор
-        для расчёта стоимости теплиц.
-      </p>
+    <!-- РАЗМЕР -->
 
-      <p>
-        Цены, дополнительные товары и закупочные
-        параметры хранятся локально в браузере.
-      </p>
+    <div class="card">
 
-      <p>
-        В следующей версии сюда можно добавить:
-      </p>
+        <div class="section-title">
+            Размер
+        </div>
 
-      <ul>
-        <li>доставку по километрам;</li>
-        <li>адрес клиента;</li>
-        <li>телефон клиента;</li>
-        <li>автоматический расчёт себестоимости;</li>
-        <li>маржу;</li>
-        <li>прибыль;</li>
-        <li>PDF-коммерческое предложение;</li>
-        <li>отправку заказа в Telegram.</li>
-      </ul>
+
+        <div class="row">
+
+            <div class="field">
+
+                <label>
+                    Ширина
+                </label>
+
+                <select
+                    id="width">
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Длина
+                </label>
+
+                <select
+                    id="length">
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Поликарбонат
+            </label>
+
+            <select id="poly">
+
+                <option>
+                    4 мм Стандарт+
+                </option>
+
+                <option>
+                    4 мм Ультра-Премиум
+                </option>
+
+                <option>
+                    6 мм Стандарт+
+                </option>
+
+            </select>
+
+        </div>
 
     </div>
 
-  </div>
+
+
+    <!-- ДВЕРИ -->
+
+    <div class="card">
+
+        <div class="section-title">
+            Двери и форточки
+        </div>
+
+
+        <div class="option">
+
+            <div>
+
+                <div class="option-title">
+                    Дополнительная дверь
+                </div>
+
+                <small>
+                    3 500 ₽ / шт.
+                </small>
+
+            </div>
+
+
+            <div class="counter">
+
+                <button onclick="changeQty('doors',-1)">
+                    −
+                </button>
+
+                <b id="doorsQty">
+                    0
+                </b>
+
+                <button onclick="changeQty('doors',1)">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="option">
+
+            <div>
+
+                <div class="option-title">
+                    Дополнительная форточка
+                </div>
+
+                <small>
+                    1 500 ₽ / шт.
+                </small>
+
+            </div>
+
+
+            <div class="counter">
+
+                <button onclick="changeQty('vents',-1)">
+                    −
+                </button>
+
+                <b id="ventsQty">
+                    0
+                </b>
+
+                <button onclick="changeQty('vents',1)">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="option">
+
+            <div>
+
+                <div class="option-title">
+                    Автоматический открыватель
+                </div>
+
+                <small>
+                    автоматически открывает форточку
+                </small>
+
+            </div>
+
+
+            <div class="counter">
+
+                <button onclick="changeQty('auto',-1)">
+                    −
+                </button>
+
+                <b id="autoQty">
+                    0
+                </b>
+
+                <button onclick="changeQty('auto',1)">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- УСИЛЕНИЕ -->
+
+    <div class="card">
+
+        <div class="section-title">
+            Усиление
+        </div>
+
+
+        <div class="option">
+
+            <div>
+
+                <div class="option-title">
+                    Дополнительная дуга
+                </div>
+
+                <small>
+                    усиление каркаса
+                </small>
+
+            </div>
+
+
+            <div class="counter">
+
+                <button onclick="changeQty('braces',-1)">
+                    −
+                </button>
+
+                <b id="bracesQty">
+                    0
+                </b>
+
+                <button onclick="changeQty('braces',1)">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="option">
+
+            <div>
+
+                <div class="option-title">
+                    Брус под теплицу
+                </div>
+
+                <small>
+                    деревянное основание
+                </small>
+
+            </div>
+
+
+            <div class="counter">
+
+                <button onclick="changeQty('wood',-1)">
+                    −
+                </button>
+
+                <b id="woodQty">
+                    0
+                </b>
+
+                <button onclick="changeQty('wood',1)">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- СЕРВИС -->
+
+    <div class="card">
+
+        <div class="section-title">
+            Монтаж и доставка
+        </div>
+
+
+        <div class="option">
+
+            <div>
+
+                <div class="option-title">
+                    Монтаж
+                </div>
+
+                <small>
+                    рассчитывается по длине
+                </small>
+
+            </div>
+
+
+            <div
+                id="assemblySwitch"
+                class="switch"
+                onclick="toggleService('assembly')">
+            </div>
+
+        </div>
+
+
+
+        <div class="option">
+
+            <div>
+
+                <div class="option-title">
+                    Доставка
+                </div>
+
+                <small>
+                    укажите стоимость
+                </small>
+
+            </div>
+
+
+            <div
+                id="deliverySwitch"
+                class="switch"
+                onclick="toggleService('delivery')">
+            </div>
+
+        </div>
+
+
+        <div
+            id="deliveryField"
+            class="field"
+            style="display:none">
+
+            <label>
+                Стоимость доставки, ₽
+            </label>
+
+            <input
+                id="delivery"
+                type="number"
+                min="0"
+                value="0"
+                oninput="calculate()">
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ДОПОЛНИТЕЛЬНЫЕ ТОВАРЫ -->
+
+    <div class="card">
+
+        <div class="section-title">
+            Дополнительные товары
+        </div>
+
+
+        <div id="extras">
+        </div>
+
+
+        <button
+            class="small-button"
+            onclick="openPage('settings')">
+
+            ⚙️ Настроить товары
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ИТОГО -->
+
+    <div class="total-box">
+
+        <div class="price-line">
+
+            <span>
+                Каркас
+            </span>
+
+            <b id="framePrice">
+                0 ₽
+            </b>
+
+        </div>
+
+
+        <div class="price-line">
+
+            <span>
+                Поликарбонат
+            </span>
+
+            <b id="polyPrice">
+                0 ₽
+            </b>
+
+        </div>
+
+
+        <div class="price-line">
+
+            <span>
+                Опции
+            </span>
+
+            <b id="optionsPrice">
+                0 ₽
+            </b>
+
+        </div>
+
+
+        <div class="price-line">
+
+            <span>
+                Монтаж
+            </span>
+
+            <b id="assemblyPrice">
+                0 ₽
+            </b>
+
+        </div>
+
+
+        <div class="price-line">
+
+            <span>
+                Доставка
+            </span>
+
+            <b id="deliveryPrice">
+                0 ₽
+            </b>
+
+        </div>
+
+
+        <div class="price-line total">
+
+            <span>
+                Итого
+            </span>
+
+            <b id="totalPrice">
+                0 ₽
+            </b>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="big-button"
+        onclick="openPage('client')">
+
+        Продолжить →
+
+    </button>
+
+</section>
+
+
+
+<!-- ======================================================
+     КЛИЕНТ
+====================================================== -->
+
+<section
+    id="client"
+    class="page">
+
+
+    <div class="card">
+
+        <div class="section-title">
+            Данные клиента
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Имя
+            </label>
+
+            <input
+                id="clientName"
+                placeholder="Иван">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Телефон
+            </label>
+
+            <input
+                id="clientPhone"
+                type="tel"
+                placeholder="+7 ...">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Комментарий
+            </label>
+
+            <input
+                id="clientComment"
+                placeholder="Адрес, пожелания...">
+
+        </div>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <div class="section-title">
+            Итог
+        </div>
+
+
+        <div
+            id="clientTotal"
+            class="price">
+
+            0 ₽
+
+        </div>
+
+
+        <div
+            id="clientSummary"
+            class="muted"
+            style="margin-top:7px">
+
+        </div>
+
+    </div>
+
+
+
+    <button
+        class="big-button"
+        onclick="saveEstimate()">
+
+        💾 Сохранить расчёт
+
+    </button>
+
+
+    <button
+        class="big-button secondary"
+        onclick="shareEstimate()">
+
+        📤 Поделиться
+
+    </button>
+
+</section>
+
+
+
+<!-- ======================================================
+     СОХРАНЁННЫЕ
+====================================================== -->
+
+<section
+    id="saved"
+    class="page">
+
+
+    <div class="section-title">
+        Сохранённые расчёты
+    </div>
+
+
+    <div id="savedList">
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     НАСТРОЙКИ
+====================================================== -->
+
+<section
+    id="settings"
+    class="page">
+
+
+    <div class="card">
+
+        <div class="section-title">
+            Закупочные цены
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Труба за метр, ₽
+            </label>
+
+            <input
+                id="setPipe"
+                type="number"
+                min="0">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Поликарбонат за м², ₽
+            </label>
+
+            <input
+                id="setPoly"
+                type="number"
+                min="0">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Крепёж, ₽
+            </label>
+
+            <input
+                id="setFastener"
+                type="number"
+                min="0">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Брус за метр, ₽
+            </label>
+
+            <input
+                id="setWood"
+                type="number"
+                min="0">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Монтаж за метр, ₽
+            </label>
+
+            <input
+                id="setAssembly"
+                type="number"
+                min="0">
+
+        </div>
+
+
+        <button
+            class="big-button"
+            onclick="saveSettings()">
+
+            💾 Сохранить цены
+
+        </button>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <div class="section-title">
+            Дополнительные товары
+        </div>
+
+
+        <div id="settingsExtras">
+        </div>
+
+
+        <div class="row">
+
+            <input
+                id="newExtraName"
+                placeholder="Название">
+
+            <input
+                id="newExtraPrice"
+                type="number"
+                placeholder="Цена">
+
+        </div>
+
+
+        <button
+            class="big-button"
+            onclick="addExtra()">
+
+            ＋ Добавить товар
+
+        </button>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <div class="section-title">
+            Сброс настроек
+        </div>
+
+
+        <button
+            class="small-button danger"
+            onclick="resetSettings()">
+
+            Сбросить настройки
+
+        </button>
+
+    </div>
+
+</section>
+
+
+</main>
 
 </div>
 
 
 <div
-  id="toast"
-  class="toast"
-></div>
+    id="toast"
+    class="toast">
+</div>
+
 
 
 <script>
@@ -2088,1181 +1574,180 @@ button {
 ========================================================= */
 
 const tg =
-  window.Telegram &&
-  window.Telegram.WebApp
-    ? window.Telegram.WebApp
-    : null;
+    window.Telegram &&
+    window.Telegram.WebApp
+        ? window.Telegram.WebApp
+        : null;
+
 
 if (tg) {
-  tg.ready();
-  tg.expand();
+
+    tg.ready();
+
+    tg.expand();
+
 }
 
 
+
 /* =========================================================
-   МОДЕЛИ
+   МОДЕЛИ ТЕПЛИЦ
 ========================================================= */
-
-/*
-  ВАЖНО:
-
-  Здесь находится вся база моделей.
-
-  Если нужно добавить новую модель,
-  добавляешь новый объект в массив models.
-*/
 
 const models = [
 
-  /* =====================================================
-     1. СЧАСТЬЕ САДОВОДА
-  ====================================================== */
-
-  {
-    id: "happy_gardener",
-    name: "Счастье Садовода",
-    category: "arched",
-
-    description:
-      "Классическая арочная теплица с одинарной трубой 40×20 мм.",
-
-    widths: [3],
-
-    height: {
-      "3": "2.10 м"
+    {
+        name: "Счастье Садовода",
+        cat: "Арочные",
+        widths: [3],
+        lengths: [2,4,6,8,10],
+        frame: "40×20",
+        base: 19700,
+        emoji: "🌱"
     },
 
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Одинарная труба 40×20 мм",
-
-    snow:
-      "до 254 кг/м²",
-
-    image:
-      "",
-
-    fromPrices: {
-      "3": {
-        "2": 19700,
-        "4": 27300,
-        "6": 36200,
-        "8": 44900,
-        "10": 53900
-      }
+    {
+        name: "Звезда",
+        cat: "Арочные",
+        widths: [2,2.5,3],
+        lengths: [2,4,6,8,10],
+        frame: "20×20 + 20×20",
+        base: 23900,
+        emoji: "⭐"
     },
 
-    polyPrices: {
-
-      "4_standard": {
-        "2": 19700,
-        "4": 27300,
-        "6": 36200,
-        "8": 44900,
-        "10": 53900
-      }
-
+    {
+        name: "Усиленная",
+        cat: "Арочные",
+        widths: [2.5,3],
+        lengths: [2,4,6,8,10],
+        frame: "40×20 + 20×20",
+        base: 30000,
+        emoji: "💪"
     },
 
-    polyOptions: [
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      }
-    ],
-
-    braces: [
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-    ]
-  },
-
-
-  /* =====================================================
-     2. ЗВЕЗДА
-  ====================================================== */
-
-  {
-    id: "star",
-    name: "Звезда",
-    category: "arched",
-
-    description:
-      "Усиленная арочная конструкция с двойной трубой.",
-
-    widths: [2,2.5,3],
-
-    height: {
-      "2": "2.10 м",
-      "2.5": "2.10 м",
-      "3": "2.10 м"
+    {
+        name: "Квадратная",
+        cat: "Прямостенные",
+        widths: [2,2.5],
+        lengths: [2,4,6,8,10],
+        frame: "усиленный",
+        base: 24000,
+        emoji: "▣"
     },
 
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Двойная труба 20×20 + 20×20 мм",
-
-    snow:
-      "до 305 кг/м²",
-
-    image:
-      "",
-
-    fromPrices: {
-
-      "2": {
-        "2": 25100,
-        "4": 34900,
-        "6": 45900,
-        "8": 57000,
-        "10": 68100
-      },
-
-      "2.5": {
-        "2": 25100,
-        "4": 34900,
-        "6": 45900,
-        "8": 57000,
-        "10": 68100
-      },
-
-      "3": {
-        "2": 25100,
-        "4": 34900,
-        "6": 45900,
-        "8": 57000,
-        "10": 68100
-      }
-
+    {
+        name: "Сказка",
+        cat: "Арочные",
+        widths: [2,2.5,3],
+        lengths: [2,4,6,8,10],
+        frame: "40×20",
+        base: 28800,
+        emoji: "🏡"
     },
 
-    polyOptions: [
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      }
-    ],
-
-    braces: [
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-    ]
-  },
-
-
-  /* =====================================================
-     3. УСИЛЕННАЯ
-  ====================================================== */
-
-  {
-    id: "reinforced",
-    name: "Усиленная",
-    category: "arched",
-
-    description:
-      "Усиленная арочная теплица с двойной цельной аркой.",
-
-    widths: [3,3.5,4],
-
-    height: {
-      "3": "2.10 м",
-      "3.5": "2.10 м",
-      "4": "2.10 м"
+    {
+        name: "Сказка Титан",
+        cat: "Арочные",
+        widths: [3,3.5,4],
+        lengths: [2,4,6,8,10],
+        frame: "40×20 + 40×20",
+        base: 51200,
+        emoji: "🛡️"
     },
 
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Двойная труба 40×20 + 20×20 мм",
-
-    snow:
-      "до 760 кг/м²",
-
-    image:
-      "",
-
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      },
-
-      {
-        id: "4_ultra",
-        name: "4 мм Ультра-Премиум"
-      },
-
-      {
-        id: "6_standard",
-        name: "6 мм Стандарт+"
-      }
-
-    ],
-
-    /*
-      Таблица для ширины 3 м.
-      Значения взяты из опубликованной
-      страницы модели.
-    */
-
-    polyPricesByWidth: {
-
-      "3": {
-
-        "4_standard": {
-          "2": 31100,
-          "4": 44600,
-          "6": 59400,
-          "8": 74500,
-          "10": 89400
-        },
-
-        "4_ultra": {
-          "2": 37200,
-          "4": 53600,
-          "6": 72100,
-          "8": 89800,
-          "10": 108000
-        },
-
-        "6_standard": {
-          "2": 38600,
-          "4": 55900,
-          "6": 74800,
-          "8": 93300,
-          "10": 112200
-        }
-
-      },
-
-      /*
-        Для ширины 3.5/4 м используем
-        базовые цены до отдельного заполнения
-        детальных таблиц.
-      */
-
-      "3.5": {
-
-        "4_standard": {
-          "2": 31100,
-          "4": 47500,
-          "6": 64100,
-          "8": 80500,
-          "10": 96800
-        },
-
-        "4_ultra": {
-          "2": 38600,
-          "4": 56800,
-          "6": 76200,
-          "8": 95800,
-          "10": 115300
-        },
-
-        "6_standard": {
-          "2": 40000,
-          "4": 59000,
-          "6": 79100,
-          "8": 99300,
-          "10": 119700
-        }
-
-      },
-
-      "4": {
-
-        "4_standard": {
-          "2": 60100,
-          "4": 80600,
-          "6": 102900,
-          "8": 125300,
-          "10": 147500
-        },
-
-        "4_ultra": {
-          "2": 68100,
-          "4": 91900,
-          "6": 117400,
-          "8": 142800,
-          "10": 168200
-        },
-
-        "6_standard": {
-          "2": 70800,
-          "4": 95700,
-          "6": 122200,
-          "8": 148700,
-          "10": 175300
-        }
-
-      }
-
+    {
+        name: "Пристенная",
+        cat: "Специальные",
+        widths: [2.5,3],
+        lengths: [2,4,6,8,10],
+        frame: "усиленный",
+        base: 35000,
+        emoji: "🏠"
     },
 
-    braces: [
-
-      {
-        id: "7",
-        name: "7 стяжек",
-        add: 0
-      },
-
-      {
-        id: "9",
-        name: "9 стяжек",
-        add: 1600
-      }
-
-    ]
-  },
-
-
-  /* =====================================================
-     4. КВАДРАТНАЯ
-  ====================================================== */
-
-  {
-    id: "square",
-    name: "Квадратная",
-    category: "straight",
-
-    description:
-      "Прямостенная теплица с высоким объёмом внутри.",
-
-    widths: [2,2.5,3],
-
-    height: {
-      "2": "2.08 м",
-      "2.5": "2.08 м",
-      "3": "2.08 м"
+    {
+        name: "Промышленная",
+        cat: "Промышленные",
+        widths: [4,4.5,5,6,7],
+        lengths: [4,6,8,10,12],
+        frame: "40×20 + 40×20",
+        base: 90900,
+        emoji: "🏭"
     },
 
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Одинарная труба 40×20 мм",
-
-    snow:
-      "до 450 кг/м²",
-
-    image:
-      "",
-
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      },
-
-      {
-        id: "4_ultra",
-        name: "4 мм Ультра-Премиум"
-      },
-
-      {
-        id: "6_standard",
-        name: "6 мм Стандарт+"
-      }
-
-    ],
-
-    polyPricesByWidth: {
-
-      "2": {
-
-        "4_standard": {
-          "2": 24000,
-          "4": 33400,
-          "6": 44400,
-          "8": 55400,
-          "10": 66700
-        },
-
-        "4_ultra": {
-          "2": 29500,
-          "4": 42000,
-          "6": 55900,
-          "8": 69900,
-          "10": 83500
-        },
-
-        "6_standard": {
-          "2": 31000,
-          "4": 43900,
-          "6": 58700,
-          "8": 73000,
-          "10": 87500
-        }
-
-      },
-
-      "2.5": {
-
-        "4_standard": {
-          "2": 24000,
-          "4": 33400,
-          "6": 44400,
-          "8": 55400,
-          "10": 66700
-        },
-
-        "4_ultra": {
-          "2": 29500,
-          "4": 42000,
-          "6": 55900,
-          "8": 69900,
-          "10": 83500
-        },
-
-        "6_standard": {
-          "2": 31000,
-          "4": 43900,
-          "6": 58700,
-          "8": 73000,
-          "10": 87500
-        }
-
-      },
-
-      "3": {
-
-        "4_standard": {
-          "2": 24000,
-          "4": 33400,
-          "6": 44400,
-          "8": 55400,
-          "10": 66700
-        },
-
-        "4_ultra": {
-          "2": 29500,
-          "4": 42000,
-          "6": 55900,
-          "8": 69900,
-          "10": 83500
-        },
-
-        "6_standard": {
-          "2": 31000,
-          "4": 43900,
-          "6": 58700,
-          "8": 73000,
-          "10": 87500
-        }
-
-      }
-
+    {
+        name: "Миттлайдер",
+        cat: "Специальные",
+        widths: [3,3.5,4],
+        lengths: [4,6,8,10],
+        frame: "усиленный",
+        base: 42000,
+        emoji: "🌤️"
     },
 
-    braces: [
-
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-
-    ]
-  },
-
-
-  /* =====================================================
-     5. СКАЗКА
-  ====================================================== */
-
-  {
-    id: "fairy",
-    name: "Сказка",
-    category: "straight",
-
-    description:
-      "Высокая прямостенная конструкция с усиленным каркасом.",
-
-    widths: [2,2.5,3],
-
-    height: {
-      "2": "2.10 м",
-      "2.5": "2.10 м",
-      "3": "2.10 м"
+    {
+        name: "Каплевидная",
+        cat: "Каплевидные",
+        widths: [2.5,3],
+        lengths: [4,6,8,10],
+        frame: "40×20",
+        base: 32000,
+        emoji: "💧"
     },
 
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Двойная труба 40×20 + 20×20 мм",
-
-    snow:
-      "до 778 кг/м²",
-
-    image:
-      "",
-
-    fromPrices: {
-
-      "2": {
-        "2": 37600,
-        "4": 52900,
-        "6": 70100,
-        "8": 88700,
-        "10": 106000
-      },
-
-      "2.5": {
-        "2": 37600,
-        "4": 52900,
-        "6": 70100,
-        "8": 88700,
-        "10": 106000
-      },
-
-      "3": {
-        "2": 37600,
-        "4": 52900,
-        "6": 70100,
-        "8": 88700,
-        "10": 106000
-      }
-
+    {
+        name: "Алтайская сказка",
+        cat: "Каплевидные",
+        widths: [3,3.5,4],
+        lengths: [4,6,8,10],
+        frame: "двойной",
+        base: 48000,
+        emoji: "🏔️"
     },
 
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      }
-
-    ],
-
-    braces: [
-
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-
-    ]
-  },
-
-
-  /* =====================================================
-     6. СКАЗКА ТИТАН
-  ====================================================== */
-
-  {
-    id: "fairy_titan",
-    name: "Сказка Титан",
-    category: "straight",
-
-    description:
-      "Очень высокая и усиленная конструкция для большой площади.",
-
-    widths: [3,3.5,4],
-
-    height: {
-      "3": "2.40 м",
-      "3.5": "2.40 м",
-      "4": "2.40 м"
+    {
+        name: "Терем",
+        cat: "Специальные",
+        widths: [2.5,3],
+        lengths: [4,6,8,10],
+        frame: "усиленный",
+        base: 39000,
+        emoji: "🏰"
     },
 
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Двойная труба 40×20 + 40×20 мм",
-
-    snow:
-      "до 1394 кг/м²",
-
-    image:
-      "",
-
-    fromPrices: {
-
-      "3": {
-        "2": 51200,
-        "4": 72100,
-        "6": 94500,
-        "8": 117200,
-        "10": 139900
-      },
-
-      "3.5": {
-        "2": 51200,
-        "4": 72100,
-        "6": 94500,
-        "8": 117200,
-        "10": 139900
-      },
-
-      "4": {
-        "2": 51200,
-        "4": 72100,
-        "6": 94500,
-        "8": 117200,
-        "10": 139900
-      }
-
+    {
+        name: "Парник Звезда",
+        cat: "Парники",
+        widths: [2],
+        lengths: [2,4,6,8,10],
+        frame: "20×20 + 20×20",
+        base: 23900,
+        emoji: "🌿"
     },
 
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      }
-
-    ],
-
-    braces: [
-
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-
-    ]
-  },
-
-
-  /* =====================================================
-     7. ПРИСТЕННАЯ
-  ====================================================== */
-
-  {
-    id: "wall",
-    name: "Пристенная",
-    category: "straight",
-
-    description:
-      "Конструкция для установки рядом со стеной здания.",
-
-    widths: [2.5,3],
-
-    height: {
-      "2.5": "2.45 м",
-      "3": "2.45 м"
+    {
+        name: "Парник Сказка",
+        cat: "Парники",
+        widths: [2.5],
+        lengths: [2,4,6,8,10],
+        frame: "40×20",
+        base: 29500,
+        emoji: "🌾"
     },
 
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Полуаркa 40×20 + 20×20 мм",
-
-    snow:
-      "до 754 кг/м²",
-
-    image:
-      "",
-
-    fromPrices: {
-
-      "2.5": {
-        "2": 46800,
-        "4": 62800,
-        "6": 80600,
-        "8": 98300,
-        "10": 116100
-      },
-
-      "3": {
-        "2": 46800,
-        "4": 62800,
-        "6": 80600,
-        "8": 98300,
-        "10": 116100
-      }
-
-    },
-
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      }
-
-    ],
-
-    braces: [
-
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-
-    ]
-  },
-
-
-  /* =====================================================
-     8. МИТТЛАЙДЕР
-  ====================================================== */
-
-  {
-    id: "mittlider",
-    name: "Миттлайдер",
-    category: "straight",
-
-    description:
-      "Теплица с особой конструкцией кровли для эффективного проветривания.",
-
-    widths: [2.5,3,3.5],
-
-    height: {
-      "2.5": "2.55 м",
-      "3": "2.55 м",
-      "3.5": "2.55 м"
-    },
-
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Двойная труба 40×20 + 20×20 мм",
-
-    snow:
-      "до 778 кг/м²",
-
-    image:
-      "",
-
-    fromPrices: {
-
-      "2.5": {
-        "2": 66800,
-        "4": 94700,
-        "6": 124400,
-        "8": 154000,
-        "10": 183700
-      },
-
-      "3": {
-        "2": 66800,
-        "4": 94700,
-        "6": 124400,
-        "8": 154000,
-        "10": 183700
-      },
-
-      "3.5": {
-        "2": 66800,
-        "4": 94700,
-        "6": 124400,
-        "8": 154000,
-        "10": 183700
-      }
-
-    },
-
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      }
-
-    ],
-
-    braces: [
-
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-
-    ]
-  },
-
-
-  /* =====================================================
-     9. ПРОМЫШЛЕННАЯ
-  ====================================================== */
-
-  {
-    id: "industrial",
-    name: "Промышленная",
-    category: "industrial",
-
-    description:
-      "Большая промышленная конструкция для профессионального использования.",
-
-    widths: [4,5,6,7],
-
-    height: {
-      "4": "2.70 м",
-      "5": "2.90 м",
-      "6": "3.10 м",
-      "7": "3.20 м"
-    },
-
-    lengths: [4,6,8,10,12],
-
-    frame:
-      "Двойная труба 40×20 + 40×20 мм",
-
-    snow:
-      "Высокая несущая способность",
-
-    image:
-      "",
-
-    fromPrices: {
-
-      "4": {
-        "4": 52700,
-        "6": 70000,
-        "8": 90000,
-        "10": 110000,
-        "12": 130000
-      },
-
-      "5": {
-        "4": 52700,
-        "6": 70000,
-        "8": 90000,
-        "10": 110000,
-        "12": 130000
-      },
-
-      "6": {
-        "4": 52700,
-        "6": 70000,
-        "8": 90000,
-        "10": 110000,
-        "12": 130000
-      },
-
-      "7": {
-        "4": 52700,
-        "6": 70000,
-        "8": 90000,
-        "10": 110000,
-        "12": 130000
-      }
-
-    },
-
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      },
-
-      {
-        id: "6_standard",
-        name: "6 мм Стандарт+"
-      }
-
-    ],
-
-    braces: [
-
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-
-    ]
-  },
-
-
-  /* =====================================================
-     10. КАПЛЕВИДНАЯ
-  ====================================================== */
-
-  {
-    id: "drop",
-    name: "Каплевидная",
-    category: "gabled",
-
-    description:
-      "Каплевидная конструкция с заострённой крышей.",
-
-    widths: [2.5,3,3.5,4],
-
-    height: {
-      "2.5": "2.50 м",
-      "3": "2.40 м",
-      "3.5": "2.70 м",
-      "4": "3.10 м"
-    },
-
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Одинарная труба 40×20 мм",
-
-    snow:
-      "до 1200 кг/м²",
-
-    image:
-      "",
-
-    fromPrices: {
-
-      "2.5": {
-        "2": 23000,
-        "4": 32600,
-        "6": 43200,
-        "8": 54000,
-        "10": 64600
-      },
-
-      "3": {
-        "2": 28900,
-        "4": 37200,
-        "6": 46800,
-        "8": 56300,
-        "10": 65700
-      },
-
-      "3.5": {
-        "2": 37800,
-        "4": 54200,
-        "6": 71800,
-        "8": 89400,
-        "10": 107100
-      },
-
-      "4": {
-        "2": 43300,
-        "4": 62400,
-        "6": 82600,
-        "8": 103100,
-        "10": 123300
-      }
-
-    },
-
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      }
-
-    ],
-
-    braces: [
-
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-
-    ]
-  },
-
-
-  /* =====================================================
-     11. АЛТАЙСКАЯ СКАЗКА
-  ====================================================== */
-
-  {
-    id: "altai",
-    name: "Алтайская сказка",
-    category: "gabled",
-
-    description:
-      "Высокая двускатная теплица с усиленным каркасом.",
-
-    widths: [2.5,3,3.5,4],
-
-    height: {
-      "2.5": "2.54 м",
-      "3": "2.75 м",
-      "3.5": "2.90 м",
-      "4": "2.97 м"
-    },
-
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Двойная труба 40×20 + 20×20 мм",
-
-    snow:
-      "до 320 кг/м²",
-
-    image:
-      "",
-
-    fromPrices: {
-
-      "2.5": {
-        "2": 38700,
-        "4": 53000,
-        "6": 68900,
-        "8": 84700,
-        "10": 100700
-      },
-
-      "3": {
-        "2": 45100,
-        "4": 62700,
-        "6": 81400,
-        "8": 100700,
-        "10": 119600
-      },
-
-      "3.5": {
-        "2": 59400,
-        "4": 80900,
-        "6": 104000,
-        "8": 126800,
-        "10": 149900
-      },
-
-      "4": {
-        "2": 73600,
-        "4": 99000,
-        "6": 126100,
-        "8": 153100,
-        "10": 180000
-      }
-
-    },
-
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      }
-
-    ],
-
-    braces: [
-
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-
-    ]
-  },
-
-
-  /* =====================================================
-     12. ТЕРЕМ
-  ====================================================== */
-
-  {
-    id: "terem",
-    name: "Терем",
-    category: "gabled",
-
-    description:
-      "Двускатная теплица с высоким внутренним объёмом.",
-
-    widths: [2.5,3],
-
-    height: {
-      "2.5": "2.75 м",
-      "3": "2.75 м"
-    },
-
-    lengths: [2,4,6,8,10],
-
-    frame:
-      "Одинарная труба 40×20 мм",
-
-    snow:
-      "225–305 кг/м²",
-
-    image:
-      "",
-
-    fromPrices: {
-
-      "2.5": {
-        "2": 34100,
-        "4": 47600,
-        "6": 61800,
-        "8": 76600,
-        "10": 90900
-      },
-
-      "3": {
-        "2": 34100,
-        "4": 47600,
-        "6": 61800,
-        "8": 76600,
-        "10": 90900
-      }
-
-    },
-
-    polyOptions: [
-
-      {
-        id: "4_standard",
-        name: "4 мм Стандарт+"
-      }
-
-    ],
-
-    braces: [
-
-      {
-        id: "base",
-        name: "Стандарт",
-        add: 0
-      }
-
-    ]
-  }
+    {
+        name: "Квадратный парник",
+        cat: "Парники",
+        widths: [2],
+        lengths: [2,4,6,8,10],
+        frame: "усиленный",
+        base: 24000,
+        emoji: "⬜"
+    }
 
 ];
 
-
-/* =========================================================
-   ДОПОЛНИТЕЛЬНЫЕ ТОВАРЫ
-========================================================= */
-
-const defaultExtras = [
-
-  {
-    id: "window",
-    name: "Дополнительная форточка",
-    price: 1500
-  },
-
-  {
-    id: "auto",
-    name: "Автомат для проветривания",
-    price: 2950
-  },
-
-  {
-    id: "tape",
-    name: "Паро-пропускающая лента",
-    price: 1650
-  },
-
-  {
-    id: "wood",
-    name: "Брус для теплицы",
-    price: 6990
-  }
-
-];
 
 
 /* =========================================================
@@ -3271,234 +1756,680 @@ const defaultExtras = [
 
 const defaultSettings = {
 
-  pipe4020: 0,
+    pipe: 190,
 
-  pipe2020: 0,
+    poly: 420,
 
-  poly4: 0,
+    fastener: 1200,
 
-  poly6: 0,
+    wood: 650,
 
-  fasteners: 0,
+    assembly: 700,
 
-  wood: 6990,
+    extras: [
 
-  assemblyM2: 700
+        {
+            id: "tape",
+            name: "Паропроницаемая лента",
+            price: 1650
+        },
+
+        {
+            id: "opener",
+            name: "Автоматический открыватель",
+            price: 2950
+        },
+
+        {
+            id: "extraVent",
+            name: "Дополнительная форточка",
+            price: 1500
+        },
+
+        {
+            id: "fast",
+            name: "Комплект крепежа",
+            price: 1200
+        }
+
+    ]
 
 };
+
+
+
+let settings =
+    JSON.parse(
+        localStorage.getItem(
+            "greenhouseSettings"
+        )
+    ) || structuredClone(defaultSettings);
+
 
 
 /* =========================================================
    СОСТОЯНИЕ
 ========================================================= */
 
-let settings = loadSettings();
+let state = {
 
-let extras = loadExtras();
+    page: "home",
 
-let savedCalculations = loadSaved();
+    previous: "home",
 
-let currentModel = null;
+    model: null,
 
-let currentCategory = "all";
+    width: null,
 
-let selectedPoly = null;
+    length: null,
 
-let selectedBraces = null;
+    poly: "4 мм Стандарт+",
 
-let counters = {
+    qty: {
 
-  windowCount: 0,
+        doors: 0,
 
-  autoVentCount: 0
+        vents: 0,
+
+        auto: 0,
+
+        braces: 0,
+
+        wood: 0
+
+    },
+
+    services: {
+
+        assembly: false,
+
+        delivery: false
+
+    },
+
+    extraQty: {}
 
 };
 
 
+
 /* =========================================================
-   LOCAL STORAGE
+   ДЕНЬГИ
 ========================================================= */
 
-function loadSettings() {
+function money(number) {
 
-  try {
-
-    const saved =
-      JSON.parse(
-        localStorage.getItem("greenhouse_settings")
-      );
-
-    return {
-      ...defaultSettings,
-      ...(saved || {})
-    };
-
-  } catch {
-
-    return {
-      ...defaultSettings
-    };
-
-  }
+    return Math.round(number)
+        .toLocaleString("ru-RU")
+        + " ₽";
 
 }
 
 
-function saveSettings() {
 
-  settings = {
+/* =========================================================
+   TOAST
+========================================================= */
 
-    pipe4020:
-      Number(
-        document.getElementById("costPipe4020").value
-      ) || 0,
+function toast(message) {
 
-    pipe2020:
-      Number(
-        document.getElementById("costPipe2020").value
-      ) || 0,
+    const element =
+        document.getElementById("toast");
 
-    poly4:
-      Number(
-        document.getElementById("costPoly4").value
-      ) || 0,
 
-    poly6:
-      Number(
-        document.getElementById("costPoly6").value
-      ) || 0,
+    element.textContent =
+        message;
 
-    fasteners:
-      Number(
-        document.getElementById("costFasteners").value
-      ) || 0,
 
-    wood:
-      Number(
-        document.getElementById("costWood").value
-      ) || 0,
+    element.classList.add("show");
 
-    assemblyM2:
-      Number(
-        document.getElementById("costAssemblyM2").value
-      ) || 0
 
-  };
+    clearTimeout(
+        window.toastTimer
+    );
 
-  localStorage.setItem(
-    "greenhouse_settings",
-    JSON.stringify(settings)
-  );
 
-  renderSettingsExtras();
+    window.toastTimer =
+        setTimeout(
+            () => {
 
-  showToast("Стоимость сохранена");
+                element.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
 
 }
 
 
-function loadExtras() {
 
-  try {
+/* =========================================================
+   ОТКРЫТИЕ СТРАНИЦ
+========================================================= */
 
-    const saved =
-      JSON.parse(
-        localStorage.getItem("greenhouse_extras")
-      );
+function openPage(id) {
 
-    if (
-      Array.isArray(saved) &&
-      saved.length
-    ) {
+    state.previous =
+        state.page;
 
-      return saved;
+
+    state.page =
+        id;
+
+
+    document
+        .querySelectorAll(".page")
+        .forEach(
+            page => {
+
+                page.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    const target =
+        document.getElementById(id);
+
+
+    if (!target) {
+
+        return;
 
     }
 
-  } catch {}
 
-  return defaultExtras.map(x => ({...x}));
+    target.classList.add(
+        "active"
+    );
+
+
+    const back =
+        document.getElementById(
+            "backButton"
+        );
+
+
+    back.style.display =
+        id === "home"
+            ? "none"
+            : "block";
+
+
+    const titles = {
+
+        home: "Теплицы",
+
+        catalog: "Выбор теплицы",
+
+        calculator: "Расчёт",
+
+        client: "Клиент",
+
+        saved: "Сохранённые",
+
+        settings: "Настройки"
+
+    };
+
+
+    document.getElementById(
+        "headerTitle"
+    ).textContent =
+        titles[id] || "Теплицы";
+
+
+    if (id === "catalog") {
+
+        renderCatalog();
+
+    }
+
+
+    if (id === "calculator") {
+
+        renderExtras();
+
+        renderCalculator();
+
+        calculate();
+
+    }
+
+
+    if (id === "client") {
+
+        renderClient();
+
+    }
+
+
+    if (id === "saved") {
+
+        renderSaved();
+
+    }
+
+
+    if (id === "settings") {
+
+        renderSettings();
+
+    }
+
+
+    window.scrollTo(
+        0,
+        0
+    );
 
 }
 
-
-function saveExtras() {
-
-  localStorage.setItem(
-    "greenhouse_extras",
-    JSON.stringify(extras)
-  );
-
-}
-
-
-function loadSaved() {
-
-  try {
-
-    const saved =
-      JSON.parse(
-        localStorage.getItem("greenhouse_saved")
-      );
-
-    return Array.isArray(saved)
-      ? saved
-      : [];
-
-  } catch {
-
-    return [];
-
-  }
-
-}
-
-
-function saveSaved() {
-
-  localStorage.setItem(
-    "greenhouse_saved",
-    JSON.stringify(savedCalculations)
-  );
-
-}
 
 
 /* =========================================================
-   FORMAT
+   НАЗАД
 ========================================================= */
 
-function money(value) {
+function goBack() {
 
-  return Math.round(
-    Number(value) || 0
-  ).toLocaleString("ru-RU") + " ₽";
+    if (
+        state.page ===
+        "calculator"
+    ) {
+
+        openPage(
+            "catalog"
+        );
+
+        return;
+
+    }
+
+
+    if (
+        state.page ===
+        "client"
+    ) {
+
+        openPage(
+            "calculator"
+        );
+
+        return;
+
+    }
+
+
+    openPage(
+        "home"
+    );
 
 }
 
-
-function escapeHtml(value) {
-
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
-}
 
 
 /* =========================================================
-   NAVIGATION
+   КАТЕГОРИИ
 ========================================================= */
 
-function openScreen(id) {
+function renderCategories() {
 
-  document
-    .querySelectorAll(".screen")
-    .forEach(screen => {
-      screen.classList.remove("active");
-    });
+    const categories = [
 
-  const
+        "Все",
+
+        ...new Set(
+            models.map(
+                model =>
+                    model.cat
+            )
+        )
+
+    ];
+
+
+    document.getElementById(
+        "categoryTabs"
+    ).innerHTML =
+
+        categories
+            .map(
+                (category,index) => `
+
+                    <button
+                        class="tab ${index === 0 ? "active" : ""}"
+                        onclick="filterModels(this,'${category}')">
+
+                        ${category}
+
+                    </button>
+
+                `
+            )
+            .join("");
+
+}
+
+
+
+/* =========================================================
+   ФИЛЬТР МОДЕЛЕЙ
+========================================================= */
+
+function filterModels(
+    button,
+    category
+) {
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(
+            tab =>
+                tab.classList.remove(
+                    "active"
+                )
+        );
+
+
+    button.classList.add(
+        "active"
+    );
+
+
+    renderModels(
+        category
+    );
+
+}
+
+
+
+/* =========================================================
+   МОДЕЛИ
+========================================================= */
+
+function renderModels(
+    category = "Все"
+) {
+
+    const list =
+        category === "Все"
+
+            ? models
+
+            : models.filter(
+                model =>
+                    model.cat ===
+                    category
+            );
+
+
+    document.getElementById(
+        "models"
+    ).innerHTML =
+
+        list
+            .map(
+                model => `
+
+                    <button
+                        class="model-card"
+                        onclick="selectModel('${model.name.replace(/'/g,"\\'")}')">
+
+                        <div
+                            class="model-image">
+
+                            ${model.emoji}
+
+                        </div>
+
+
+                        <div
+                            class="model-body">
+
+                            <div
+                                class="model-name">
+
+                                ${model.name}
+
+                            </div>
+
+
+                            <div
+                                class="model-meta">
+
+                                ${model.cat}
+
+                                <br>
+
+                                Ширина:
+                                ${model.widths.join(", ")}
+                                м
+
+                                <br>
+
+                                Длина:
+                                ${model.lengths.join(", ")}
+                                м
+
+                                <br>
+
+                                Каркас:
+                                ${model.frame}
+
+                            </div>
+
+                        </div>
+
+                    </button>
+
+                `
+            )
+            .join("");
+
+}
+
+
+
+/* =========================================================
+   ВЫБОР МОДЕЛИ
+========================================================= */
+
+function selectModel(
+    name
+) {
+
+    state.model =
+        models.find(
+            model =>
+                model.name ===
+                name
+        );
+
+
+    if (!state.model) {
+
+        return;
+
+    }
+
+
+    state.width =
+        state.model.widths[0];
+
+
+    state.length =
+        state.model.lengths[0];
+
+
+    state.qty = {
+
+        doors: 0,
+
+        vents: 0,
+
+        auto: 0,
+
+        braces: 0,
+
+        wood: 0
+
+    };
+
+
+    state.services = {
+
+        assembly: false,
+
+        delivery: false
+
+    };
+
+
+    state.extraQty = {};
+
+
+    openPage(
+        "calculator"
+    );
+
+}
+
+
+
+/* =========================================================
+   КАЛЬКУЛЯТОР
+========================================================= */
+
+function renderCalculator() {
+
+    const model =
+        state.model;
+
+
+    if (!model) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "calcModelName"
+    ).textContent =
+        model.name;
+
+
+    document.getElementById(
+        "calcModelMeta"
+    ).textContent =
+
+        `${model.cat} • каркас ${model.frame}`;
+
+
+    document.getElementById(
+        "width"
+    ).innerHTML =
+
+        model.widths
+            .map(
+                width => `
+
+                    <option
+                        value="${width}"
+                        ${width == state.width ? "selected" : ""}>
+
+                        ${width} м
+
+                    </option>
+
+                `
+            )
+            .join("");
+
+
+    document.getElementById(
+        "length"
+    ).innerHTML =
+
+        model.lengths
+            .map(
+                length => `
+
+                    <option
+                        value="${length}"
+                        ${length == state.length ? "selected" : ""}>
+
+                        ${length} м
+
+                    </option>
+
+                `
+            )
+            .join("");
+
+
+    document.getElementById(
+        "poly"
+    ).value =
+        state.poly;
+
+
+    document.getElementById(
+        "width"
+    ).onchange =
+
+        event => {
+
+            state.width =
+                Number(
+                    event.target.value
+                );
+
+            calculate();
+
+        };
+
+
+    document.getElementById(
+        "length"
+    ).onchange =
+
+        event => {
+
+            state.length =
+                Number(
+                    event.target.value
+                );
+
+            calculate();
+
+        };
+
+
+    document.getElementById(
+        "poly"
+    ).onchange =
+
+        event => {
+
+            state.poly =
+                event.target.value;
+
+            calculate();
+
+        };
+
+
+    [
+        "doors",
+        "vents",
+        "auto",
+        "braces",
+        "wood"
+    ].for
