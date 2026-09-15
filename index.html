@@ -2,47 +2,188 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Mini App</title>
-    <!-- Подключаем скрипт Telegram -->
-    <script src="https://telegram.org"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин одежды</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <style>
-        body {
-            font-family: sans-serif;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
-            text-align: center;
-            padding: 20px;
+        * {
+            box-sizing: border-box;
         }
-        button {
-            background-color: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+        }
+
+        .header {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0 0 5px;
+            font-size: 26px;
+        }
+
+        .header p {
+            margin: 0;
+            opacity: 0.6;
+        }
+
+        .products {
+            padding: 10px 15px 100px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .product {
+            background: var(--tg-theme-secondary-bg-color, #f2f2f2);
+            border-radius: 16px;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .product-image {
             width: 100%;
+            aspect-ratio: 1;
+            background: #ddd;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+        .product h3 {
+            margin: 10px 0 5px;
             font-size: 16px;
+        }
+
+        .price {
             font-weight: bold;
-            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+
+        button {
+            width: 100%;
+            border: 0;
+            border-radius: 10px;
+            padding: 11px;
+            background: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #fff);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .cart {
+            position: fixed;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+        }
+
+        .cart button {
+            font-size: 16px;
+            padding: 15px;
         }
     </style>
 </head>
-<body>
-    <h1 id="user">Привет!</h1>
-    <p>Твой Mini App успешно работает в Едином Окне бота!</p>
-    <button id="btn">Нажми меня</button>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-        if (tg.initDataUnsafe?.user) {
-            document.getElementById('user').innerText = `Привет, ${tg.initDataUnsafe.user.first_name}!`;
-        }
-        document.getElementById('btn').addEventListener('click', () => {
-            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-            alert('Кнопка внутри Telegram работает!');
+<body>
+
+<div class="header">
+    <h1>👕 Мой магазин</h1>
+    <p>Одежда для тебя</p>
+</div>
+
+<div class="products">
+
+    <div class="product">
+        <div class="product-image">👕</div>
+        <h3>Футболка Basic</h3>
+        <div class="price">1 990 ₽</div>
+        <button onclick="addToCart('Футболка Basic', 1990)">
+            Добавить
+        </button>
+    </div>
+
+    <div class="product">
+        <div class="product-image">🧥</div>
+        <h3>Худи Oversize</h3>
+        <div class="price">3 990 ₽</div>
+        <button onclick="addToCart('Худи Oversize', 3990)">
+            Добавить
+        </button>
+    </div>
+
+    <div class="product">
+        <div class="product-image">👖</div>
+        <h3>Джинсы Classic</h3>
+        <div class="price">4 490 ₽</div>
+        <button onclick="addToCart('Джинсы Classic', 4490)">
+            Добавить
+        </button>
+    </div>
+
+    <div class="product">
+        <div class="product-image">🧢</div>
+        <h3>Кепка Basic</h3>
+        <div class="price">1 490 ₽</div>
+        <button onclick="addToCart('Кепка Basic', 1490)">
+            Добавить
+        </button>
+    </div>
+
+</div>
+
+<div class="cart">
+    <button onclick="openCart()">
+        🛒 Корзина: <span id="cartCount">0</span>
+    </button>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+
+    tg.ready();
+    tg.expand();
+
+    let cart = [];
+
+    function addToCart(name, price) {
+        cart.push({
+            name: name,
+            price: price
         });
-    </script>
+
+        document.getElementById("cartCount").textContent = cart.length;
+
+        tg.HapticFeedback.impactOccurred("light");
+    }
+
+    function openCart() {
+        if (cart.length === 0) {
+            tg.showAlert("Корзина пока пустая 🛒");
+            return;
+        }
+
+        let total = 0;
+
+        cart.forEach(item => {
+            total += item.price;
+        });
+
+        tg.showAlert(
+            "🛒 В корзине: " + cart.length +
+            "\n\n💰 Сумма: " + total.toLocaleString("ru-RU") + " ₽"
+        );
+    }
+</script>
+
 </body>
 </html>
